@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Carnet Techniques d'enquête</title>
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+</head>
+<body>
+<!-- Lien retour vers le sommaire (ajouté pour le site GitHub Pages) -->
+<nav style="font:600 14px/1 system-ui,-apple-system,'Segoe UI',sans-serif;padding:10px 16px;border-bottom:1px solid rgba(127,127,127,.3)"><a href="../" style="color:inherit;text-decoration:none">← Sommaire des cours</a></nav>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: carnet de terrain sur papier quadrillé ; colonne de lecture + sommaire collant en marge (desktop), quiz en fin de carnet */
+:root{
+  --paper:#f6f8fb; --grid:#e3e9f1; --ink:#1c2533; --pencil:#5b6676; --rule:#cfd8e4;
+  --accent:#1f4fd1; --accent-soft:#e3eafc; --mark:#fff1a8; --card:#ffffff;
+  --good:#1d7a45; --good-soft:#e1f3e8; --bad:#b4322a; --bad-soft:#fbe5e3;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Literata",Georgia,"Times New Roman",serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#121721; --grid:#1b2230; --ink:#e4e9f1; --pencil:#9aa5b6; --rule:#2c3647;
+  --accent:#8eaaff; --accent-soft:#1e2a48; --mark:#5a4d12; --card:#181f2c;
+  --good:#6fd39a; --good-soft:#163526; --bad:#ff8b80; --bad-soft:#3c1c1a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#121721; --grid:#1b2230; --ink:#e4e9f1; --pencil:#9aa5b6; --rule:#2c3647;
+  --accent:#8eaaff; --accent-soft:#1e2a48; --mark:#5a4d12; --card:#181f2c;
+  --good:#6fd39a; --good-soft:#163526; --bad:#ff8b80; --bad-soft:#3c1c1a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px}
+@media (max-width:860px){.wrap{grid-template-columns:minmax(0,1fr);gap:0}.toc{display:none}}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);align-self:start;padding-top:48px;font-family:var(--f-mono);font-size:13px}
+.toc a{display:block;color:var(--pencil);text-decoration:none;padding:4px 0}
+.toc a:hover,.toc a:focus-visible{color:var(--accent)}
+.toc b{font-weight:500;color:var(--accent);margin-right:6px}
+main{min-width:0;max-width:720px}
+header.hero{padding-block:48px 24px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--f-mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--pencil)}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.02;margin:10px 0 16px;letter-spacing:-.02em;text-wrap:balance}
+h1 span{color:var(--accent)}
+.meta{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:4px 16px;font-size:15px;margin:0}
+.meta dt{font-family:var(--f-mono);font-size:12.5px;color:var(--pencil);padding-top:3px}
+.meta dd{margin:0}
+section{padding-top:48px}
+h2{font-family:var(--f-display);font-weight:700;font-size:1.75rem;line-height:1.15;margin:0 0 16px;display:flex;gap:12px;align-items:baseline;text-wrap:balance}
+h2 .num{font-family:var(--f-mono);font-weight:500;font-size:.9rem;color:var(--accent)}
+h3{font-family:var(--f-display);font-weight:700;font-size:1.2rem;margin:32px 0 8px;text-wrap:balance}
+h4{font-family:var(--f-display);font-weight:700;font-size:1rem;margin:20px 0 4px}
+.date{font-family:var(--f-mono);font-size:13px;color:var(--pencil);margin:-4px 0 12px}
+p{margin:0 0 12px}
+ul,ol{margin:0 0 12px;padding-left:22px}
+li{margin:3px 0}
+mark{background:var(--mark);color:inherit;padding:0 3px}
+.def{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--accent);padding:14px 18px;margin:16px 0}
+.def .lbl,.note .lbl{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:4px}
+.note{background:var(--accent-soft);padding:14px 18px;margin:16px 0}
+.warn{border:2px dashed var(--bad);padding:12px 16px;margin:16px 0}
+.warn .lbl{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--bad)}
+.tbl{overflow-x:auto;margin:16px 0}
+table{border-collapse:collapse;width:100%;font-size:15px;background:var(--card)}
+th,td{border:1px solid var(--rule);padding:8px 10px;text-align:left;vertical-align:top}
+th{font-family:var(--f-mono);font-weight:500;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--pencil)}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--f-mono);font-size:13.5px}
+.cal td:first-child{font-family:var(--f-mono);font-size:13px;white-space:nowrap}
+.cal tr.done td{color:var(--pencil)}
+.cal tr.key td{font-weight:600}
+.tag{display:inline-block;font-family:var(--f-mono);font-size:11.5px;padding:1px 6px;border:1px solid var(--rule);color:var(--pencil);white-space:nowrap}
+.tag.c{border-color:var(--accent);color:var(--accent)}
+.tag.r{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:16px 0}
+.cols>div{min-width:0}
+.gloss{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr);border-top:1px solid var(--rule)}
+.gloss dt,.gloss dd{margin:0;padding:8px 0;border-bottom:1px solid var(--rule)}
+.gloss dt{font-family:var(--f-display);font-weight:700;font-size:15px;padding-right:16px}
+.gloss dd{font-size:15.5px}
+@media (max-width:520px){.gloss{grid-template-columns:minmax(0,1fr)}.gloss dt{border-bottom:none;padding-bottom:0}}
+.check li{list-style:none;position:relative}
+.check{padding-left:4px}
+.unsure{font-family:var(--f-mono);font-size:11.5px;padding:0 5px;border:1px dashed var(--pencil);color:var(--pencil);white-space:nowrap}
+.check li::before{content:"☐";font-family:var(--f-mono);margin-right:8px;color:var(--accent)}
+/* Quiz */
+#quiz{border-top:2px solid var(--ink);margin-top:56px}
+.qhead{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:baseline}
+.score{font-family:var(--f-mono);font-size:14px;color:var(--pencil)}
+.score b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+.q{background:var(--card);border:1px solid var(--rule);padding:18px 20px;margin:16px 0}
+.q .qn{font-family:var(--f-mono);font-size:12px;color:var(--accent);letter-spacing:.06em}
+.q .qt{font-weight:600;margin:4px 0 12px}
+.opts{display:grid;gap:8px}
+.opt{font:inherit;font-size:15.5px;text-align:left;background:var(--paper);color:var(--ink);border:1px solid var(--rule);padding:10px 14px;cursor:pointer;line-height:1.4}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt:disabled{cursor:default}
+.opt.ok{background:var(--good-soft);border-color:var(--good);color:var(--ink)}
+.opt.ko{background:var(--bad-soft);border-color:var(--bad);color:var(--ink)}
+.expl{margin-top:12px;font-size:15px;padding-left:12px;border-left:3px solid var(--rule)}
+.expl b.ok{color:var(--good)} .expl b.ko{color:var(--bad)}
+.btn{font-family:var(--f-mono);font-size:13.5px;background:var(--ink);color:var(--paper);border:none;padding:10px 16px;cursor:pointer}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.result{background:var(--accent-soft);padding:18px 20px;margin-top:16px}
+.result strong{font-family:var(--f-display);font-size:1.5rem}
+@media (prefers-reduced-motion:no-preference){.opt{transition:background .15s,border-color .15s}}
+
+/* Figures : schémas SVG (couleurs du thème) et photos libres créditées */
+figure.fig{margin:20px 0;background:var(--card);border:1px solid var(--rule);padding:14px 14px 10px}
+figure.fig figcaption{font-size:14px;line-height:1.45;color:var(--pencil);margin-top:8px}
+figure.fig img{display:block;width:100%;height:auto}
+.credit{display:block;font-family:var(--f-mono);font-size:11px;margin-top:4px;color:var(--pencil)}
+.credit a{color:inherit}
+figure.side{float:right;width:190px;margin:4px 0 12px 20px;padding:8px 8px 6px}
+figure.side figcaption{font-size:13px}
+@media (max-width:560px){figure.side{float:none;width:auto;max-width:260px;margin:16px 0}}
+section::after{content:"";display:block;clear:both}
+.figrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.sv{display:block;width:100%;height:auto;color:var(--ink);font-family:var(--f-display)}
+.sv text{fill:currentColor;font-size:13px}
+.sv .t-s{font-size:11.5px}
+.sv .t-b{font-weight:700;font-size:13.5px}
+figure.narrow{max-width:480px;margin-inline:auto}
+@media (max-width:560px){.unsure{white-space:normal}}
+.sv .t-mu{fill:var(--pencil)}
+.sv .t-ac{fill:var(--accent)}
+.sv .t-bad{fill:var(--bad)}
+.sv .bx{fill:var(--card);stroke:var(--ink);stroke-width:1.3}
+.sv .bxs{fill:var(--paper);stroke:var(--rule);stroke-width:1}
+.sv .bxa{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+.sv .bxbad{fill:var(--bad-soft);stroke:var(--bad);stroke-width:1.3;stroke-dasharray:5 4}
+.sv .ln{stroke:currentColor;stroke-width:1.4;fill:none}
+.sv .lnmu{stroke:var(--pencil);stroke-width:1.2;fill:none}
+.sv .lnac{stroke:var(--accent);stroke-width:1.8;fill:none}
+.sv .lnbad{stroke:var(--bad);stroke-width:1.6;fill:none}
+.sv .dash{stroke-dasharray:5 4}
+.sv .fac{fill:var(--accent)}
+.sv .fmu{fill:var(--rule)}
+.sv .fink{fill:var(--pencil)}
+.sv .th1{fill:#e3a23b}.sv .th2{fill:#4b8fdb}.sv .th3{fill:#46ad74}.sv .th4{fill:#d6605c}.sv .th5{fill:#9a6fd2}
+.sv .hl{fill-opacity:.45}
+
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="Sommaire">
+  <a href="#calendrier"><b>I</b>Calendrier</a>
+  <a href="#seance1"><b>II</b>Séance 1</a>
+  <a href="#seance2"><b>III</b>Séance 2</a>
+  <a href="#seance4"><b>IV</b>Séance 4</a>
+  <a href="#seance5"><b>IV bis</b>Analyse des entretiens</a>
+  <a href="#seance6"><b>IV ter</b>Séance 6</a>
+  <a href="#projet"><b>V</b>Projet G3</a>
+  <a href="#dossier"><b>VI</b>Le dossier</a>
+  <a href="#outils"><b>VII</b>Outils &amp; biblio</a>
+  <a href="#glossaire"><b>VIII</b>Glossaire</a>
+  <a href="#quiz"><b>?</b>Quiz</a>
+</nav>
+
+<main>
+<header class="hero">
+  <div class="eyebrow">Master SNC · IAE Poitiers · S1 2026-2027</div>
+  <h1>Techniques d’enquête <span>&amp; Digital Methods</span></h1>
+  <dl class="meta">
+    <dt>Enseignants</dt><dd>Marion Coville (entretiens, qualitatif) · Bruno Vétel (questionnaire, quantitatif)</dd>
+    <dt>Évaluation</dt><dd>Dossier d’enquête en groupe, en PDF, à rendre le <mark>vendredi 18 décembre</mark></dd>
+    <dt>Groupe 3</dt><dd>La place du marché Notre-Dame dans les routines des populations locales</dd>
+    <dt>Commanditaire</dt><dd>Halles du marché Notre-Dame (association des commerçants)</dd>
+  </dl>
+</header>
+
+<section id="calendrier">
+  <h2><span class="num">I</span>Calendrier du semestre</h2>
+  <div class="tbl"><table class="cal">
+    <thead><tr><th>Date</th><th>Séance</th><th>Contenu</th></tr></thead>
+    <tbody>
+      <tr class="done"><td>21/09</td><td><span class="tag c">Cours 1</span> Coville</td><td>Introduction ; groupes, échantillonnage, problématisation</td></tr>
+      <tr class="done"><td>av. 23/09</td><td><span class="tag">Devoir</span></td><td>Point sur le sujet ; stratégie d’échantillonnage ; 1re liste de questions</td></tr>
+      <tr class="done"><td>24/09</td><td><span class="tag c">Cours 2</span> Coville</td><td>L’entretien : grille, recherche et recrutement des enquêté·es</td></tr>
+      <tr><td>av. 28/09</td><td><span class="tag">Devoir</span></td><td>1re version de la grille ; début du recrutement (RDV dès le 1er octobre)</td></tr>
+      <tr><td>28/09</td><td><span class="tag">Relecture</span> Coville</td><td>Correction des grilles d’entretien</td></tr>
+      <tr><td>30/09</td><td><span class="tag c">Cours 3</span> Coville</td><td>Techniques de relance ; observation ethnographique</td></tr>
+      <tr><td>01/10</td><td><span class="tag c">Cours 4</span> Vétel</td><td>Introduction au questionnaire et aux méthodes quantitatives</td></tr>
+      <tr><td>13/10</td><td><span class="tag c">Cours 5</span> Coville</td><td>Analyse thématique des entretiens</td></tr>
+      <tr><td>av. 14/10</td><td><span class="tag">Devoir</span></td><td>Entretiens commencés et transcrits ; compte rendu à M. Coville ; thèmes et 1re version du questionnaire</td></tr>
+      <tr><td>14/10</td><td><span class="tag c">Cours 6</span> Vétel</td><td>Mise en forme et paramétrage du questionnaire</td></tr>
+      <tr><td>15/10</td><td><span class="tag">Relecture</span> Vétel</td><td>Dernière relecture du questionnaire</td></tr>
+      <tr><td>16 → 22/10</td><td><span class="tag">Devoir</span></td><td>Finaliser le questionnaire + stratégie de diffusion</td></tr>
+      <tr class="key"><td>22/10</td><td><span class="tag">Échéance</span></td><td>Questionnaire en ligne et diffusé ; entretiens et analyse en parallèle</td></tr>
+      <tr><td>17/11</td><td><span class="tag c">Cours 7</span> Vétel</td><td>Analyse et présentation des données quanti (objectif : plus de 100 réponses)</td></tr>
+      <tr><td>30/11</td><td><span class="tag">Relecture</span> Coville</td><td>Suivi de l’avancement des dossiers</td></tr>
+      <tr class="key"><td>18/12</td><td><span class="tag r">RENDU</span></td><td>Dossier complet en PDF</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="seance1">
+  <h2><span class="num">II</span>Séance 1 · Introduction aux méthodes en sciences sociales</h2>
+  <p class="date">21/09/2026 · Marion Coville</p>
+  <div class="note"><span class="lbl">Objectifs du cours</span>
+    Réaliser des enquêtes en présentiel et en ligne, développer des compétences de récolte et de traitement des données, produire des chiffres rigoureux mais surtout valoriser le qualitatif, qui donne du sens, du concret et de la nuance aux chiffres.</div>
+
+  <h3>A. Quali et quanti</h3>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>Quantitatif</th><th>Qualitatif</th></tr></thead>
+    <tbody>
+      <tr><th>Matériau</th><td>Grand volume de textes et de questionnaires : corpus, presse, bases de données</td><td>Observation ethnographique (présentiel ou en ligne), entretiens</td></tr>
+      <tr><th>Intérêt</th><td>Estimer de manière chiffrée les relations entre variables</td><td>Décrire une situation, rendre compte d’une expérience, étudier des représentations et des jugements</td></tr>
+      <tr><th>Restitution</th><td>Chiffres, statistiques, graphiques</td><td>Extraits du carnet de terrain, verbatims</td></tr>
+    </tbody>
+  </table></div>
+  <p>Aucune méthode n’est plus neutre que l’autre : <mark>il faut les deux</mark>. Hors de la recherche, on croise souvent des interlocuteurs qui ne jurent que par les chiffres et les métriques.</p>
+
+  <h3>B. La démarche d’enquête</h3>
+  <ul>
+    <li><strong>Démarche sociologique</strong> : approche analytique qui produit des connaissances sur le monde social et identifie des réalités difficiles à appréhender.</li>
+    <li><strong>Problématisation</strong> : la mise en question du sujet. Elle oriente l’enquête et détermine les données nécessaires.</li>
+    <li><strong>Échantillonnage</strong> : choisir auprès de qui recueillir les données, selon ce qu’on veut comparer.</li>
+  </ul>
+  <div class="def"><span class="lbl">Exemple · enquête DiPLab sur le micro-travail</span>
+    Profils : hommes et femmes, avec ou sans enfants, en couple ou non. Comparaison 1 : l’organisation de la vie quotidienne selon la situation familiale. Comparaison 2 : les usages des différentes plateformes.</div>
+  <p>Champs d’application : recherche et organismes publics (DiPLab, France Stratégie, CNIL), culture et associations (Lecture Jeunesse, musées), entreprises (enquêtes de satisfaction), communautés numériques.</p>
+
+  <h3>C. Éthique et données</h3>
+  <p><strong>Anonymiser les transcriptions</strong> : supprimer nom et prénom, remplacer le prénom par un pseudonyme ou un code, modifier les données identifiantes, surtout dans les <em>« petits mondes »</em>.</p>
+  <div class="warn"><span class="lbl">Règles</span><br>Fichiers audio : aucun partage, suppression dès la fin de l’enquête. Pas de données confiées aux GAFAM : un outil Google est rattaché à un compte souvent mal verrouillé.</div>
+  <div class="tbl"><table>
+    <thead><tr><th>Étape</th><th>Bonne pratique</th><th>Outils</th></tr></thead>
+    <tbody>
+      <tr><td>Recueil</td><td>Enregistrement numérique ; questionnaire protégé par une phrase de passe</td><td>Framaforms</td></tr>
+      <tr><td>Traitement &amp; analyse</td><td>Transcription automatique ; tris à plat et tris croisés</td><td>Whisper, Buzz Captions, noScribe</td></tr>
+      <tr><td>Stockage &amp; partage</td><td>Pas de stockage en ligne des entretiens ; transcriptions anonymisées par clé USB</td><td>Clé USB</td></tr>
+    </tbody>
+  </table></div>
+<figure class="fig"><svg class="sv" viewBox="0 0 680 225" role="img" aria-label="Parcours des données d’un entretien : l’audio est transcrit en local, pseudonymisé puis partagé par clé USB ; l’audio est supprimé en fin d’enquête et rien ne passe par un cloud des GAFAM."><defs><marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+<rect class="bxa" x="8" y="36" width="140" height="58"/><text class="t-b" x="78" y="60" text-anchor="middle">Audio</text><text class="t-s t-mu" x="78" y="78" text-anchor="middle">enregistreur</text>
+<rect class="bx" x="186" y="36" width="150" height="58"/><text class="t-b" x="261" y="60" text-anchor="middle">Transcription</text><text class="t-s t-mu" x="261" y="78" text-anchor="middle">en local (noScribe)</text>
+<rect class="bx" x="374" y="36" width="140" height="58"/><text class="t-b" x="444" y="60" text-anchor="middle">Pseudonymisation</text><text class="t-s t-mu" x="444" y="78" text-anchor="middle">prénom → code</text>
+<rect class="bx" x="552" y="36" width="120" height="58"/><text class="t-b" x="612" y="60" text-anchor="middle">Clé USB</text><text class="t-s t-mu" x="612" y="78" text-anchor="middle">au groupe</text>
+<line class="ln" x1="148" y1="65" x2="183" y2="65" marker-end="url(#a1)"/>
+<line class="ln" x1="336" y1="65" x2="371" y2="65" marker-end="url(#a1)"/>
+<line class="ln" x1="514" y1="65" x2="549" y2="65" marker-end="url(#a1)"/>
+<text class="t-s t-mu" x="8" y="22">RECUEIL</text><text class="t-s t-mu" x="186" y="22">TRAITEMENT</text><text class="t-s t-mu" x="552" y="22">PARTAGE</text>
+<line class="ln dash" x1="78" y1="94" x2="78" y2="150" marker-end="url(#a1)"/>
+<rect class="bxs" x="8" y="153" width="140" height="50"/><text class="t-b" x="78" y="174" text-anchor="middle">Supprimé</text><text class="t-s t-mu" x="78" y="191" text-anchor="middle">à la fin de l’enquête</text>
+<text class="t-s t-mu" x="86" y="126">jamais partagé</text>
+<line class="lnbad dash" x1="444" y1="94" x2="444" y2="150"/>
+<line class="lnbad" x1="434" y1="112" x2="454" y2="132"/><line class="lnbad" x1="454" y1="112" x2="434" y2="132"/>
+<rect class="bxbad" x="374" y="153" width="140" height="50"/><text class="t-b t-bad" x="444" y="174" text-anchor="middle">Drive, cloud</text><text class="t-s t-bad" x="444" y="191" text-anchor="middle">GAFAM : interdit</text>
+</svg><figcaption>Le chemin d’un entretien, de l’enregistreur au groupe : tout reste en local, l’audio ne circule jamais et disparaît à la fin.</figcaption></figure>
+  <div class="note"><span class="lbl">À retenir</span>
+    <ul><li>Quali et quanti se complètent.</li><li>La problématique oriente toute l’enquête.</li><li>On choisit ses enquêtés selon ce qu’on veut comparer.</li><li>Anonymiser, ne pas partager les audios, éviter les GAFAM.</li></ul></div>
+  <h4>Exercice · cas de l’association environnementale</h4>
+  <p>Le service com d’une association de défense de l’environnement doit recruter des bénévoles. Méthodes envisagées : analyse SWOT, questionnaire, entretiens, focus group.</p>
+</section>
+
+<section id="seance2">
+  <h2><span class="num">III</span>Séance 2 · L’entretien</h2>
+  <p class="date">24/09/2026 · Marion Coville · grille d’entretien et recrutement</p>
+  <div class="def"><span class="lbl">Définition</span>
+    L’entretien met en place une <strong>situation sociale, matérielle et cognitive</strong> qui permet à une personne de produire le discours le plus complet possible sur une thématique donnée.</div>
+  <p>Concrètement : une conversation préparée et orientée, avec une personne sélectionnée, de <mark>45 minutes à 2 heures</mark>, en face à face, enregistrée et transcrite.</p>
+
+  <h3>A. D’où vient l’entretien</h3>
+  <p>Il naît d’une recherche de relation plus égalitaire entre chercheur et enquêté. La question centrale : comment ne pas recréer la situation d’un interrogatoire ?</p>
+
+  <h3>B. Ce que l’entretien n’est pas</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Ce n’est pas…</th><th>Pourquoi</th></tr></thead>
+    <tbody>
+      <tr><td>Un questionnaire</td><td>On ne déroule pas une liste de questions fermées, on fait produire un discours.</td></tr>
+      <tr><td>Une interview journalistique</td><td>On ne cherche pas la petite phrase ni la réaction à chaud.</td></tr>
+      <tr><td>Une discussion informelle</td><td>C’est une situation construite, préparée, avec un objectif de recherche.</td></tr>
+      <tr><td>Une occasion de se mettre en valeur</td><td>On ne prouve pas sa connaissance du sujet : c’est l’enquêté qui parle.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>C. Une posture compréhensive</h3>
+  <ul>
+    <li>L’entretien n’est pas là pour confirmer vos théories.</li>
+    <li>Votre rôle : créer un cadre propice à l’écoute et à la production du discours.</li>
+    <li>Les hypothèses se construisent de manière <strong>inductive</strong>, à partir des données collectées.</li>
+  </ul>
+
+  <h3>D. Un dispositif technique</h3>
+  <figure class="fig side"><img src="img/recorder.jpg" alt="Dictaphone numérique Olympus, écran affichant REC" width="420" height="431" loading="lazy"><figcaption>Le dispositif matériel : un dictaphone numérique (ou un téléphone en mode avion).<span class="credit">Jacek Halicki · CC BY-SA 4.0 · <a href="https://commons.wikimedia.org/wiki/File:2023_Dyktafon_Olympus_VN-541PC.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
+  <p>L’entretien est une situation sociale et en même temps un environnement matériel : un enregistreur, une prise de notes.</p>
+
+  <h3>E. La grille d’entretien</h3>
+  <p>Elle traduit les questions de recherche en questions à poser, regroupées par thèmes, avec leurs relances.</p>
+  <div class="def"><span class="lbl">Règle d’or</span>Les questions doivent amener des réponses <strong>descriptives (« comment ? »)</strong> et non justificatives (« pourquoi ? »).</div>
+  <h4>Les 5 étapes de conception</h4>
+  <ol>
+    <li>Lister les questions qu’on se pose.</li>
+    <li>Identifier des regroupements thématiques.</li>
+    <li>Affiner les questions de recherche.</li>
+    <li>Traduire les questions de recherche en questions à poser.</li>
+    <li>Identifier les relances potentielles.</li>
+  </ol>
+<figure class="fig"><svg class="sv" viewBox="0 0 680 215" role="img" aria-label="De la question de recherche aux relances, exemple du marché : question de recherche, thème Routines, question à poser, trois relances."><defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+<text class="t-s t-mu" x="8" y="20">QUESTION DE RECHERCHE</text><text class="t-s t-mu" x="190" y="20">THÈME</text><text class="t-s t-mu" x="330" y="20">QUESTION À POSER</text><text class="t-s t-mu" x="520" y="20">RELANCES</text>
+<rect class="bx" x="8" y="70" width="158" height="78"/><text x="87" y="98" text-anchor="middle">Quelle place a le</text><text x="87" y="116" text-anchor="middle">marché dans les</text><text x="87" y="134" text-anchor="middle">routines ?</text>
+<rect class="bxa" x="190" y="88" width="116" height="42"/><text class="t-b t-ac" x="248" y="114" text-anchor="middle">Routines</text>
+<rect class="bx" x="330" y="70" width="166" height="78"/><text x="413" y="98" text-anchor="middle">« À quelle fréquence</text><text x="413" y="116" text-anchor="middle">venez-vous, et à</text><text x="413" y="134" text-anchor="middle">quels moments ? »</text>
+<rect class="bxs" x="520" y="34" width="152" height="40"/><text x="596" y="59" text-anchor="middle">« Avec qui ? »</text>
+<rect class="bxs" x="520" y="89" width="152" height="40"/><text x="596" y="114" text-anchor="middle">« Toujours le samedi ? »</text>
+<rect class="bxs" x="520" y="144" width="152" height="40"/><text x="596" y="169" text-anchor="middle">« Et avant ? »</text>
+<line class="ln" x1="166" y1="109" x2="187" y2="109" marker-end="url(#a2)"/>
+<line class="ln" x1="306" y1="109" x2="327" y2="109" marker-end="url(#a2)"/>
+<path class="ln" d="M496,109 C508,109 506,54 517,54" marker-end="url(#a2)"/>
+<line class="ln" x1="496" y1="109" x2="517" y2="109" marker-end="url(#a2)"/>
+<path class="ln" d="M496,109 C508,109 506,164 517,164" marker-end="url(#a2)"/>
+<text class="t-s t-mu" x="87" y="205" text-anchor="middle">étapes 1 et 3</text><text class="t-s t-mu" x="248" y="205" text-anchor="middle">étape 2</text><text class="t-s t-mu" x="413" y="205" text-anchor="middle">étape 4 (« comment ? »)</text><text class="t-s t-mu" x="596" y="205" text-anchor="middle">étape 5</text>
+</svg><figcaption>Les 5 étapes appliquées au marché Notre-Dame : on part de ce qu’on cherche à savoir et on arrive à des questions descriptives, prêtes à poser, avec leurs relances.</figcaption></figure>
+  <h4>La question introductive</h4>
+  <p>C’est elle qui ouvre l’entretien : la plus ouverte possible, elle cadre la discussion. Partir d’une question qui appelle une réponse longue et descriptive, puis relancer pour obtenir précisions et opinions (« Comment l’avez-vous choisi ? Quels sont les principaux avantages ? Et les inconvénients ? »).</p>
+  <h4>Guider et favoriser la parole</h4>
+  <p>On ne coupe pas, on suit le fil de la parole, sans rester inactif : hochements de tête, sourires, rires partagés, marquer la surprise, faire preuve d’empathie.</p>
+</section>
+
+<section id="seance4">
+  <h2><span class="num">IV</span>Séance 4 · Le chiffre, du réalisme aux indicateurs</h2>
+  <p class="date">01/10/2026 · Bruno Vétel · introduction au quantitatif</p>
+
+  <h3>Le chiffre comme archétype du réalisme scientifique</h3>
+  <p>« 15,2 % de chômage » paraît plus vrai que « beaucoup de gens sont au chômage ». Le chiffre semble décrire le réel sans point de vue : c’est le <strong>réalisme</strong>. Le chiffre n’est pas faux, mais il n’est pas neutre.</p>
+  <h4>D’où vient ce prestige</h4>
+  <ul>
+    <li><strong>Un lien avec l’État</strong> : <em>Statistik</em>, la « science de l’État » (XVIIIᵉ s.). Compter servait d’abord à gouverner.</li>
+    <li><strong>Un lien avec la science</strong> : ce qui est mesurable est connaissable.</li>
+    <li><strong>Une « technologie de la distance »</strong> (Theodore Porter, <em>Trust in Numbers</em>, 1995) : on fait confiance aux chiffres parce qu’ils semblent effacer le jugement humain.</li>
+  </ul>
+  <div class="def"><span class="lbl">Alain Desrosières · La politique des grands nombres (1993)</span>
+    « Quantifier, c’est <strong>convenir</strong> puis mesurer. » Avant de compter les chômeurs, il faut décider ce qu’est un chômeur. Le chiffre final cache une série de conventions, qui disparaissent une fois le chiffre publié : c’est le <em>raccourci</em>.</div>
+<figure class="fig"><svg class="sv" viewBox="0 0 680 190" role="img" aria-label="Quantifier, c’est convenir puis mesurer : une définition, puis un comptage, donnent un chiffre publié qui cache les conventions de départ."><defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+<rect class="bxa" x="8" y="30" width="190" height="74"/><text class="t-b t-ac" x="103" y="56" text-anchor="middle">1 · Convenir</text><text class="t-s" x="103" y="76" text-anchor="middle">Qui est « chômeur » ?</text><text class="t-s t-mu" x="103" y="93" text-anchor="middle">définition, catégories</text>
+<rect class="bx" x="244" y="30" width="190" height="74"/><text class="t-b" x="339" y="56" text-anchor="middle">2 · Mesurer</text><text class="t-s" x="339" y="76" text-anchor="middle">compter, enquêter</text><text class="t-s t-mu" x="339" y="93" text-anchor="middle">inscrits ? enquête Emploi ?</text>
+<rect class="bx" x="480" y="22" width="192" height="90" style="stroke-width:2.4"/><text class="t-s t-mu" x="576" y="46" text-anchor="middle">CHIFFRE PUBLIÉ</text><text x="576" y="84" text-anchor="middle" style="font-size:30px;font-family:var(--f-display);font-weight:800">2,5 M</text>
+<line class="ln" x1="198" y1="67" x2="241" y2="67" marker-end="url(#a3)"/>
+<line class="ln" x1="434" y1="67" x2="477" y2="67" marker-end="url(#a3)"/>
+<path class="lnmu" d="M8,124 v10 h426 v-10"/>
+<text class="t-s t-mu" x="221" y="156" text-anchor="middle">les conventions disparaissent une fois le chiffre publié :</text>
+<text class="t-s t-ac" x="221" y="174" text-anchor="middle">c’est le « raccourci »</text>
+<path class="lnmu dash" d="M434,150 C470,150 520,140 560,116" />
+</svg><figcaption>Desrosières : avant de compter, on décide quoi compter. Le lecteur ne voit que la dernière case.</figcaption></figure>
+  <h4>Les chiffres agissent sur le monde</h4>
+  <ul>
+    <li><strong>Ils fixent les débats</strong> : on discute autour d’un indicateur (PIB, classement de Shanghai), rarement de lui.</li>
+    <li><strong>Loi de Goodhart</strong> : quand une mesure devient une cible, elle cesse d’être une bonne mesure (l’école jugée sur son taux de réussite au bac qui écarte les élèves faibles).</li>
+  </ul>
+  <p>La mise en forme compte aussi : dans l’infographie tunisienne du cours, les pictogrammes rendent le chiffre émotionnel, le titre « légère hausse » interprète à la place du lecteur, et l’échelle et les comparaisons (Monastir contre Tataouine) orientent la conclusion. À lire : Olivier Martin, <em>L’empire des chiffres</em> (2020).</p>
+
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>Qualitatif (entretiens)</th><th>Quantitatif (questionnaire)</th></tr></thead>
+    <tbody>
+      <tr><th>Question</th><td>Comment ? Pourquoi ?</td><td>Combien ? À quelle fréquence ?</td></tr>
+      <tr><th>Force</th><td>Profondeur, sens, nuances</td><td>Généralisation, comparaison</td></tr>
+      <tr><th>Limite</th><td>Pas représentatif</td><td>Catégories figées d’avance</td></tr>
+    </tbody>
+  </table></div>
+  <p>D’où l’ordre du programme : <mark>les entretiens avant le questionnaire</mark>. Le qualitatif sert à construire de bonnes catégories (de bonnes conventions) pour le quantitatif.</p>
+
+  <h3>Chiffres descriptifs : les dénombrements</h3>
+  <p>Un chiffre descriptif dit <strong>combien</strong>. Le nombre de chômeurs au 4e trimestre 2025 change selon la source :</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Indicateur</th><th>T4 2025</th><th>Qui est compté ?</th></tr></thead>
+    <tbody>
+      <tr><td>France Travail, cat. A</td><td class="n">3,348 M</td><td>Inscrits sans aucune activité, tenus de chercher un emploi</td></tr>
+      <tr><td>France Travail, cat. A-B-C</td><td class="n">5,753 M</td><td>Inscrits tenus de chercher un emploi, avec ou sans activité réduite</td></tr>
+      <tr><td>Chômeurs au sens du BIT (Insee)</td><td class="n">2,509 M</td><td>Sans emploi, disponibles et en recherche active, mesurés par l’enquête Emploi</td></tr>
+    </tbody>
+  </table></div>
+<figure class="fig"><svg class="sv" viewBox="0 0 680 160" role="img" aria-label="Nombre de chômeurs au 4e trimestre 2025 selon trois indicateurs : 5,753 millions en catégories A-B-C, 3,348 millions en catégorie A, 2,509 millions au sens du BIT."><defs><marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs><text x="180" y="37" text-anchor="end">France Travail cat. A-B-C</text><rect class="fac" x="190" y="22" width="373.9" height="22" rx="2"/><text class="t-b" x="571.9" y="38">5,753 M</text><text x="180" y="79" text-anchor="end">France Travail cat. A</text><rect class="fac" x="190" y="64" width="217.6" height="22" rx="2"/><text class="t-b" x="415.6" y="80">3,348 M</text><text x="180" y="121" text-anchor="end">Chômeurs BIT (Insee)</text><rect class="fac" x="190" y="106" width="163.1" height="22" rx="2"/><text class="t-b" x="361.1" y="122">2,509 M</text><line class="ln" x1="190" y1="12" x2="190" y2="148"/></svg><figcaption>Même trimestre, même pays : du simple au double selon la définition retenue (T4 2025, en millions).</figcaption></figure>
+  <ul>
+    <li><strong>France Travail compte des inscriptions</strong> : les chômeurs non inscrits ne sont pas comptés, les inscrits avec une petite activité passent en B ou C.</li>
+    <li><strong>Le BIT</strong> fixe une définition commune pour comparer les pays : n’avoir travaillé aucune heure dans la semaine, être disponible sous deux semaines, chercher activement.</li>
+    <li><strong>Les catégories changent</strong> (ANPE, Pôle emploi, France Travail), ce qui complique les comparaisons dans le temps.</li>
+  </ul>
+  <p>Il n’existe pas de « vrai » nombre de chômeurs, seulement des <strong>indicateurs</strong>. Choisir celui qu’on met en avant est déjà un choix de communication.</p>
+
+  <h3>Comment un indicateur est construit</h3>
+  <ul>
+    <li><strong>Construction</strong> : selon des objectifs donnés, qui fixent la définition et les catégories.</li>
+    <li><strong>Explication</strong> : le chiffre circule avec des discours (justificatifs et pédagogiques, d’experts présentés comme « objectifs », journalistiques).</li>
+    <li><strong>Compétences</strong> : à préciser avec la suite du cours.</li>
+  </ul>
+
+  <h3>Les sondages, de la propagande au marketing</h3>
+<figure class="fig side"><img src="img/bernays.jpg" alt="Portrait photographique d’Edward Bernays en 1917" width="360" height="449" loading="lazy"><figcaption>Edward Bernays en 1917, futur auteur de <em>Propaganda</em> (1928).<span class="credit">Bain News Service · domaine public · <a href="https://commons.wikimedia.org/wiki/File:Edward_Bernays_cropped.png" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
+  <ul>
+    <li><strong>Relations publiques</strong> (États-Unis, début XXᵉ) : Ivy Lee, Edward Bernays (<em>Propaganda</em>, 1928).</li>
+    <li><strong>Psychologie des foules</strong> (Europe, 1900-1933) : Gustave Le Bon (1895), Gabriel Tarde (<em>L’Opinion et la foule</em>, 1901).</li>
+    <li><strong>Propagande du IIIᵉ Reich</strong> (1933-1945) : ministère de Goebbels.</li>
+    <li><strong>Instituts de sondage</strong> : Gallup (1935), Ifop en France (1938), généralisation après 1945.</li>
+    <li><strong>Marketing publicitaire</strong> (années 1950-60) : « Torches of Freedom », Bernays pour Lucky Strike (1929), la cigarette vendue aux femmes comme symbole d’émancipation. Pour l’ambiance : <em>Mad Men</em>.</li>
+  </ul>
+  <p>Le sondage naît d’une volonté de connaître l’opinion pour agir dessus : ce n’est pas un outil neutre. Persuader sans transparence relève de la manipulation : à ne pas faire, mais à connaître pour s’en protéger.</p>
+  <p><strong>Conséquences politiques</strong> : pour montrer que le chômage baisse, un gouvernement peut créer des emplois… ou changer d’indicateur. Le nombre de tests positifs à un virus dépend de la volonté des gens d’aller se faire tester ; les eaux usées en dépendent moins.</p>
+
+  <h3>Chiffres explicatifs : Durkheim, <em>Le suicide</em> (1897)</h3>
+<figure class="fig side"><img src="img/durkheim.jpg" alt="Portrait d’Émile Durkheim assis" width="360" height="490" loading="lazy"><figcaption>Émile Durkheim (1858-1917).<span class="credit">auteur inconnu · domaine public · <a href="https://commons.wikimedia.org/wiki/File:%C3%89mile_Durkheim.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
+  <p>Un chiffre <strong>explicatif</strong> met deux variables en relation pour dire chez qui ou pourquoi (taux de chômage selon le diplôme). Dans un questionnaire, cela passe par les <strong>tris croisés</strong>.</p>
+  <ul>
+    <li>Le suicide comme <strong>fait social</strong> : les taux varient de façon régulière d’un groupe à l’autre (États allemands du XIXᵉ, selon situation familiale et sexe).</li>
+    <li><strong>Variations concomitantes</strong> : le taux baisse quand l’intégration sociale augmente, pour les hommes en couple même sans enfant, pour les femmes en couple seulement avec enfants.</li>
+    <li>Condition : avoir collecté des données de contexte (âge, sexe, situation familiale, CSP).</li>
+  </ul>
+<figure class="fig narrow"><img src="img/planche2.jpg" alt="Carte de France en hachures : suicides par arrondissement, 1887-1891" width="867" height="964" loading="lazy"><figcaption>Planche II du <em>Suicide</em> : les suicides en France par arrondissement (1887-1891). Plus la hachure est sombre, plus le taux est élevé. Durkheim cartographie des taux pour montrer que le suicide varie régulièrement selon les milieux : un fait social, pas seulement un drame individuel.<span class="credit">Émile Durkheim, 1897 · domaine public · <a href="https://commons.wikimedia.org/wiki/File:Durkheim,_Le_Suicide,_planche_II.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
+  <div class="note"><span class="lbl">Pour le marché Notre-Dame</span>
+    Prévoir des questions descriptives (fréquence, durée, achats) et des variables de profil (âge, sexe, situation familiale, CSP, quartier) pour les tris croisés. Définir chaque catégorie : que veut dire « habitué » ? Si vous écrivez « 62 % des habitants fréquentent le marché », préciser ce que « fréquenter » veut dire et qui a répondu.</div>
+  <h4>Face à un chiffre, y compris les vôtres</h4>
+  <ol>
+    <li>Qui l’a produit, et dans quel but ?</li>
+    <li>Quelle définition se cache derrière les catégories ?</li>
+    <li>Sur qui porte-t-il (échantillon, taille, période) ?</li>
+    <li>Comment est-il présenté, et qu’est-ce que la présentation suggère ?</li>
+  </ol>
+</section>
+
+<section id="seance5">
+  <h2><span class="num">IV bis</span>Analyse et restitution des entretiens</h2>
+  <p class="date">Marion Coville · cours 4 de sa partie, après la Toussaint · d’après les diapos</p>
+
+  <h3>A. L’analyse thématique en 4 étapes</h3>
+  <p>C’est l’exercice commencé avant les vacances de la Toussaint.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Étape</th><th>Ce qu’on fait</th><th>Résultat</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td><strong>Analyse inductive</strong> sur un échantillon de <strong>3 à 5 entretiens</strong> : relire toute la transcription, identifier et taguer toutes les idées et tous les sujets développés par l’enquêté·e.</td><td>Une longue liste de sujets</td></tr>
+      <tr><td class="n">2</td><td><strong>Grille d’analyse</strong> : regrouper ces sujets en ensembles thématiques cohérents, supprimer ceux qui sont trop marginaux ou hors sujet par rapport à la problématique.</td><td><mark>5 à 6 grandes thématiques</mark>, parfois avec des sous-thèmes</td></tr>
+      <tr><td class="n">3</td><td><strong>Codage</strong> : relire toutes les transcriptions et associer un tag et une couleur à chaque citation qui correspond à un thème de la grille. Une citation très riche peut relever de deux thèmes.</td><td>Des citations codées dans chaque entretien</td></tr>
+      <tr><td class="n">4</td><td><strong>Analyse du discours</strong> : analyser les verbatims thème par thème, en comparant les citations et les enquêtés entre eux.</td><td>Des <strong>catégories, des typologies</strong> : différentes manières de vivre une même situation</td></tr>
+    </tbody>
+  </table></div>
+<figure class="fig"><svg class="sv" viewBox="0 0 680 215" role="img" aria-label="Les 4 étapes de l’analyse thématique : une longue liste de sujets, regroupée en 5 à 6 thèmes, qui servent à coder les citations en couleur, puis à construire une typologie."><defs><marker id="a5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+<text class="t-b t-ac" x="10" y="22">1 · Inductif</text><text class="t-s t-mu" x="10" y="40">3 à 5 entretiens tagués</text>
+<text class="t-b t-ac" x="186" y="22">2 · Grille</text><text class="t-s t-mu" x="186" y="40">5 à 6 thèmes</text>
+<text class="t-b t-ac" x="352" y="22">3 · Codage</text><text class="t-s t-mu" x="352" y="40">tous les entretiens</text>
+<text class="t-b t-ac" x="516" y="22">4 · Discours</text><text class="t-s t-mu" x="516" y="40">comparer, classer</text>
+<rect class="bxs" x="10" y="50" width="160" height="128"/><rect class="fmu" x="22" y="62" width="28" height="12" rx="2"/><rect class="fmu" x="70" y="58" width="36" height="12" rx="2"/><rect class="fmu" x="118" y="66" width="28" height="12" rx="2"/><rect class="fmu" x="30" y="92" width="44" height="12" rx="2"/><rect class="fmu" x="84" y="90" width="36" height="12" rx="2"/><rect class="fmu" x="128" y="98" width="36" height="12" rx="2"/><rect class="fmu" x="20" y="124" width="28" height="12" rx="2"/><rect class="fmu" x="66" y="122" width="28" height="12" rx="2"/><rect class="fmu" x="112" y="130" width="28" height="12" rx="2"/><rect class="fmu" x="40" y="154" width="28" height="12" rx="2"/><rect class="fmu" x="92" y="156" width="36" height="12" rx="2"/><rect class="fmu" x="130" y="160" width="44" height="12" rx="2"/>
+<rect class="bxs" x="178" y="50" width="144" height="128"/><rect class="th1 hl" x="186" y="56" width="128" height="19" rx="3"/><text class="t-s" x="194" y="70">Routines</text><rect class="th2 hl" x="186" y="80" width="128" height="19" rx="3"/><text class="t-s" x="194" y="94">Achats</text><rect class="th3 hl" x="186" y="104" width="128" height="19" rx="3"/><text class="t-s" x="194" y="118">Lieu de vie</text><rect class="th4 hl" x="186" y="128" width="128" height="19" rx="3"/><text class="t-s" x="194" y="142">Image</text><rect class="th5 hl" x="186" y="152" width="128" height="19" rx="3"/><text class="t-s" x="194" y="166">Attentes</text>
+<rect class="bxs" x="344" y="50" width="146" height="128"/><line class="lnmu" x1="352" y1="58" x2="480" y2="58"/><rect class="th1 hl" x="352" y="67" width="110" height="10"/><line class="lnmu" x1="352" y1="71" x2="470" y2="71"/><line class="lnmu" x1="352" y1="84" x2="470" y2="84"/><rect class="th2 hl" x="352" y="93" width="110" height="10"/><line class="lnmu" x1="352" y1="97" x2="480" y2="97"/><rect class="th2 hl" x="352" y="106" width="128" height="10"/><line class="lnmu" x1="352" y1="110" x2="470" y2="110"/><line class="lnmu" x1="352" y1="123" x2="470" y2="123"/><rect class="th4 hl" x="352" y="132" width="128" height="10"/><line class="lnmu" x1="352" y1="136" x2="480" y2="136"/><line class="lnmu" x1="352" y1="149" x2="470" y2="149"/><rect class="th3 hl" x="352" y="158" width="128" height="10"/><line class="lnmu" x1="352" y1="162" x2="470" y2="162"/>
+<rect class="bxs" x="508" y="50" width="164" height="128"/><circle class="th1 hl" cx="540" cy="70" r="24"/><circle class="fink" cx="532" cy="64" r="2.6"/><circle class="fink" cx="546" cy="62" r="2.6"/><circle class="fink" cx="540" cy="76" r="2.6"/><circle class="fink" cx="530" cy="78" r="2.6"/><circle class="fink" cx="550" cy="74" r="2.6"/><text class="t-s" x="540" y="108" text-anchor="middle">type A</text><circle class="th2 hl" cx="620" cy="92" r="24"/><circle class="fink" cx="612" cy="86" r="2.6"/><circle class="fink" cx="626" cy="84" r="2.6"/><circle class="fink" cx="620" cy="98" r="2.6"/><circle class="fink" cx="610" cy="100" r="2.6"/><circle class="fink" cx="630" cy="96" r="2.6"/><text class="t-s" x="620" y="130" text-anchor="middle">type B</text><circle class="th3 hl" cx="560" cy="140" r="24"/><circle class="fink" cx="552" cy="134" r="2.6"/><circle class="fink" cx="566" cy="132" r="2.6"/><circle class="fink" cx="560" cy="146" r="2.6"/><circle class="fink" cx="550" cy="148" r="2.6"/><circle class="fink" cx="570" cy="144" r="2.6"/><text class="t-s" x="560" y="178" text-anchor="middle">type C</text>
+<text class="t-s t-mu" x="90" y="200" text-anchor="middle">longue liste de sujets</text>
+<text class="t-s t-mu" x="250" y="200" text-anchor="middle">on regroupe, on trie</text>
+<text class="t-s t-mu" x="417" y="200" text-anchor="middle">1 couleur = 1 thème</text>
+<text class="t-s t-mu" x="590" y="200" text-anchor="middle">typologies</text>
+</svg><figcaption>Les 4 étapes de l’analyse thématique, avec les thèmes de la grille d’entretien du marché. À l’étape 3, une citation riche peut porter deux couleurs.</figcaption></figure>
+  <div class="def"><span class="lbl">Exemple de grille</span>Une grande thématique « le travail au quotidien », avec un sous-thème « les conditions de travail » et un sous-thème « les relations sociales au travail ».</div>
+  <p>À l’étape 4, <strong>les régularités et les ressemblances sont aussi intéressantes que les différences</strong>.</p>
+  <p>Un passage dicté en cours prenait l’exemple d’un thème comme la « gêne », dont on relève chaque occurrence dans tous les entretiens. <span class="unsure">exemple incertain, dictée déformée</span></p>
+
+  <h3>B. Communiquer ses résultats</h3>
+  <div class="warn"><span class="lbl">Principe de base</span><br>L’analyse finale du rapport est <strong>thématique</strong> et mobilise autant les entretiens que les résultats du questionnaire. <strong>Pas de découpage « I. Quali / II. Quanti »</strong> : toutes les données servent à répondre à la même problématique.</div>
+  <p><strong>Restituer la vie du terrain</strong> : vous seul·e avez observé le terrain et passé des heures à écouter les témoignages. Cette dimension humaine et concrète ne doit pas disparaître derrière de grandes analyses générales. Face à des décideurs, garder cet aspect incarné compte beaucoup pour faire passer résultats et recommandations.</p>
+  <p>Trois outils incontournables :</p>
+
+  <h4>1. Les verbatims</h4>
+  <ul>
+    <li>Ce sont les extraits d’entretiens <strong>les plus pertinents, les plus exemplaires</strong> d’une thématique.</li>
+    <li><strong>1 à 5 lignes</strong> environ : pas de verbatim fleuve ni de liste interminable. La concision montre qu’on a su isoler le segment le plus pertinent.</li>
+    <li><strong>Toujours situé</strong> : prénom (modifié) de l’enquêté, âge, et une donnée utile à l’analyse (profession par exemple).</li>
+    <li><strong>Jamais laissé à la libre interprétation du lecteur</strong> : il est toujours suivi de quelques phrases d’analyse.</li>
+  </ul>
+<figure class="fig"><svg class="sv" viewBox="0 0 680 250" role="img" aria-label="Anatomie d’un verbatim dans le rapport : une phrase de contexte, la citation de 1 à 5 lignes, la légende qui situe l’enquêté, puis l’analyse."><defs><marker id="a6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+<rect class="bxs" x="8" y="8" width="410" height="234"/>
+<line class="lnmu" x1="28" y1="34" x2="396" y2="34"/><line class="lnmu" x1="28" y1="48" x2="300" y2="48"/>
+<rect class="fac" x="28" y="66" width="4" height="62"/>
+<text x="42" y="84" style="font-family:var(--f-body);font-style:italic">« Le samedi, c’est sacré : je viens</text>
+<text x="42" y="102" style="font-family:var(--f-body);font-style:italic">avec ma fille, on prend un café</text>
+<text x="42" y="120" style="font-family:var(--f-body);font-style:italic">et on fait le tour des étals. »</text>
+<text class="t-s t-mu" x="42" y="148">(Martine*, 68 ans, retraitée, Poitiers)</text>
+<line class="lnmu" x1="28" y1="178" x2="396" y2="178"/><line class="lnmu" x1="28" y1="192" x2="396" y2="192"/><line class="lnmu" x1="28" y1="206" x2="396" y2="206"/><line class="lnmu" x1="28" y1="220" x2="250" y2="220"/>
+<line class="ln" x1="404" y1="41" x2="446" y2="41"/><text class="t-b" x="454" y="38">1 · Contexte</text><text class="t-s t-mu" x="454" y="54">une phrase qui l’amène</text>
+<line class="ln" x1="404" y1="97" x2="446" y2="97"/><text class="t-b t-ac" x="454" y="94">2 · Citation</text><text class="t-s t-mu" x="454" y="110">1 à 5 lignes, la plus parlante</text>
+<line class="ln" x1="404" y1="144" x2="446" y2="144"/><text class="t-b" x="454" y="141">3 · Légende</text><text class="t-s t-mu" x="454" y="157">pseudo, âge, profession…</text>
+<line class="ln" x1="404" y1="199" x2="446" y2="199"/><text class="t-b" x="454" y="196">4 · Analyse</text><text class="t-s t-mu" x="454" y="212">jamais de verbatim seul</text>
+</svg><figcaption>Les quatre éléments d’un verbatim bien présenté. *Citation et enquêtée inventées pour l’exemple, ce n’est pas un vrai entretien du groupe.</figcaption></figure>
+  <div class="def"><span class="lbl">Exemple des diapos · enquête sur la dark romance</span>
+    « C’est un univers un peu plus sombre, un peu plus psychologique. Tu vas dépasser tes limites parce que tu vas arriver dans une zone que tu connais pas (…) C’est pas tout beau, tout rose. »<br><em>(Léanne, 27 ans, assistante sociale, domiciliée à Metz, en couple)</em>
+    <p style="margin:10px 0 0">L’analyse qui suit compare Léanne et Janice (22 ans) : toutes deux emploient le vocabulaire de la noirceur (« sombre », « ombre », « trash », « démons »), opposent le genre à la littérature « à l’eau de rose », et parlent de « limite » dans deux sens complémentaires : un imaginaire bien séparé de la réalité, et une exploration de soi (« ma part d’ombre »).</p></div>
+
+  <h4>2. La data visualisation</h4>
+  <ul>
+    <li><strong>Pas de capture d’écran</strong> des graphiques de base de Framaforms (ou LimeSurvey).</li>
+    <li>Identifier clairement <strong>quels chiffres communiquer</strong> et quelles données doivent pouvoir être comparées.</li>
+    <li>Les formes les plus simples : <strong>tableaux et histogrammes</strong>. Soigner d’abord la lisibilité et les couleurs.</li>
+    <li>Être créatif : la forme peut s’inspirer du thème de l’enquête ; une frise peut restituer la journée d’une personne ; un schéma peut montrer une typologie ; une carte peut montrer les trajets et distances (exemple des livreurs à vélo).</li>
+    <li>Ressources : <strong>datavizproject.com</strong> et les conseils de <strong>Gaëlle Huber</strong>.</li>
+  </ul>
+
+  <h4>3. L’encadré portrait d’un enquêté</h4>
+  <p>Un encadré à part qui raconte la situation d’une personne : profil, enjeux, pratiques, avec une ou deux citations.</p>
+  <div class="def"><span class="lbl">Exemple des diapos · rapport DiPLab sur le micro-travail</span>
+    <strong>« G. : la difficulté de toucher un salaire décent quand on est en situation de handicap. »</strong> G. a entre 45 et 55 ans, vit seul dans une grande ville du Sud, est en invalidité depuis 2010 (pension de 1 040 €, loyer de 529 €). Il travaille sur la plateforme Foule Factory, qu’il juge « sérieuse », mais les taux horaires proposés ne correspondent pas au temps réel des tâches. Il préférerait ne plus être en invalidité : « Quand on n’a pas de travail, on n’existe pas, on n’a pas de rôle social. »</div>
+
+  <h3>C. Deux exemples à suivre</h3>
+  <div class="cols">
+    <div class="def"><span class="lbl">Transcription anonymisée</span><strong>Entretien n°5, Léanne</strong> (mémoire sur la dark romance). Prénom modifié, contexte de l’entretien indiqué (à distance, par Zoom), présentation de l’enquête en trois temps, pauses notées (.) et (..). Le modèle pour les annexes du dossier.<br><em>Fichier : Exemple - Entretien dark romance (Leanne).pdf</em></div>
+    <div class="def"><span class="lbl">Synthèse d’enquête</span><strong>Hospitalisation à domicile (HAD)</strong>. S’ouvre sur un tableau de synthèse des 16 cas (âge, pathologie, aidant, sentiment vis-à-vis de l’HAD), puis analyse par thèmes (différences entre situations, rôle des aidants) appuyée sur des verbatims situés et des portraits de couples.<br><em>Fichier : Exemple - Synthese enquete HAD.pdf</em></div>
+  </div>
+  <div class="note"><span class="lbl">Pour le marché Notre-Dame</span>
+    Coder 3 à 5 entretiens pour bâtir une grille de 5-6 thèmes (en partant des thèmes de la grille d’entretien : routines, achats, lieu de vie, image, attentes), puis coder tous les entretiens. Dans le dossier : un tableau de synthèse des enquêtés comme dans l’exemple HAD, des verbatims courts et analysés, des graphiques refaits (pas de captures LimeSurvey), et un ou deux encadrés portraits (une habituée âgée, un étudiant qui ne vient pas…). Outils possibles : Taguette ou f4analyse.</div>
+</section>
+
+<section id="seance6">
+  <h2><span class="num">IV ter</span>Séance 6 · Biais de relation et outils de questionnaire</h2>
+  <p class="date">14/10/2026 · Bruno Vétel · d’après l’enregistrement du cours</p>
+  <div class="note"><span class="lbl">Source</span>Notes reconstituées à partir d’une transcription automatique très bruitée. Les passages marqués <span class="unsure">à vérifier</span> sont incertains : compare avec les slides ou les notes d’un camarade.</div>
+
+  <h3>A. Quand l’enquêteur a une relation avec les répondants</h3>
+  <p>Un questionnaire suppose une certaine <strong>indépendance sociale</strong> entre celui qui enquête et ceux qui répondent. Quand elle manque, les gens ne répondent plus de façon désintéressée : ils se demandent comment répondre <mark>pour préserver (ou améliorer) la relation</mark> qu’ils ont déjà avec la personne qui les interroge.</p>
+<figure class="fig"><svg class="sv" viewBox="0 0 680 222" role="img" aria-label="Comparaison : sans relation entre enquêteur et répondant, la réponse est désintéressée ; avec une relation préexistante, le répondant oriente sa réponse pour préserver la relation."><defs><marker id="a7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+<text class="t-b" x="10" y="22">Indépendance sociale</text><text class="t-b t-bad" x="356" y="22">Relation préexistante</text>
+<line class="lnmu" x1="340" y1="10" x2="340" y2="205"/>
+<circle class="ln" cx="50" cy="96" r="16"/><path class="ln" d="M26,140 q24,-26 48,0"/><text class="t-s" x="50" y="164" text-anchor="middle">enquêteur</text>
+<circle class="ln" cx="280" cy="96" r="16"/><path class="ln" d="M256,140 q24,-26 48,0"/><text class="t-s" x="280" y="164" text-anchor="middle">répondant</text>
+<line class="ln" x1="80" y1="82" x2="248" y2="82" marker-end="url(#a7)"/><text class="t-s" x="164" y="74" text-anchor="middle">questionnaire</text>
+<line class="lnac" x1="248" y1="118" x2="80" y2="118" marker-end="url(#a7)" style="color:var(--accent)"/><text class="t-s t-ac" x="164" y="136" text-anchor="middle">réponse désintéressée</text>
+<circle class="ln" cx="396" cy="96" r="16"/><path class="ln" d="M372,140 q24,-26 48,0"/><text class="t-s" x="396" y="164" text-anchor="middle">délégué, entreprise</text>
+<circle class="ln" cx="626" cy="96" r="16"/><path class="ln" d="M602,140 q24,-26 48,0"/><text class="t-s" x="626" y="164" text-anchor="middle">promo, client</text>
+<line class="ln" x1="426" y1="82" x2="594" y2="82" marker-end="url(#a7)"/><text class="t-s" x="510" y="74" text-anchor="middle">questionnaire</text>
+<line class="lnbad" x1="594" y1="118" x2="426" y2="118" marker-end="url(#a7)" style="color:var(--bad)"/><text class="t-s t-bad" x="510" y="136" text-anchor="middle">réponse orientée</text>
+<path class="lnbad dash" d="M396,176 Q511,212 626,176"/><text class="t-s t-bad" x="511" y="214" text-anchor="middle">relation à préserver</text>
+</svg><figcaption>Ce qui change quand l’enquêteur et le répondant se connaissent déjà : le lien (en pointillés) pèse sur la réponse. À écrire dans la méthodologie.</figcaption></figure>
+  <h4>Les cas problématiques vus en cours</h4>
+  <ul>
+    <li><strong>Des délégués qui sondent leur propre promo</strong> : les répondants font partie du même collectif que l’enquêteur, les réponses sont orientées.</li>
+    <li><strong>Mélanger entretiens nominatifs et questionnaire anonyme</strong> : c’est possible en soi. Le problème vient quand on diffuse le questionnaire à ses propres contacts, ou aux personnes déjà interviewées (« Tu peux aussi répondre à mon questionnaire ? »). On perd la disjonction entre les deux dispositifs, et la qualité des réponses devient difficile à maîtriser.</li>
+    <li><strong>L’enquêteur perçu comme une relation potentielle</strong> : certains enquêtés répondent pour faire plaisir, prolonger l’échange ou devenir « potes », d’autres par hostilité. Dans les deux cas, ce n’est plus neutre.</li>
+    <li><strong>Le questionnaire de satisfaction en entreprise</strong> : on s’adresse à des clients ou partenaires qui ont un lien économique avec l’employeur. Ils répondent en tenant compte du fait qu’ils parlent à l’entreprise.</li>
+    <li><strong>Les évaluations des formations à l’université</strong> : elles sont administrées par l’université et non par le responsable de filière, pour garder un semblant de neutralité. Des biais restent (les étudiants paient leurs frais d’inscription et se positionnent par rapport à l’institution). L’anonymat autorise aussi des propos déplacés, voire diffamatoires.</li>
+  </ul>
+  <div class="def"><span class="lbl">Ce qu’il faut en retenir</span>Ces enquêtes restent possibles, mais il faut <strong>en tenir compte à l’analyse</strong> et l’écrire dans la méthodologie. Présenter de telles données comme neutres pose problème. Si l’on fait ce choix, il faut <strong>assumer une posture située</strong> : on donne de la visibilité à des points de vue socialement positionnés, ce qui sort du cadre scientifique classique des sciences sociales.</div>
+  <p>Exemple du cours : un questionnaire diffusé sans transparence sur ses étapes d’administration a servi à appuyer un rapport de force. Les enseignants-chercheurs ont repris les données, refait les analyses et montré que la position présentée comme majoritaire était en fait minoritaire. <span class="unsure">contexte exact à vérifier</span></p>
+  <p>Le degré d’identification change aussi ce que les gens produisent : on ne répond pas de la même façon <strong>anonymement, sous pseudonyme ou sous son identité réelle</strong>.</p>
+
+  <h3>B. Détour par les réseaux sociaux</h3>
+  <ul>
+    <li><strong>Une thèse à contre-pied</strong> : on entend souvent que le débat public est confisqué par les grands médias. Le terrain montre plutôt une <strong>multiplication des espaces de débat</strong> (Internet, cafés…), donc plus d’espace potentiel pour discuter. Ce qui change, ce sont les modalités du débat, qui peuvent polariser les opinions. <span class="unsure">référence citée (ouvrage ou thèse, EHESS ?, 2025) à vérifier</span></li>
+    <li><strong>Le modèle économique de X</strong> : mettre en contact des gens radicalement opposés génère des émotions et des discours virulents, ce qui retient les utilisateurs plus longtemps sur la plateforme et donc devant la publicité. C’est une <strong>logique de rétention</strong>.</li>
+    <li>Le lien avec le questionnaire : habitués à ces codes, les répondants peuvent les reproduire dans un questionnaire anonyme. Or le contexte n’est pas le même. Pour un communicant, <mark>si le rapport à l’interlocuteur change, la manière de s’exprimer doit changer</mark>.</li>
+  </ul>
+
+  <h3>C. Choisir son outil de questionnaire</h3>
+  <p>Un service numérique gratuit a quand même des coûts (serveurs, machines, connexion, nom de domaine, électricité). Il faut donc se demander <strong>qui le finance</strong>.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Outil</th><th>Modèle</th><th>Points forts</th><th>Limites</th></tr></thead>
+    <tbody>
+      <tr><td>Google Forms</td><td>Gratuit, adossé au compte Google</td><td>Le réflexe des petites structures : fiable, stable, pratique, déjà un compte Gmail</td><td>Données hors législation française (serveurs aux États-Unis, ex. Texas <span class="unsure">à vérifier</span>) ; dépendance à Google</td></tr>
+      <tr><td>Framaforms (Framasoft)</td><td>Association française financée par les dons de ses utilisateurs</td><td>Indépendante de l’État, de Google et de Microsoft ; comptes transparents ; données stockées en France, sous loi française</td><td>Fonctions limitées ; récupérer la structure d’un questionnaire pour la remettre sur un autre outil est compliqué <span class="unsure">à vérifier</span></td></tr>
+      <tr><td>LimeSurvey</td><td>Logiciel libre (PHP), projet surtout allemand, à installer sur son propre serveur</td><td>Très complet : questionnaires élaborés, réponses de bonne qualité ; l’IAE de Poitiers a sa propre instance</td><td>Prise en main difficile au début ; il faut quelqu’un qui sait déployer un serveur web</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><strong>Framasoft</strong> fonctionne comme Wikipédia (les dons), avec une différence : la branche française de Wikipédia reçoit aussi des fonds d’institutions, dont le ministère de l’Éducation, ce qui peut exposer à des pressions politiques. Budget de Framasoft cité en cours : environ <strong>1 million d’euros en 2025</strong> <span class="unsure">chiffre à vérifier</span>.</li>
+    <li><strong>LimeSurvey en entreprise</strong> : un informaticien ou webmaster qui maîtrise un peu le PHP peut l’installer gratuitement. Sinon, savoir se servir de l’interface suffit pour demander l’aide d’experts. Maîtriser LimeSurvey est un vrai atout sur un CV. On peut aussi simuler un serveur web en local pour construire et tester ses questionnaires avant de les mettre en ligne.</li>
+  </ul>
+
+  <h3>D. Prendre en main LimeSurvey (instance de l’IAE)</h3>
+  <p>Consigne du cours : <strong>chacun crée son propre petit questionnaire</strong> pour se familiariser, pour éviter que seuls les plus à l’aise en informatique fassent le travail du groupe. Ensuite, un questionnaire par groupe.</p>
+  <h4>L’interface</h4>
+  <ul>
+    <li>Menus à gauche : paramètres généraux, contenu, structure. Clic sur un bloc (texte ou question) : ses réglages d’affichage apparaissent à droite.</li>
+    <li>Commencer en <strong>mode simple</strong>, puis passer en <strong>mode avancé</strong> (conditions d’affichage : « si réponse X à la question précédente, alors afficher… »).</li>
+    <li>Questions obligatoires ou facultatives : à régler question par question.</li>
+    <li><strong>Structure</strong> : l’arborescence du questionnaire (bloc de présentation, questions). On peut y réordonner les questions pour tester d’autres enchaînements.</li>
+  </ul>
+  <h4>Bien choisir le format des réponses</h4>
+  <ul>
+    <li>Le <strong>format de question</strong> est le champ le plus important : cases à cocher, texte court ou long, champ numérique (utile pour un salaire, une année de naissance).</li>
+    <li><strong>Attention au champ libre « Autre »</strong> : sur 200 réponses, 50 « autre » toutes différentes, qu’en fera-t-on ? Parfois une simple case « Autre » à cocher suffit. Chaque option implique un traitement différent des données.</li>
+    <li><strong>Éviter les tableaux de questions</strong> : les fichiers de réponses deviennent très lourds à traiter.</li>
+    <li>Privilégier cases à cocher et champs courts, et <mark>garder les mêmes formats de réponse d’une question à l’autre</mark>. Si le format change, les répondants se trompent sans s’en rendre compte, ou décrochent.</li>
+    <li><strong>Images</strong> : à double tranchant. Plus agréable, mais lent à charger sur un téléphone avec peu de réseau, donc risque d’abandon. Toujours arbitrer entre design et simplicité.</li>
+  </ul>
+  <h4>Les paramètres utiles</h4>
+  <div class="tbl"><table>
+    <thead><tr><th>Menu</th><th>À quoi ça sert</th></tr></thead>
+    <tbody>
+      <tr><td>Général</td><td>Langue de l’interface pour les répondants (prévoir deux questionnaires si public francophone et anglophone), thème</td></tr>
+      <tr><td>Politique de confidentialité</td><td>Message personnalisé sur l’usage des données, affiché en bas du questionnaire</td></tr>
+      <tr><td>Participation</td><td>Anonymisation automatique (un numéro par réponse, adresse masquée) ; e-mail de confirmation en fin de questionnaire si pertinent</td></tr>
+      <tr><td>Publication et accès</td><td><strong>Dates de début et de fin</strong> ; captcha contre les robots ; enregistrer ou non l’adresse IP et l’horodatage des réponses</td></tr>
+      <tr><td>Présentation</td><td>Logo, polices, image de fond ; <strong>barre de progression</strong> ; autoriser ou non le <strong>retour en arrière</strong></td></tr>
+      <tr><td>Participants</td><td>Laisser ouvert (toute personne avec le lien répond) ou enquête fermée sur liste d’e-mails, avec code d’accès ; permet de revenir finir plus tard. Très utile pour la satisfaction client, moins pour une enquête en sciences sociales</td></tr>
+      <tr><td>Permissions</td><td>Donner accès au questionnaire aux autres membres du groupe (recherche par nom ou mail) ; en entreprise, contrôler qui y accède</td></tr>
+    </tbody>
+  </table></div>
+  <div class="cols">
+    <div class="def"><span class="lbl">Fixer une date de fin</span>On a tendance à laisser le questionnaire ouvert le plus longtemps possible. Mais si des réponses arrivent pendant l’analyse, il faut refaire les calculs sur une nouvelle base. Fixez des bornes et respectez-les.</div>
+    <div class="def"><span class="lbl">Barre de progression et retour arrière</span>Deux options à double tranchant : la barre rassure s’il reste peu de questions, mais peut décourager s’il en reste beaucoup ; le retour arrière permet de se raviser, mais modifie les réponses.</div>
+  </div>
+  <div class="warn"><span class="lbl">Sur l’instance de l’IAE</span><br>La liste affiche tous les questionnaires hébergés sur la plateforme. Ne supprimez pas ceux des autres : vérifiez la date de création avant de toucher à un questionnaire.</div>
+  <div class="note"><span class="lbl">Pour le marché Notre-Dame</span>Diffuser le questionnaire au-delà de nos contacts et des personnes interviewées ; mentionner dans la méthodologie toute relation avec les répondants (commanditaire, commerçants) ; fixer la date de clôture avant le cours du 17/11 ; ajouter le groupe dans les permissions.</div>
+</section>
+
+<section id="projet">
+  <h2><span class="num">V</span>Projet d’enquête · Groupe 3</h2>
+  <dl class="meta">
+    <dt>Terrain</dt><dd>Le marché Notre-Dame (Halles, place Charles-de-Gaulle)</dd>
+    <dt>Angle</dt><dd>La place du marché dans les routines des populations locales</dd>
+    <dt>Méthodes</dt><dd>Quali : entretiens (n &gt; 15) et observations · Quanti : questionnaire en ligne (n &gt; 100)</dd>
+  </dl>
+<figure class="fig"><img src="img/marche1.jpg" alt="Marché de plein air un samedi d’hiver devant l’église Notre-Dame-la-Grande, étals sous auvents rouges" width="1100" height="825" loading="lazy"><figcaption>Le terrain du groupe 3 : le marché de plein air du samedi, place Charles-de-Gaulle, devant Notre-Dame-la-Grande (janvier 2013).<span class="credit">Guilhem Vellut · CC BY 2.0 · <a href="https://commons.wikimedia.org/wiki/File:Marche_Notre-Dame_@_Poitiers_(8380920993).jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
+  <p style="margin-top:12px">La commande : une stratégie de communication externe (événementiel, print, local et numérique) pour faire connaître les Halles aux habitants de Grand Poitiers et aux touristes, avec un enjeu de <mark>« rajeunir » l’image et le public</mark>. Le terrain porte sur les différents usagers (le samedi pour le marché, le midi pour les restos) et sur ceux qui ne viennent pas.</p>
+  <div class="cols">
+    <div class="def"><span class="lbl">Les Halles en chiffres</span>80 à 90 étals le samedi · 28 étals permanents en semaine · brocante lundi et samedi matin · fermé les jours fériés. Halles du mardi au samedi, 7h-13h (20h pour la restauration) ; plein air le samedi 7h-13h.</div>
+    <div class="def"><span class="lbl">Problématique de départ</span>Quelle place le marché occupe-t-il dans le quotidien des habitants ? Simple lieu d’achat, ou aussi lieu de lien social et d’habitudes ?</div>
+  </div>
+<div class="figrow"><figure class="fig" style="margin:0"><img src="img/marche3.jpg" alt="Allée intérieure des Halles avec étals et suspensions rouges" width="640" height="964" loading="lazy"><figcaption>À l’intérieur des Halles : les étals permanents, ouverts du mardi au samedi (automne 2013).<span class="credit">Daniel Clauzier · CC BY-SA 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Dans-le-March%C3%A9-Notre-Dame-%C3%A0-Poitiers.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure><figure class="fig" style="margin:0"><img src="img/chapuy.jpg" alt="Dessin au crayon de Notre-Dame-la-Grande et de la place du marché au XIXe siècle" width="640" height="860" loading="lazy"><figcaption>La même place vers 1850, dessinée par Chapuy : le marché Notre-Dame est un lieu d’habitudes depuis longtemps, un argument pour les « rituels » du public A.<span class="credit">Nicolas-Marie-Joseph Chapuy (BnF) · domaine public · <a href="https://commons.wikimedia.org/wiki/File:Notre_dame_la_grande_et_place_du_march%C3%A9_%C3%A0_Poitiers_-_dessin_-_Nicolas-Marie-Joseph_Chapuy_-_btv1b77417524.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure></div>
+  <h3>Déroulé</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Étape</th><th>Quoi</th><th>Quand</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td>Problématique, échantillonnage, grille d’entretien</td><td>Septembre</td></tr>
+      <tr><td class="n">2</td><td>Entretiens exploratoires</td><td>Dès le 1er octobre</td></tr>
+      <tr><td class="n">3</td><td>Questionnaire en ligne et analyse</td><td>Diffusion le 22/10 · 100 réponses le 17/11</td></tr>
+      <tr><td class="n">4</td><td>Poursuite des entretiens</td><td>En parallèle</td></tr>
+      <tr><td class="n">5</td><td>Rédaction, recommandations, campagne visuelle</td><td>Rendu le 18/12</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Les trois publics</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Public</th><th>Ce qu’on a observé</th><th>Ce qu’on veut savoir</th></tr></thead>
+    <tbody>
+      <tr><td>A. Personnes âgées</td><td>Public majoritaire, le plus présent et régulier</td><td>Rituels, histoire personnelle ou familiale, lien social, évolution du marché</td></tr>
+      <tr><td>B. Jeunes</td><td>Peu nombreux, souvent « perdus » ou venus par hasard</td><td>Pourquoi ils ne viennent pas (budget, préjugés…)</td></tr>
+      <tr><td>C. Actifs</td><td>Passent surtout pour manger à emporter, travaillent en centre-ville</td><td>Pourquoi manger ici ? Travaillent-ils loin ?</td></tr>
+    </tbody>
+  </table></div>
+  <p>Échantillonner aussi <strong>ceux qui ne viennent pas</strong> : clients des supermarchés le samedi matin, étudiants et profs de la fac en face, étudiants sur la place le jeudi soir (food trucks), office de tourisme. Côté commerçants : un ancien (évolution des publics) et un nouveau (motivations d’installation).</p>
+  <h3>La grille d’entretien (V1)</h3>
+  <p>Semi-directive, 30 min, enregistrée avec accord. Toujours demander des exemples concrets, pas de questions fermées ni orientées.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Thème</th><th>Question principale (exemple)</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Ouverture</td><td>Pouvez-vous me raconter la dernière fois que vous êtes venu au marché ?</td></tr>
+      <tr><td>2 · Routines</td><td>À quelle fréquence venez-vous, et à quels moments ?</td></tr>
+      <tr><td>3 · Achats</td><td>Qu’achetez-vous au marché et qu’achetez-vous ailleurs ?</td></tr>
+      <tr><td>4 · Lieu de vie</td><td>Pour vous, le marché, c’est plutôt une course ou une sortie ?</td></tr>
+      <tr><td>5 · Image</td><td>Si vous deviez décrire le marché Notre-Dame, que diriez-vous ?</td></tr>
+      <tr><td>6 · Attentes</td><td>Aimeriez-vous vous impliquer dans la vie du marché (« Les Amis du marché ») ?</td></tr>
+      <tr><td>7 · Clôture</td><td>Connaîtriez-vous quelqu’un qui pourrait répondre ? (boule de neige)</td></tr>
+    </tbody>
+  </table></div>
+  <h3>À faire</h3>
+  <ul class="check">
+    <li>1re version de la grille d’entretien (avant le 28/09)</li>
+    <li>Lancer le recrutement des enquêté·es (RDV dès le 1er octobre)</li>
+    <li>Diversifier les profils : jeunes, actifs, habitués, commerçants</li>
+    <li>Refaire des observations à d’autres créneaux (samedi matin, tôt, midi)</li>
+    <li>Prévoir le matériel : enregistreur, de quoi prendre des notes</li>
+  </ul>
+</section>
+
+<section id="dossier">
+  <h2><span class="num">VI</span>Rédiger le dossier</h2>
+  <div class="note"><span class="lbl">Double public</span>C’est un travail scolaire, mais il sera lu par le commanditaire et doit pouvoir lui être envoyé tel quel.</div>
+  <div class="tbl"><table>
+    <thead><tr><th>Partie</th><th>Contenu</th></tr></thead>
+    <tbody>
+      <tr><td>Introduction</td><td>Notre réflexion sous forme de problématique</td></tr>
+      <tr><td>Méthodologie</td><td>En quoi nos choix sont pertinents ; ce qui a été réalisé concrètement</td></tr>
+      <tr><td>Présentation des enquêtés</td><td>Caractéristiques socio-démographiques des enquêtés et répondants</td></tr>
+      <tr><td>Résultats</td><td>Sections thématiques, chacune appuyée sur le quali <em>et</em> le quanti</td></tr>
+      <tr><td>Conclusion</td><td>Synthèse générale</td></tr>
+      <tr><td>Recommandations</td><td>Pour le commanditaire + campagne d’affichage pour le public cible</td></tr>
+      <tr><td>Annexes</td><td>Tableau des entretiens, transcriptions, grille, questionnaire</td></tr>
+    </tbody>
+  </table></div>
+  <div class="warn"><span class="lbl">/!\ Interdits et contraintes</span><br>Jamais de plan « I. Enquête quanti / II. Enquête quali ». <strong>30 000 à 35 000 signes</strong> espaces compris, hors annexes. Aucun « impact » ni « impacter ». Modèle : le rapport DiPLab.</div>
+<figure class="fig"><svg class="sv" viewBox="0 0 680 210" role="img" aria-label="Comparaison des plans : le plan I. Quanti / II. Quali est interdit ; le bon plan est thématique, chaque partie croisant entretiens et questionnaire."><defs><marker id="a8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+<text class="t-b t-bad" x="10" y="26">✕ Plan interdit</text><text class="t-b t-ac" x="356" y="26">✓ Plan attendu</text>
+<line class="lnmu" x1="336" y1="10" x2="336" y2="200"/>
+<rect class="bxbad" x="10" y="46" width="300" height="64"/><text class="t-b" x="24" y="72">I. Enquête quantitative</text><text class="t-s t-mu" x="24" y="94">tous les graphiques</text>
+<rect class="bxbad" x="10" y="122" width="300" height="64"/><text class="t-b" x="24" y="148">II. Enquête qualitative</text><text class="t-s t-mu" x="24" y="170">tous les verbatims</text>
+<rect class="bx" x="356" y="46" width="316" height="40"/><text class="t-b" x="368" y="71">Thème 1 · Routines</text><rect class="bxa" x="536" y="56" width="58" height="20" rx="3"/><text class="t-s" x="565" y="70" text-anchor="middle">quali</text><rect class="bxa" x="602" y="56" width="58" height="20" rx="3"/><text class="t-s" x="631" y="70" text-anchor="middle">quanti</text><rect class="bx" x="356" y="96" width="316" height="40"/><text class="t-b" x="368" y="121">Thème 2 · Lien social</text><rect class="bxa" x="536" y="106" width="58" height="20" rx="3"/><text class="t-s" x="565" y="120" text-anchor="middle">quali</text><rect class="bxa" x="602" y="106" width="58" height="20" rx="3"/><text class="t-s" x="631" y="120" text-anchor="middle">quanti</text><rect class="bx" x="356" y="146" width="316" height="40"/><text class="t-b" x="368" y="171">Thème 3 · Image</text><rect class="bxa" x="536" y="156" width="58" height="20" rx="3"/><text class="t-s" x="565" y="170" text-anchor="middle">quali</text><rect class="bxa" x="602" y="156" width="58" height="20" rx="3"/><text class="t-s" x="631" y="170" text-anchor="middle">quanti</text>
+</svg><figcaption>Chaque partie du dossier répond à la problématique en croisant entretiens et questionnaire (thèmes donnés à titre d’exemple).</figcaption></figure>
+  <div class="cols">
+    <div><h4>Forme</h4><ul class="check"><li>Orthographe irréprochable, style écrit</li><li>Page de garde, sommaire, pagination, tables</li><li>Charte graphique cohérente</li><li>Figures : intro → figure → légende → description → ce qu’on en retire</li></ul></div>
+    <div><h4>Verbatims</h4><ul class="check"><li>1 à 5 lignes, précédé d’une phrase de contexte</li><li>Légendé (pseudo, âge, genre, profession, ville)</li><li>Suivi d’un commentaire d’analyse</li><li>Ni trop peu, ni simple illustration</li></ul></div>
+    <div><h4>Analyse</h4><ul class="check"><li>Quali et quanti croisés</li><li>Transitions soignées</li><li>Comparé à d’autres recherches</li><li>Conclusion et synthèse présentes</li></ul></div>
+  </div>
+</section>
+
+<section id="outils">
+  <h2><span class="num">VII</span>Boîte à outils et bibliographie</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Usage</th><th>Outil</th><th>Quand</th></tr></thead>
+    <tbody>
+      <tr><td>Questionnaire en ligne</td><td>LimeSurvey (instance IAE) · Framaforms</td><td>S1</td></tr>
+      <tr><td>Transcription</td><td>noScribe · Buzz Captions (Whisper)</td><td>S1</td></tr>
+      <tr><td>Analyse qualitative</td><td>Taguette · f4analyse</td><td>Plutôt S2</td></tr>
+      <tr><td>Diagnostic</td><td>Analyse SWOT</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+  <div class="cols">
+    <div><h4>Sur les techniques d’enquête</h4><ul>
+      <li>Beaud &amp; Weber, <em>Guide de l’enquête de terrain</em>, 1997</li>
+      <li>Blanchet &amp; Gotman, <em>L’enquête et ses méthodes : l’entretien</em>, 2007</li>
+      <li>Chamboredon et al., « S’imposer aux imposants », <em>Genèses</em>, 1994</li>
+      <li>Darmon, « Le psychiatre, la sociologue et la boulangère », <em>Genèses</em>, 2005</li>
+      <li>Millette ; Reille, <em>Communication</em> 40/2, 2023</li></ul></div>
+    <div><h4>Enquêtes en contexte numérique</h4><ul>
+      <li>Casilli, Tubaro, Coville et al., <em>Le Micro-Travail en France</em>, DiPLab, 2019 (<strong>modèle du dossier</strong>)</li>
+      <li>Vétel, « Les travailleurs pauvres du jeu vidéo », <em>Réseaux</em>, 2018</li>
+      <li>Bruna, « Snapchat à l’adolescence », <em>Réseaux</em>, 2020</li>
+      <li>Jammet, « Calmer le râleur », <em>Terrains &amp; travaux</em>, 2019</li></ul></div>
+  </div>
+</section>
+
+<section id="glossaire">
+  <h2><span class="num">VIII</span>Glossaire</h2>
+  <dl class="gloss">
+    <dt>Analyse thématique</dt><dd>Méthode en 4 étapes : analyse inductive, grille de 5-6 thèmes, codage des citations, analyse du discours par thème</dd>
+    <dt>Carnet de terrain</dt><dd>Notes prises pendant l’observation, citées dans l’analyse</dd>
+    <dt>Codage</dt><dd>Associer un tag et une couleur à chaque citation qui relève d’un thème de la grille d’analyse</dd>
+    <dt>Commanditaire</dt><dd>Organisation qui commande l’enquête et reçoit les recommandations</dd>
+    <dt>Échantillonnage</dt><dd>Choix des personnes à interroger, selon les profils qu’on veut comparer</dd>
+    <dt>Entretien exploratoire</dt><dd>Premiers entretiens pour explorer le terrain, avant le questionnaire</dd>
+    <dt>Focus group</dt><dd>Entretien collectif : profils différents réunis, l’enquêteur anime</dd>
+    <dt>Grille d’analyse</dt><dd>Liste de 5 à 6 grandes thématiques (et sous-thèmes) à rechercher dans chaque entretien</dd>
+    <dt>Grille d’entretien</dt><dd>Traduit les questions de recherche en questions à poser, par thèmes, avec relances</dd>
+    <dt>Indépendance sociale</dt><dd>Absence de relation entre enquêteur et répondants, condition de réponses désintéressées</dd>
+    <dt>Inductif</dt><dd>Construire ses hypothèses à partir des données collectées, et non l’inverse</dd>
+    <dt>Indicateur</dt><dd>Chiffre construit selon des objectifs et des conventions (préféré à « dénombrement »)</dd>
+    <dt>« Petits mondes »</dt><dd>Milieux restreints où une personne reste identifiable même sans son nom</dd>
+    <dt>Portrait (encadré)</dt><dd>Encadré qui restitue la situation d’un enquêté : profil, enjeux, citations</dd>
+    <dt>Problématisation</dt><dd>Mise en question du sujet, qui oriente l’enquête et détermine les données</dd>
+    <dt>Posture située</dt><dd>Assumer que son enquête porte un point de vue socialement positionné, au lieu de la présenter comme neutre</dd>
+    <dt>Pseudonymisation</dt><dd>Remplacement du nom d’un enquêté par un pseudonyme ou un code</dd>
+    <dt>Relance</dt><dd>Question de suivi qui fait développer l’enquêté</dd>
+    <dt>Typologie</dt><dd>Catégories qui décrivent différentes manières de vivre une même situation</dd>
+    <dt>Tri à plat</dt><dd>Répartition des réponses à une seule question</dd>
+    <dt>Tri croisé</dt><dd>Croisement des réponses à deux questions</dd>
+    <dt>Variations concomitantes</dt><dd>Méthode de Durkheim : observer si deux variables évoluent ensemble</dd>
+    <dt>Verbatim</dt><dd>Citation mot pour mot d’une personne interrogée</dd>
+  </dl>
+</section>
+
+<section id="quiz">
+  <div class="qhead">
+    <h2><span class="num">?</span>Quiz de révision</h2>
+    <div class="score" aria-live="polite">Score <b id="sc">0</b> / <b id="tot">0</b> · <span id="left"></span></div>
+  </div>
+  <p>Clique sur une réponse : la correction et l’explication s’affichent tout de suite.</p>
+  <div id="qs"></div>
+  <div id="res" class="result" hidden></div>
+  <p style="margin-top:16px"><button class="btn" id="reset" type="button">Recommencer dans un autre ordre</button></p>
+</section>
+</main>
+</div>
+
+<script>
+const Q=[
+ {q:"Selon la règle d’or de la grille d’entretien, les questions doivent appeler des réponses…",o:["Justificatives (« pourquoi ? »)","Descriptives (« comment ? »)","Fermées (oui / non)","Chiffrées"],a:1,e:"On cherche des réponses descriptives : « comment ? » plutôt que « pourquoi ? », qui pousse l’enquêté à se justifier."},
+ {q:"Quelle durée le cours donne-t-il pour un entretien ?",o:["10 à 20 minutes","20 à 30 minutes","45 minutes à 2 heures","Une demi-journée"],a:2,e:"Généralement entre 45 minutes et 2 heures, en face à face, enregistré et transcrit. (La grille du groupe 3 vise 30 min.)"},
+ {q:"Qui a écrit « quantifier, c’est convenir puis mesurer » ?",o:["Émile Durkheim","Theodore Porter","Alain Desrosières","Edward Bernays"],a:2,e:"Alain Desrosières, La politique des grands nombres (1993) : derrière chaque chiffre il y a des conventions."},
+ {q:"Pourquoi le programme fait-il les entretiens AVANT le questionnaire ?",o:["Parce que c’est plus rapide","Pour construire de bonnes catégories pour le quanti","Parce que le quali est plus représentatif","Pour économiser des répondants"],a:1,e:"Le qualitatif sert à construire de bonnes catégories, c’est-à-dire de bonnes conventions, pour le questionnaire."},
+ {q:"Que dit la loi de Goodhart ?",o:["Plus l’échantillon est grand, plus il est fiable","Quand une mesure devient une cible, elle cesse d’être une bonne mesure","Un chiffre impressionne plus qu’un mot","Les sondages précèdent les relations publiques"],a:1,e:"Exemple du cours : l’école jugée sur son taux de réussite au bac qui écarte les élèves faibles au lieu de mieux enseigner."},
+ {q:"Au T4 2025, quel indicateur donne le plus GRAND nombre de chômeurs ?",o:["Chômeurs au sens du BIT","France Travail catégorie A","France Travail catégories A-B-C","Ils sont tous égaux"],a:2,e:"A-B-C : 5,753 M, car on y inclut les inscrits avec activité réduite. Cat. A : 3,348 M. BIT : 2,509 M."},
+ {q:"Un « tri croisé », c’est…",o:["La répartition des réponses à une seule question","Le croisement des réponses à deux questions","Le fait de supprimer les doublons","Un entretien collectif"],a:1,e:"Le tri à plat porte sur une question, le tri croisé croise deux questions : c’est lui qui produit les chiffres explicatifs."},
+ {q:"Dans Le suicide (1897), Durkheim utilise la méthode…",o:["Des variations concomitantes","De l’observation participante","Du focus group","Du sondage d’opinion"],a:0,e:"Il observe si deux variables évoluent ensemble : le taux de suicide baisse quand l’intégration sociale augmente."},
+ {q:"Lequel de ces points n’est PAS une bonne pratique éthique vue en cours ?",o:["Pseudonymiser les transcriptions","Supprimer les audios à la fin de l’enquête","Stocker les entretiens sur Google Drive","Protéger le questionnaire par une phrase de passe"],a:2,e:"Pas de stockage en ligne ni de données confiées aux GAFAM : transcriptions anonymisées partagées par clé USB."},
+ {q:"Que sont les « petits mondes » ?",o:["Les communautés en ligne","Des milieux où une personne reste identifiable même sans son nom","Les petits échantillons","Les marchés de quartier"],a:1,e:"Au marché Notre-Dame, un commerçant est facilement identifiable : il faut modifier les données identifiantes."},
+ {q:"L’entretien n’est PAS…",o:["Une situation construite et préparée","Une conversation orientée et enregistrée","Une interview journalistique","Un moyen de produire un discours"],a:2,e:"On ne cherche pas la petite phrase ni la réaction à chaud. Ce n’est pas non plus un questionnaire, une discussion informelle ou une occasion de se mettre en valeur."},
+ {q:"En entretien, les hypothèses se construisent de façon…",o:["Déductive, avant le terrain","Inductive, à partir des données","Aléatoire","Statistique"],a:1,e:"Posture compréhensive : l’entretien n’est pas là pour confirmer vos théories."},
+ {q:"Combien de signes doit faire le dossier (hors annexes) ?",o:["10 000 à 15 000","20 000 à 25 000","30 000 à 35 000","50 000 et plus"],a:2,e:"30 000 à 35 000 signes espaces compris, sur le modèle du rapport DiPLab."},
+ {q:"Quel plan est interdit pour le dossier ?",o:["Introduction / Méthodologie / Résultats","I. Enquête quanti / II. Enquête quali","Résultats par thèmes","Recommandations en fin de dossier"],a:1,e:"Chaque section thématique doit croiser quali et quanti."},
+ {q:"Quel mot est banni du dossier ?",o:["Usager","Impact / impacter","Commanditaire","Verbatim"],a:1,e:"Aucun « impact » ni « impacter » dans le texte."},
+ {q:"Qui a mené la campagne « Torches of Freedom » (1929) ?",o:["George Gallup","Ivy Lee","Edward Bernays","Gustave Le Bon"],a:2,e:"Bernays, pour Lucky Strike : la cigarette présentée aux femmes comme symbole d’émancipation."},
+ {q:"Pour Theodore Porter, on fait confiance aux chiffres parce qu’ils sont…",o:["Une « technologie de la distance »","Toujours exacts","Produits par l’État","Faciles à lire"],a:0,e:"Ils semblent effacer le jugement humain, donc paraître impartiaux (Trust in Numbers, 1995)."},
+ {q:"Un verbatim dans le dossier doit être…",o:["Placé en annexe uniquement","Précédé d’un contexte, légendé et suivi d’une analyse","Le plus long possible","Anonyme sans aucune indication de profil"],a:1,e:"Contexte, légende (pseudo, âge, genre, profession, ville) puis commentaire d’analyse, sans servir de simple illustration."},
+ {q:"Pour permettre des chiffres explicatifs, le questionnaire du marché doit contenir…",o:["Uniquement des questions ouvertes","Des variables de profil (âge, quartier, situation familiale…)","Des photos des étals","Le plan du marché"],a:1,e:"Sans questions de profil, aucun tri croisé n’est possible : c’est la condition rappelée avec Durkheim."},
+ {q:"Pourquoi est-ce un problème que des délégués fassent un questionnaire auprès de leur promo ?",o:["La promo est trop petite","Les répondants orientent leurs réponses pour préserver leur relation avec les délégués","Les délégués n’ont pas le droit d’utiliser LimeSurvey","Les réponses ne sont pas anonymes"],a:1,e:"Sans indépendance sociale, les gens répondent en pensant à la relation qu’ils ont avec l’enquêteur, pas de façon désintéressée."},
+ {q:"Vous avez fait des entretiens. Que faut-il éviter pour diffuser votre questionnaire ?",o:["Le diffuser en ligne","Le proposer aux personnes déjà interviewées et à vos contacts","Fixer une date de fin","Le faire relire"],a:1,e:"On perd la disjonction entre entretien et questionnaire : ces répondants ont un intérêt social à répondre d’une certaine manière."},
+ {q:"Comment se finance Framasoft, qui propose Framaforms ?",o:["Par la publicité","Par le ministère de l’Éducation","Par les dons de ses utilisateurs","Par Google"],a:2,e:"Comme Wikipédia, mais sans financement institutionnel : l’association reste indépendante de l’État, de Google et de Microsoft."},
+ {q:"Pourquoi éviter un champ libre « Autre » sur la plupart des questions ?",o:["LimeSurvey ne le permet pas","Il produit des dizaines de réponses toutes différentes, difficiles à traiter","Il rend le questionnaire illégal","Il ralentit le chargement"],a:1,e:"Sur 200 réponses, 50 « autre » rédigés différemment : qu’en fera-t-on ? Une simple case à cocher suffit souvent."},
+ {q:"Pourquoi fixer une date de fin au questionnaire ?",o:["Pour obtenir plus de réponses","Pour ne pas devoir refaire les analyses si des réponses arrivent pendant le traitement","C’est obligatoire sur LimeSurvey","Pour masquer les adresses IP"],a:1,e:"Si la collecte continue pendant l’analyse, la base change et il faut tout recalculer. On fixe des bornes et on les respecte."},
+ {q:"Quel est le modèle économique de X évoqué en cours ?",o:["L’abonnement payant","La rétention : confronter des opinions opposées pour garder les utilisateurs connectés","La vente de questionnaires","Le financement public"],a:1,e:"Les émotions et les discours virulents retiennent les utilisateurs plus longtemps, donc devant la publicité."},
+ {q:"Sur combien d’entretiens fait-on l’analyse inductive de départ (étape 1) ?",o:["1 seul","3 à 5","10","Tous les entretiens"],a:1,e:"Un échantillon de 3 à 5 entretiens, relus en entier et tagués, donne la longue liste de sujets."},
+ {q:"Combien de grandes thématiques doit compter la grille d’analyse ?",o:["2 ou 3","5 à 6","10 à 15","Autant que de sujets relevés"],a:1,e:"On regroupe les sujets en 5 à 6 grandes thématiques, avec parfois des sous-thèmes, et on supprime les sujets marginaux."},
+ {q:"Qu’obtient-on à l’étape 4, l’analyse du discours ?",o:["Un tri à plat","Des catégories et typologies : différentes manières de vivre une même situation","La transcription des entretiens","La liste des enquêtés"],a:1,e:"On compare les citations et les enquêtés thème par thème. Les ressemblances comptent autant que les différences."},
+ {q:"Quelle longueur pour un verbatim dans le rapport ?",o:["Une demi-page","Environ 1 à 5 lignes","Un seul mot","L’entretien entier en annexe"],a:1,e:"Sa concision montre qu’on a isolé le segment le plus pertinent. Il est situé et toujours suivi d’une analyse."},
+ {q:"Pour présenter les résultats du questionnaire, il vaut mieux…",o:["Faire une capture des graphiques de Framaforms","Refaire des visualisations lisibles en choisissant les chiffres à comparer","Tout mettre en annexe","Ne donner que des pourcentages dans le texte"],a:1,e:"Pas de capture d’écran : on choisit les chiffres, on soigne lisibilité et couleurs (tableaux, histogrammes, frises, cartes…)."},
+ {q:"À quoi sert l’encadré portrait d’un enquêté ?",o:["À lister tous les enquêtés","À restituer de façon concrète et incarnée la situation d’une personne","À présenter la méthodologie","À remplacer les verbatims"],a:1,e:"Comme l’encadré sur G. dans le rapport DiPLab : profil, enjeux, citations. Il garde la dimension humaine du terrain."},
+ {q:"Dans l’analyse thématique des entretiens, que fait-on après avoir listé les thèmes ?",o:["On résume chaque entretien séparément","On reprend tous les entretiens et on extrait chaque passage lié à chaque thème","On transforme les entretiens en questionnaire","On garde seulement l’entretien le plus riche"],a:1,e:"On travaille par thème, à travers tous les entretiens : les extraits rassemblés permettent de comparer les enquêtés."},
+ {q:"Combien de réponses au questionnaire vise-t-on pour le 17/11 ?",o:["Plus de 30","Plus de 50","Plus de 100","Plus de 500"],a:2,e:"Objectif : plus de 100 réponses (et plus de 15 entretiens côté quali)."}
+];
+const qs=document.getElementById('qs'),sc=document.getElementById('sc'),tot=document.getElementById('tot'),left=document.getElementById('left'),res=document.getElementById('res');
+let score=0,done=0,order=[];
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function upd(){sc.textContent=score;tot.textContent=Q.length;left.textContent=(Q.length-done)+" restante"+(Q.length-done>1?"s":"");
+ if(done===Q.length){res.hidden=false;const p=score/Q.length;
+  res.innerHTML="<strong>"+score+" / "+Q.length+"</strong><p style='margin:6px 0 0'>"+(p>=.85?"Très solide, tu peux passer au projet.":p>=.6?"Bonne base. Relis les sections où tu t’es trompé.":"Relis les séances 2, 4 et 6 puis recommence.")+"</p>"}}
+function render(first){score=0;done=0;res.hidden=true;qs.innerHTML="";order=first?Q.map((_,i)=>i):shuffle(Q.map((_,i)=>i));
+ order.forEach((qi,n)=>{const d=Q[qi],box=document.createElement('div');box.className='q';
+  box.innerHTML='<div class="qn">QUESTION '+String(n+1).padStart(2,'0')+'</div><div class="qt"></div><div class="opts"></div>';
+  box.querySelector('.qt').textContent=d.q;const os=box.querySelector('.opts');
+  d.o.forEach((t,k)=>{const b=document.createElement('button');b.type='button';b.className='opt';b.id='q'+qi+'o'+k;b.textContent=t;
+   b.onclick=()=>{os.querySelectorAll('button').forEach(x=>x.disabled=true);const ok=k===d.a;
+    b.classList.add(ok?'ok':'ko');os.children[d.a].classList.add('ok');if(ok)score++;done++;
+    const e=document.createElement('div');e.className='expl';e.innerHTML='<b class="'+(ok?'ok':'ko')+'">'+(ok?'Juste.':'Raté.')+'</b> ';
+    e.appendChild(document.createTextNode(d.e));box.appendChild(e);upd()};os.appendChild(b)});
+  qs.appendChild(box)});upd()}
+document.getElementById('reset').onclick=()=>{render(false);document.getElementById('quiz').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})};
+render(true);
+</script>
+</body>
+</html>

@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Communication scientifique S1</title>
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+</head>
+<body>
+<!-- Lien retour vers le sommaire (ajouté pour le site GitHub Pages) -->
+<nav style="font:600 14px/1 system-ui,-apple-system,'Segoe UI',sans-serif;padding:10px 16px;border-bottom:1px solid rgba(127,127,127,.3)"><a href="../" style="color:inherit;text-decoration:none">← Sommaire des cours</a></nav>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: une colonne de lecture façon article de revue, sommaire collant à gauche sur grand écran, quiz en fin de page */
+:root{
+  --bg:#f2f4f1; --surface:#fbfcfa; --ink:#18222b; --muted:#5b6670; --line:#d5dbd6;
+  --accent:#1d5c63; --accent-soft:#dcebea; --mark:#e9b949; --mark-soft:#f7ebc6;
+  --ok:#2c7a4b; --ok-soft:#dcefe3; --bad:#b23a3a; --bad-soft:#f6dede;
+  --display:"Newsreader",Georgia,"Times New Roman",serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12181d; --surface:#192127; --ink:#e4e9ec; --muted:#9aa6ae; --line:#2c373f;
+  --accent:#6fb8b9; --accent-soft:#1f3639; --mark:#e9b949; --mark-soft:#3a3220;
+  --ok:#6cc48f; --ok-soft:#1d3426; --bad:#e77c7c; --bad-soft:#3d2224; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12181d; --surface:#192127; --ink:#e4e9ec; --muted:#9aa6ae; --line:#2c373f;
+  --accent:#6fb8b9; --accent-soft:#1f3639; --mark:#e9b949; --mark-soft:#3a3220;
+  --ok:#6cc48f; --ok-soft:#1d3426; --bad:#e77c7c; --bad-soft:#3d2224; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.65 var(--body);margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:40px 80px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:56px}
+@media (max-width:820px){.wrap{grid-template-columns:minmax(0,1fr);gap:24px;padding-inline:16px;padding-block:24px 60px}nav.toc{display:none}}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);align-self:start;font-size:13.5px}
+nav.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:6px;border-left:1px solid var(--line)}
+nav.toc a{display:block;padding:2px 0 2px 14px;color:var(--muted);text-decoration:none}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent)}
+nav.toc .num{font-family:var(--mono);font-size:11.5px;margin-right:6px}
+main{min-width:0;max-width:700px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(2.3rem,6vw,3.4rem);line-height:1.05;margin:.3em 0 .35em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted);padding-block:14px;border-block:1px solid var(--line)}
+.meta b{color:var(--ink);font-weight:500}
+.abstract{font-family:var(--display);font-style:italic;font-size:1.18rem;line-height:1.55;margin:28px 0 0;color:var(--ink)}
+section{margin-top:64px;scroll-margin-top:24px}
+h2{font-family:var(--display);font-weight:600;font-size:1.85rem;line-height:1.15;margin:0 0 18px;display:flex;gap:14px;align-items:baseline;text-wrap:balance}
+h2 .num{font-family:var(--mono);font-size:.9rem;font-weight:500;color:var(--accent)}
+h3{font-size:1rem;font-weight:600;margin:28px 0 10px}
+p{margin:0 0 14px}
+ul.clean{margin:0;padding-left:1.1em;display:grid;gap:6px}
+ul.clean li::marker{color:var(--accent)}
+.muted{color:var(--muted)}
+.todo{display:inline-block;font-family:var(--mono);font-size:12px;background:var(--mark-soft);color:var(--ink);padding:2px 8px;border-radius:3px}
+mark{background:var(--mark-soft);color:inherit;padding:0 3px;border-radius:2px}
+
+/* Évaluation */
+.evals{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:20px}
+.eval{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;min-width:0}
+.eval .kind{font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.eval .big{font-family:var(--display);font-size:2.2rem;font-weight:600;line-height:1.1;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.eval .big small{font-size:1rem;font-family:var(--body);font-weight:400;color:var(--muted)}
+.bar{display:flex;height:28px;border-radius:4px;overflow:hidden;margin:14px 0 6px;font-family:var(--mono);font-size:11.5px}
+.bar span{display:flex;align-items:center;padding-left:8px;white-space:nowrap}
+.bar .a{flex:12;background:var(--accent);color:var(--surface)}
+.bar .b{flex:3;background:var(--mark);color:#18222b}
+.legend{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
+.eval ul{font-size:14.5px}
+.listen{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font-size:12.5px;border:1px solid var(--line);border-radius:99px;padding:2px 10px;color:var(--muted)}
+
+/* Objectifs */
+.facets{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:6px 0 10px}
+.facets div{background:var(--surface);padding:18px}
+.facets b{font-family:var(--display);font-size:1.25rem;font-weight:600;display:block}
+.facets span{font-size:13.5px;color:var(--muted)}
+@media (max-width:480px){.facets{grid-template-columns:1fr}}
+ol.questions{counter-reset:q;list-style:none;padding:0;margin:0;display:grid;gap:10px}
+ol.questions li{counter-increment:q;padding-left:40px;position:relative;font-family:var(--display);font-size:1.12rem;font-style:italic}
+ol.questions li::before{content:"Q" counter(q);position:absolute;left:0;top:3px;font-family:var(--mono);font-style:normal;font-size:12px;color:var(--accent)}
+
+/* Programme */
+.timeline{list-style:none;margin:0;padding:0;border-left:2px solid var(--line);margin-left:6px}
+.timeline li{position:relative;padding:0 0 18px 24px}
+.timeline li::before{content:"";position:absolute;left:-7px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.timeline li.done::before{background:var(--accent)}
+.timeline .code{font-family:var(--mono);font-size:12.5px;color:var(--accent);display:block}
+.timeline .t{font-weight:500}
+.event{margin-top:20px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px}
+.event .date{font-family:var(--mono);font-size:12.5px;color:var(--accent)}
+.event h3{margin:4px 0 4px;font-family:var(--display);font-size:1.3rem}
+.people{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px;font-size:14.5px}
+.people b{font-weight:600}
+
+/* Anatomie d'un article */
+.anatomy{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:24px;align-items:start}
+@media (max-width:640px){.anatomy{grid-template-columns:minmax(0,1fr)}}
+.paper{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:16px;display:grid;gap:6px;box-shadow:0 1px 0 var(--line),4px 4px 0 var(--accent-soft)}
+.paper div{font-size:13.5px;padding:6px 10px;border-radius:3px;border:1px dashed var(--line);display:flex;justify-content:space-between;gap:8px}
+.paper div span{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.paper .hl{border:1px solid var(--accent);background:var(--accent-soft);font-weight:600}
+.paper .tall{padding-block:18px}
+.method{display:grid;gap:14px}
+.method .item{border-top:1px solid var(--line);padding-top:12px}
+.method .k{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.method p{font-size:14.5px;margin:4px 0 0}
+
+/* Cercles de production */
+.circles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+@media (max-width:640px){.circles{grid-template-columns:minmax(0,1fr)}}
+.circle{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px;min-width:0}
+.circle .ring{width:34px;height:34px;border-radius:50%;border:2px solid var(--accent);display:grid;place-items:center;font-family:var(--mono);font-size:12px;color:var(--accent);margin-bottom:10px}
+.circle h3{margin:0 0 8px;font-family:var(--display);font-size:1.2rem;line-height:1.2}
+.circle ul{font-size:14.5px}
+.circle .tag{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:10px}
+
+/* Théorie */
+.etym{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 20px;margin:6px 0 8px}
+.etym .gr{font-family:var(--display);font-size:2rem;font-style:italic;line-height:1}
+.etym .tr{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.etym .def{min-width:0}
+.quote{font-family:var(--display);font-style:italic;font-size:1.15rem;border-left:3px solid var(--mark);padding:4px 0 4px 16px;margin:10px 0 16px}
+.modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:10px}
+@media (max-width:560px){.modes{grid-template-columns:minmax(0,1fr)}}
+.modes div{background:var(--surface);padding:16px;min-width:0}
+.modes b{font-family:var(--display);font-size:1.3rem;font-style:italic;font-weight:600;display:block}
+.modes .k{font-family:var(--mono);font-size:11.5px;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+.modes p{font-size:14.5px;margin:6px 0 0}
+.senses{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:10px}
+@media (max-width:560px){.senses{grid-template-columns:minmax(0,1fr)}}
+.sense{border-top:3px solid var(--accent);background:var(--surface);border-radius:0 0 6px 6px;padding:14px 16px;min-width:0}
+.sense.derive{border-top-color:var(--mark)}
+.sense .k{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.sense p{margin:6px 0 0;font-size:14.5px}
+.sense .ex{font-style:italic;color:var(--muted)}
+
+.vs{overflow-x:auto;margin-top:10px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.vs table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:440px}
+.vs th,.vs td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.vs tr:last-child td{border-bottom:0}
+.vs thead th{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:500}
+.vs thead th.sci{color:var(--accent)}
+.vs td:first-child{color:var(--muted);font-size:13.5px;width:26%}
+.vs td.pro{background:var(--mark-soft)}
+
+.logic{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 20px;margin-top:10px;display:grid;gap:10px}
+.logic .row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;align-items:baseline}
+.logic .k{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em}
+.logic .no .k{color:var(--bad)} .logic .yes .k{color:var(--ok)}
+.logic .no span:last-child{text-decoration:line-through;text-decoration-color:var(--bad);color:var(--muted)}
+.affairs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:12px}
+@media (max-width:600px){.affairs{grid-template-columns:minmax(0,1fr)}}
+.affair{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px;min-width:0}
+.affair .yr{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.affair h3{margin:2px 0 8px;font-family:var(--display);font-size:1.3rem}
+.affair .target{font-size:14.5px;margin-bottom:10px}
+.affair .ctx{font-size:13.5px;color:var(--muted);margin:10px 0 0}
+.authors{list-style:none;padding:0;margin:0;display:grid;gap:6px;font-size:14.5px}
+.authors li{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline}
+.authors .y{font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+.pairs{display:grid;gap:12px;margin-top:12px}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);border:1px solid var(--line);border-radius:6px;background:var(--surface);overflow:hidden}
+.pair>div{padding:14px 16px;min-width:0}
+.pair .vsx{display:grid;place-items:center;padding:0 6px;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:var(--bg);border-inline:1px solid var(--line)}
+.pair b{font-family:var(--display);font-size:1.15rem;font-weight:600;display:block}
+.pair p{margin:4px 0 0;font-size:14px}
+.flow{font-family:var(--mono);font-size:12.5px;color:var(--accent)}
+@media (max-width:560px){.pair{grid-template-columns:minmax(0,1fr)}.pair .vsx{padding:4px;border-inline:0;border-block:1px solid var(--line)}}
+.epis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:12px}
+@media (max-width:600px){.epis{grid-template-columns:minmax(0,1fr)}}
+.epi{border-top:3px solid var(--accent);background:var(--surface);border-radius:0 0 6px 6px;padding:14px 16px;min-width:0}
+.epi b{font-family:var(--display);font-size:1.2rem;font-weight:600}
+.epi p{font-size:13.5px;color:var(--muted);margin:6px 0 0}
+
+.postures{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px}
+@media (max-width:640px){.postures{grid-template-columns:minmax(0,1fr)}}
+.posture{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px;min-width:0}
+.posture .k{font-family:var(--mono);font-size:11.5px;color:var(--accent);letter-spacing:.04em}
+.posture h4{font-family:var(--display);font-size:1.3rem;font-weight:600;margin:4px 0 8px}
+.posture p,.posture li{font-size:14.5px}
+.clean-ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.clean-ol li::marker{color:var(--accent);font-family:var(--mono)}
+
+/* Consignes */
+.deadline{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;background:var(--mark-soft);border:1px solid var(--mark);border-radius:6px;padding:14px 18px;margin:4px 0 18px}
+.deadline b{font-family:var(--display);font-size:1.35rem;font-weight:600}
+.deadline span{font-size:14px}
+.steps{display:grid;gap:14px;margin-top:14px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 20px;min-width:0}
+.step .k{font-family:var(--mono);font-size:11.5px;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+.step h4{font-family:var(--display);font-size:1.25rem;font-weight:600;margin:2px 0 10px}
+.step p,.step li{font-size:14.5px}
+.step h5{font-size:13.5px;font-weight:600;margin:14px 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.note{border-left:3px solid var(--accent);background:var(--accent-soft);padding:10px 14px;border-radius:0 4px 4px 0;font-size:14px;margin:10px 0}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:8px}
+@media (max-width:600px){.two{grid-template-columns:minmax(0,1fr)}}
+.two>div{border:1px solid var(--line);border-radius:6px;padding:12px 14px;min-width:0;background:var(--bg)}
+.two b{display:block;margin-bottom:4px}
+.two p{margin:4px 0 0;font-size:13.5px}
+ol.plan{margin:0;padding-left:1.4em;display:grid;gap:4px}
+ol.plan li::marker{font-family:var(--mono);color:var(--accent)}
+.pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:8px}
+@media (max-width:560px){.pillars{grid-template-columns:minmax(0,1fr)}}
+.pillars div{background:var(--bg);padding:12px 14px;font-size:13.5px;min-width:0}
+.pillars b{display:block;font-size:14px}
+
+/* Glossaire */
+dl.gloss{margin:0;display:grid;gap:0;border-top:1px solid var(--line)}
+dl.gloss div{display:grid;grid-template-columns:220px minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+@media (max-width:520px){dl.gloss div{grid-template-columns:1fr;gap:4px}}
+dt{font-family:var(--display);font-weight:600;font-size:1.1rem}
+dd{margin:0}
+
+/* Quiz */
+.quiz-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 16px;margin-bottom:18px}
+.score{font-family:var(--mono);font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.progress{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin-bottom:24px}
+.progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;margin-bottom:14px}
+.q .qn{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.q .qt{font-weight:600;margin:4px 0 12px}
+.opts{display:grid;gap:8px}
+.opt{font:inherit;font-size:15px;text-align:left;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:10px 14px;cursor:pointer;display:flex;gap:10px;align-items:flex-start}
+.opt .l{font-family:var(--mono);font-size:12.5px;color:var(--muted);padding-top:2px}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt:disabled{cursor:default}
+.opt.ok{background:var(--ok-soft);border-color:var(--ok)}
+.opt.ok .l{color:var(--ok)}
+.opt.bad{background:var(--bad-soft);border-color:var(--bad)}
+.opt.bad .l{color:var(--bad)}
+.opt.dim{opacity:.55}
+.why{margin-top:12px;font-size:14px;padding:10px 14px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 4px 4px 0}
+.result{background:var(--accent);color:var(--surface);border-radius:6px;padding:24px;margin-top:8px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+.result .big{font-family:var(--display);font-size:2.4rem;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.result p{margin:4px 0 0}
+.btn{font:inherit;font-weight:500;font-size:14.5px;background:var(--surface);color:var(--accent);border:0;border-radius:4px;padding:10px 18px;cursor:pointer}
+.btn:focus-visible{outline:2px solid var(--mark);outline-offset:2px}
+footer{margin-top:48px;font-size:13px;color:var(--muted)}
+
+/* Illustrations : images libres (Wikimedia Commons) et schémas dessinés */
+.fig{margin:18px 0;min-width:0}
+.fig img{display:block;width:100%;height:auto;border-radius:4px;border:1px solid var(--line);background:var(--surface)}
+.fig figcaption{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.45}
+.fig .cr{display:block;font-family:var(--mono);font-size:11px;opacity:.85;margin-top:2px}
+.fig.narrow{max-width:300px}
+.figrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0;align-items:start}
+.figrow .fig{margin:0}
+.figrow.tall .fig img{aspect-ratio:3/4;object-fit:cover}
+.figrow.land .fig img{aspect-ratio:4/3;object-fit:cover}
+.side{display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:20px;align-items:start}
+.side .fig{margin:0}
+@media (max-width:560px){.side{grid-template-columns:minmax(0,1fr)}.side .fig{max-width:220px}}
+.schema{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px;margin:18px 0;overflow-x:auto}
+.schema svg{display:block;width:100%;min-width:600px;height:auto;color:var(--ink);font-family:var(--body)}
+.schema figcaption{font-size:13px;color:var(--muted);margin-top:8px}
+.schema .acc{fill:var(--accent)} .schema .accs{stroke:var(--accent)} .schema .soft{fill:var(--accent-soft)} .schema .marksoft{fill:var(--mark-soft)} .schema .mk{stroke:var(--mark)} .schema .mut{fill:var(--muted)} .schema .bg{fill:var(--bg)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Sommaire">
+    <ol>
+      <li><a href="#cadrage"><span class="num">I</span>Cadrage</a></li>
+      <li><a href="#consignes"><span class="num">↳</span>Rendu écrit · 10/11</a></li>
+      <li><a href="#objectifs"><span class="num">II</span>Objectifs</a></li>
+      <li><a href="#programme"><span class="num">III</span>Programme</a></li>
+      <li><a href="#articles"><span class="num">IV</span>Articles</a></li>
+      <li><a href="#structure"><span class="num">V</span>Structure d'un article</a></li>
+      <li><a href="#savoirs"><span class="num">VI</span>Production des savoirs</a></li>
+      <li><a href="#theorie"><span class="num">VII</span>Qu'est-ce qu'une théorie ?</a></li>
+      <li><a href="#sciencewars"><span class="num">VIII</span>Science Wars</a></li>
+      <li><a href="#methodes"><span class="num">IX</span>Méthodes scientifiques</a></li>
+      <li><a href="#limites"><span class="num">X</span>Limites prophète / scientifique</a></li>
+      <li><a href="#mediation"><span class="num">XI</span>Médiation scientifique</a></li>
+      <li><a href="#glossaire"><span class="num">XII</span>Glossaire</a></li>
+      <li><a href="#revisions"><span class="num">XIII</span>Révisions</a></li>
+      <li><a href="#quiz"><span class="num">?</span>Quiz</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <header>
+      <div class="eyebrow">Master SNC · IAE Poitiers · Semestre 1 · 2026-2027</div>
+      <h1>Communication scientifique</h1>
+      <div class="meta">
+        <span>Enseignant : <b>à compléter</b></span>
+        <span>Évaluation : <b>synthèse écrite + podcast</b></span>
+        <span>Séance 1 : <b>23/09/2026</b></span>
+      </div>
+      <p class="abstract">Deux façons de faire circuler la science : la publication académique, écrite par et pour les chercheurs, et la médiation scientifique, qui la raconte au public. Le cours apprend à lire la première de façon critique et à pratiquer la seconde.</p>
+    </header>
+
+    <section id="cadrage">
+      <h2><span class="num">I</span>Cadrage du cours</h2>
+      <p>Présenté en séance 1 (23/09/2026) : cadrage d'ensemble, évaluation, programme, articles à analyser, structure d'un article scientifique et de sa synthèse.</p>
+      <h3>Modalités d'évaluation</h3>
+      <div class="evals">
+        <div class="eval">
+          <div class="kind">1 · Individuel · écrit</div>
+          <div class="big">15-20 000 <small>signes</small></div>
+          <div>Carnet de bord analytique et critique : comment deux IA génératives synthétisent et commentent un article que tu as lu.</div>
+          <div class="legend" style="margin-top:12px">Ce que chaque IA doit produire :</div>
+          <div class="bar" role="img" aria-label="Synthèse de 12 000 signes et commentaire de 3 000 à 3 500 signes">
+            <span class="a">Synthèse 12 000</span><span class="b">3 000-3 500</span>
+          </div>
+          <div class="legend"><span>Synthèse : 12 000</span><span>Commentaire d'actualité : 3 000 à 3 500</span></div>
+          <ul class="clean" style="margin-top:12px">
+            <li><mark>PDF sur Upedago</mark>, mardi 10 novembre dernier délai.</li>
+            <li><a href="#consignes" style="color:var(--accent)">Voir les consignes détaillées</a></li>
+          </ul>
+        </div>
+        <div class="eval">
+          <div class="kind">2 · En binôme · oral</div>
+          <div class="big">6 <small>minutes</small></div>
+          <div>Podcast de médiation scientifique, en français de qualité professionnelle.</div>
+          <ul class="clean" style="margin-top:12px">
+            <li>Enregistré, monté et habillé (compétences vues avec Victor Dubin et Agathe Gallo).</li>
+            <li>Gros travail de script et de narration.</li>
+          </ul>
+          <div class="listen" aria-label="Écoutes conseillées">
+            <span class="chip">Le Code a changé</span><span class="chip">La Méthode scientifique</span><span class="chip">Série Documentaire</span><span class="chip">Un podcast à soi</span><span class="chip">La Terre au carré</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="consignes">
+      <h2><span class="num">I·b</span>Rendu écrit : synthèse et analyse critique de LLMs</h2>
+      <div class="deadline"><b>Mardi 10 novembre</b><span>PDF sur Upedago, dernier délai · carnet de bord de 15 000 à 20 000 signes espaces compris</span></div>
+      <p><b>Objectif</b> : analyser comment deux systèmes d'IA générative produisent la synthèse et le commentaire d'un article scientifique que <b>tu as lu toi-même</b>. La qualité de l'analyse dépend directement de la finesse de ta lecture.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="k">Étape préliminaire</div>
+          <h4>Lire et annoter l'article</h4>
+          <p>Avant toute interaction avec un LLM. Repère :</p>
+          <div class="chips"><span class="chip">question de recherche</span><span class="chip">cadre théorique</span><span class="chip">méthode</span><span class="chip">principaux résultats</span><span class="chip">limites identifiées par les auteurs</span></div>
+        </div>
+        <div class="step">
+          <div class="k">Étape 1.1 · Expérimentation</div>
+          <h4>Faire produire le texte par deux IA</h4>
+          <p>Choisis <b>deux services</b> dans la liste et note précisément <b>le modèle utilisé et la date</b>.</p>
+          <div class="chips"><span class="chip">Claude (Anthropic)</span><span class="chip">ChatGPT (OpenAI)</span><span class="chip">Gemini (Google)</span><span class="chip">Perplexity, service « Computer »</span><span class="chip">DeepSeek</span><span class="chip">Mistral Vibe (ex-« LeChat »)</span><span class="chip">Grok (SpaceXAI)</span></div>
+          <div class="two">
+            <div><b>Service</b><p>Le produit auquel tu accèdes (interface, site, appli) : Claude, ChatGPT, Gemini, Mistral. C'est une marque commerciale.</p></div>
+            <div><b>Modèle</b><p>Le système qui génère le texte, choisi dans un menu en haut de la conversation. Chez Anthropic, Claude est le service ; Opus 5, Sonnet 5 ou Haiku 4.5 sont des modèles.</p></div>
+          </div>
+          <h5>Texte à obtenir de chaque IA</h5>
+          <ul class="clean">
+            <li><b>Synthèse</b> de l'article : <b>12 000 signes</b>.</li>
+            <li><b>Commentaire</b> : <b>3 000 à 3 500 signes</b>, qui met l'article en lien avec l'actualité et montre comment les deux dialoguent.</li>
+          </ul>
+          <div class="note">Le <b>premier prompt</b> est rédigé par toi et <b>rigoureusement identique</b> sur les deux plateformes. Ensuite les échanges sont libres, autant que tu veux, jusqu'à un texte qui te satisfait. <b>Conserve l'intégralité des échanges.</b></div>
+        </div>
+        <div class="step">
+          <div class="k">Étape 1.2 · Analyse des interactions</div>
+          <h4>Raconter et comparer les échanges</h4>
+          <p>Une <b>narration comparée</b> du processus de production avec les deux LLM, appuyée sur des <b>captures d'écran commentées</b>, jusqu'au résultat jugé satisfaisant.</p>
+        </div>
+        <div class="step">
+          <div class="k">Étape 2.1 · Sources et fact-checking</div>
+          <h4>Vérifier tout ce qu'avance le premier texte</h4>
+          <p>Sur le <b>premier texte</b> de chaque LLM : citations, données, arguments. Si c'est attribué à une source, vérifie l'exactitude. Sinon, retrouve l'origine de l'argument ou du chiffre.</p>
+          <div class="two">
+            <div><b>Sources informationnelles</b><p>Pages institutionnelles, rapports d'organismes, baromètres, presse. Citées en <b>note de bas de page</b>, référence complète + <b>date de consultation</b>.</p></div>
+            <div><b>Sources académiques</b><p>Revues à comité de lecture (double aveugle), ouvrages, chapitres. Citées dans le texte <b>(Auteur, année)</b> + bibliographie finale <b>APA</b>.</p></div>
+          </div>
+          <h5>Évaluer une source</h5>
+          <ul class="clean">
+            <li>Qui est l'auteur, quel est son statut ?</li>
+            <li>Source <b>primaire</b> (elle produit la donnée) ou <b>secondaire</b> (elle la reprend) ?</li>
+            <li>Quel intérêt a celui qui publie, surtout une entreprise qui chiffre son propre secteur ?</li>
+            <li>Toujours <b>remonter à la source primaire</b> : un article de presse qui cite un rapport n'est pas le rapport.</li>
+          </ul>
+        </div>
+        <div class="step">
+          <div class="k">Étape 2.2 · Analyse critique des productions</div>
+          <h4>Comparer, puis confronter à l'article</h4>
+          <p>Sur le <b>premier texte</b> de chaque LLM. D'abord entre eux (contenu retenu, structure, complexité, nuances et limites), puis <b>confrontation systématique avec l'article</b>, en citant <b>page + paragraphe</b>. Pour chaque écart, nomme sa nature et son importance :</p>
+          <div class="chips"><span class="chip">omission</span><span class="chip">contresens</span><span class="chip">ajout non fondé</span><span class="chip">perte de nuance</span><span class="chip">déformation du cadre théorique</span></div>
+          <h5>Pour le commentaire d'actualité</h5>
+          <ul class="clean">
+            <li>Les rapprochements sont-ils pertinents et exacts ?</li>
+            <li>Les données sont-elles fiables et bien interprétées ?</li>
+            <li>L'article éclaire-t-il vraiment l'actualité, ou est-il seulement juxtaposé ?</li>
+          </ul>
+          <h5>Un jugement argumenté repose sur trois appuis</h5>
+          <div class="pillars">
+            <div><b>Observation précise</b>Le passage concerné et la page de l'article.</div>
+            <div><b>Raisonnement explicite</b>Pourquoi l'écart pose problème, ou non.</div>
+            <div><b>Appui documentaire</b>Dès qu'on dépasse la comparaison au texte, cité selon les règles de 2.1.</div>
+          </div>
+          <p class="muted" style="margin-top:10px;font-size:14px">« La synthèse de X est meilleure » ne vaut rien sans ces trois éléments.</p>
+        </div>
+        <div class="step">
+          <div class="k">Rendu final</div>
+          <h4>Le carnet de bord · 15 000 à 20 000 signes espaces compris</h4>
+          <ol class="plan">
+            <li><b>Introduction</b> : l'article en bref, les deux services et modèles retenus, et pourquoi.</li>
+            <li><b>Analyse critique des interactions</b> et du processus de production (étape 1).</li>
+            <li><b>Analyse critique des productions</b> (étape 2).</li>
+            <li><b>Conclusion réflexive.</b></li>
+            <li><b>Bibliographie</b> au format APA.</li>
+            <li><b>Annexes</b> : transcription complète des échanges avec les deux IA.</li>
+          </ol>
+        </div>
+      </div>
+      <p class="muted" style="margin-top:14px;font-size:14px">D'après « Synthèse écrite et analyse critique de LLMs », consignes reçues le 04/11.</p>
+    </section>
+
+    <section id="objectifs">
+      <h2><span class="num">II</span>Objectifs du cours</h2>
+      <h3>A. Deux grandes facettes</h3>
+      <div class="facets">
+        <div><b>Publications académiques</b><span>Ce que les chercheurs écrivent pour leurs pairs</span></div>
+        <div><b>Médiation scientifique</b><span>Ce qu'on en transmet au grand public</span></div>
+      </div>
+      <h3>B. Porter un regard analytique</h3>
+      <ol class="questions">
+        <li>De quelles institutions proviennent les discours ?</li>
+        <li>Sur quelles bases ces discours s'appuient-ils ?</li>
+        <li>Quels sont les formats de communication et leurs limites ?</li>
+        <li>Comment se structurent ceux qui remettent en cause les institutions scientifiques ?</li>
+      </ol>
+      <h3>C. Pour vos études</h3>
+      <ul class="clean">
+        <li>Travail individuel de réflexion et d'analyse.</li>
+        <li>Se familiariser avec la littérature scientifique anglophone, essentielle pour la communication en ligne et les pratiques numériques.</li>
+        <li>Acquérir des connaissances très récentes sur les pratiques et plateformes numériques.</li>
+        <li>Lire facilement et rapidement un article anglophone.</li>
+        <li>Identifier la structure d'un article pour en extraire l'essentiel, puis le restituer de façon analytique et critique, à l'écrit comme à l'oral.</li>
+      </ul>
+      <h3>D. Pour le monde professionnel</h3>
+      <p>Deux formats maîtrisés : la <b>synthèse analytique individuelle</b> et le <b>podcast de médiation en binôme</b>.</p>
+      <ul class="clean">
+        <li>Renforcer les compétences d'analyse informationnelle.</li>
+        <li>Expliquer simplement à l'oral un sujet complexe et scientifique.</li>
+        <li>Porter un regard critique et informé sur les méthodes et résultats d'études.</li>
+        <li>Renforcer les compétences linguistiques.</li>
+        <li>Développer une pensée critique autonome.</li>
+      </ul>
+    </section>
+
+    <section id="programme">
+      <h2><span class="num">III</span>Programme du semestre</h2>
+      <ol class="timeline">
+        <li class="done"><span class="code">CM intro · 23/09</span><span class="t">Cadrage du cours, objectifs, évaluation</span></li>
+        <li><span class="code">CM2</span><span class="t">Sociologie des professions scientifiques</span></li>
+        <li><span class="code">CM3</span><span class="t">Histoire de la production des savoirs scientifiques</span></li>
+        <li><span class="code">CM4</span><span class="t">Comment la science produit-elle des inégalités ?</span></li>
+        <li><span class="code">CM5</span><span class="t">La médiation scientifique : concepts et enjeux</span></li>
+        <li><span class="code">CM6</span><span class="t">Socioéconomie des plateformes de publication en ligne</span></li>
+        <li><span class="code">CM7</span><span class="t">Écoute et évaluation collective de vos podcasts</span></li>
+      </ol>
+      <div class="event">
+        <div class="date">Jeudi 19 novembre · après-midi · EMF</div>
+        <h3>Les Menstrueuses</h3>
+        <div>Thème : <b>technologies numériques et santé des femmes</b></div>
+        <ul class="people">
+          <li><b>Marie Lafargue</b>, maîtresse de conférences en droit privé (numérique, genre et santé)</li>
+          <li><b>Camille Hémet</b>, doctorante en sciences politiques</li>
+          <li><b>Laura Symul</b>, professeure en biostatistique, UCLouvain</li>
+          <li><b>Maïa Alexaline</b> et <b>Zélia Breton</b>, directrice scientifique et épidémiologiste-statisticienne chez Lyv</li>
+          <li><b>Paola Craveiro</b>, fondatrice de Vulvae, une app pour les douleurs vulvaires d'abord développée sous forme commerciale</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="articles">
+      <h2><span class="num">IV</span>Articles à analyser</h2>
+      <p><span class="todo">À compléter</span> <span class="muted">Notes à venir.</span></p>
+    </section>
+
+    <section id="structure">
+      <h2><span class="num">V</span>Structure d'un article scientifique</h2>
+      <p>Une structure plus ou moins visible selon les revues, mais presque toujours la même. C'est elle qu'on repère en premier pour extraire l'essentiel et construire la synthèse.</p>
+      <div class="anatomy">
+        <div class="paper" aria-label="Schéma d'un article">
+          <div>Résumé <span>abstract</span></div>
+          <div>Mots-clés <span>keywords</span></div>
+          <div>Introduction <span>intro</span></div>
+          <div class="hl">Méthodologie <span>methods</span></div>
+          <div class="tall">Corps de l'article <span>body</span></div>
+          <div>Conclusion <span>conclusion</span></div>
+          <div>Annexes académiques <span>appendix</span></div>
+        </div>
+        <div>
+          <div class="eyebrow" style="margin-bottom:8px">Exemple · article sur Axie Infinity</div>
+          <p style="font-size:14.5px">La méthodologie tient en trois points :</p>
+          <div class="method">
+            <div class="item"><div class="k">Corpus</div><p>Deux archives. D'un côté les documents fondateurs du jeu (surtout le <i>white paper</i>) et la presse ; de l'autre les posts de blogs, articles et le subreddit Axie Infinity, centrés sur deux moments de crise du jeu.</p></div>
+            <div class="item"><div class="k">Méthode</div><p>Approche qualitative empruntée aux <i>cultural studies</i> et à l'histoire des technologies : analyse conjoncturelle du white paper (le lire dans son contexte historique et politique) et suivi chronologique des réactions des joueurs aux crises.</p></div>
+            <div class="item"><div class="k">Éthique</div><p>Pas de consentement direct demandé (données publiques en ligne). En échange, les auteurs paraphrasent au lieu de citer et ne mettent pas de lien vers les posts contenant des infos personnelles sensibles (ex. candidatures au programme de « scholarship »).</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="savoirs">
+      <h2><span class="num">VI</span>La production des savoirs scientifiques</h2>
+      <p>Les principaux <b>cercles</b> où se produisent les savoirs scientifiques. Ils vont du cœur institutionnel de la recherche jusqu'aux collectifs qui travaillent en dehors des institutions.</p>
+      <div class="circles">
+        <div class="circle">
+          <div class="ring">1</div>
+          <h3>L'institution scientifique</h3>
+          <ul class="clean">
+            <li>Enquêtes</li>
+            <li>Expérimentations</li>
+          </ul>
+          <span class="tag">Labos, organismes de recherche</span>
+        </div>
+        <div class="circle">
+          <div class="ring">2</div>
+          <h3>Les formations universitaires</h3>
+          <ul class="clean">
+            <li>Mémoire de recherche</li>
+            <li>En entreprise : thèse <b>CIFRE</b> (convention industrielle de formation par la recherche)</li>
+            <li>Recherches hybrides <b>privé / public</b></li>
+          </ul>
+          <span class="tag">Étudiants, doctorants</span>
+        </div>
+        <div class="circle">
+          <div class="ring">3</div>
+          <h3>Les collectifs de recherche autonomes</h3>
+          <ul class="clean">
+            <li>Produisent du savoir en dehors des institutions</li>
+          </ul>
+          <span class="tag">Hors institution</span>
+        </div>
+      </div>
+      <p class="muted" style="margin-top:14px;font-size:14px">Notes de cours du 05/10. Le lien avec le programme (CM2 ou CM3) reste à préciser.</p>
+    </section>
+
+    <section id="theorie">
+      <h2><span class="num">VII</span>Théorie scientifique ou prophétique ?</h2>
+      <p>Avant de parler de « théorie scientifique », on revient au sens du mot. Il a changé de sens au fil de l'histoire, et en français il peut vouloir dire une chose et presque son contraire.</p>
+      <h3>Étymologie</h3>
+      <div class="etym">
+        <span class="gr">theôria</span><span class="tr">grec ancien</span>
+        <span class="def">contempler, observer, examiner</span>
+      </div>
+      <h3>Pythagore</h3>
+      <div class="side"><p class="quote">La théorie, c'est la contemplation dépassionnée d'une vérité rationnelle et immuable.</p><figure class="fig"><img src="img/pythagore.jpg" alt="Buste de Pythagore en marbre" loading="lazy"><figcaption>Pythagore, buste romain (musées du Capitole, Rome).<span class="cr">Wikimedia Commons · domaine public</span></figcaption></figure></div>
+      <h3>Aristote : trois manières de penser</h3>
+      <div class="side"><p>Aristote distingue la pensée contemplative des deux manières de penser tournées vers l'extérieur.</p><figure class="fig"><img src="img/aristote.jpg" alt="Buste d'Aristote en marbre" loading="lazy"><figcaption>Aristote, copie romaine d'un bronze de Lysippe (Palazzo Altemps, Rome).<span class="cr">Photo Jastrow · Wikimedia Commons · domaine public</span></figcaption></figure></div>
+      <div class="modes">
+        <div><span class="k">Contempler</span><b>Theôria</b><p>Pensée contemplative : créer de la connaissance pour elle-même.</p></div>
+        <div><span class="k">Agir</span><b>Praxis</b><p>Une manière de penser qui tend vers l'action.</p></div>
+        <div><span class="k">Produire</span><b>Poiesis</b><p>Une manière de penser qui tend vers la production.</p></div>
+      </div>
+      <h3>Un terme polysémique en français</h3>
+      <div class="senses">
+        <div class="sense"><span class="k">Sens initial</span><p>Un ensemble de règles <b>cohérentes avec l'observation</b> des phénomènes.</p><p class="ex">La théorie de l'évolution.</p></div>
+        <div class="sense derive"><span class="k">Sens dérivé</span><p>Sous-entend l'inverse : on a affaire à une <b>hypothèse non vérifiée</b>.</p><p class="ex">« Ce n'est qu'une théorie. »</p></div>
+      </div>
+      <h3>La théorie prophétique</h3>
+      <p>Elle a l'apparence d'une théorie, mais aucune de ses caractéristiques.</p>
+      <ul class="clean">
+        <li>Elle fait référence au <b>bon sens</b>, aux évidences, à quelques <b>observations ponctuelles</b>.</li>
+        <li>Pas de méthode d'identification des régularités qui soit <b>systématisée</b>.</li>
+        <li>Pas de <b>reproduction par autrui</b>.</li>
+        <li>Elle n'est donc <b>pas réfutable</b> : elle n'est ni vraie ni fausse.</li>
+        <li>Elle se situe <b>hors du cadre de la théorie aristotélicienne</b> : sa visée n'est pas la vérité.</li>
+        <li>Elle relève des pratiques des <b>sophistes</b>, des arts oratoires et rhétoriques : un exercice d'<b>emprise</b>, de prise de pouvoir sur autrui.</li>
+      </ul>
+      <h3>La théorie scientifique</h3>
+      <ul class="clean">
+        <li>Elle s'inscrit dans la <b>continuité de la théorie aristotélicienne</b>.</li>
+        <li>La méthode d'identification des régularités est <b>reproductible à l'identique par n'importe qui</b>.</li>
+        <li>Elle est par essence <b>réfutable</b> (falsifiable).</li>
+        <li>Elle est <b>rétroactive</b> : elle donne toujours les moyens de tenter de la contredire, afin d'en restreindre ou d'en préciser la portée.</li>
+        <li>Elle peut en sortir <b>renforcée</b>, ou bien <b>réfutée et remplacée</b> par une autre, plus vraie.</li>
+      </ul>
+      <div class="vs">
+        <table>
+          <thead><tr><th></th><th class="sci">Théorie scientifique</th><th>Théorie prophétique</th></tr></thead>
+          <tbody>
+            <tr><td>Cadre</td><td>Continuité de la théorie aristotélicienne</td><td class="pro">Hors du cadre aristotélicien</td></tr>
+            <tr><td>S'appuie sur</td><td>L'observation des phénomènes</td><td class="pro">Le bon sens, les évidences, quelques observations ponctuelles</td></tr>
+            <tr><td>Méthode</td><td>Identification systématique des régularités</td><td class="pro">Aucune méthode systématisée</td></tr>
+            <tr><td>Reproduction</td><td>Reproductible à l'identique par n'importe qui</td><td class="pro">Non reproduite par autrui</td></tr>
+            <tr><td>Statut</td><td>Réfutable par essence : elle donne les moyens de la contredire</td><td class="pro">Irréfutable : ni vraie ni fausse</td></tr>
+            <tr><td>Visée</td><td>La vérité : renforcée, ou remplacée par une théorie plus vraie</td><td class="pro">L'emprise, le pouvoir (sophistes, rhétorique)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted" style="margin-top:14px;font-size:14px">Notes de cours du 05/10. La ligne « S'appuie sur » de la colonne scientifique reprend le sens initial vu plus haut. Les exemples en italique sont ajoutés pour illustrer.</p>
+
+      <h3>Karl Popper : la falsifiabilité</h3>
+      <div class="etym">
+        <span class="gr">Logik der Forschung</span><span class="tr">Karl Popper · 1934</span>
+      </div>
+      <div class="side"><p>Popper fait de la <b>falsifiabilité</b> le critère de la théorie scientifique. Attention au contresens :</p><figure class="fig"><img src="img/popper.jpg" alt="Buste en bronze de Karl Popper" loading="lazy"><figcaption>Karl Popper (1902-1994), buste à l'université de Vienne.<span class="cr">Photo Hubertl · CC BY-SA 4.0</span></figcaption></figure></div>
+      <div class="logic">
+        <div class="row no"><span class="k">Ne veut pas dire</span><span>T est fausse.</span></div>
+        <div class="row yes"><span class="k">Veut dire</span><span><b>Si</b> T est fausse, <b>alors</b> T peut être démontrée comme fausse.</span></div>
+      </div>
+    </section>
+
+    <section id="sciencewars">
+      <h2><span class="num">VIII</span>Les Science Wars</h2>
+      <p>Des canulars publiés dans des revues académiques pour attaquer des courants de recherche jugés peu rigoureux.</p>
+      <div class="affairs">
+        <div class="affair">
+          <div class="yr">1996</div>
+          <h3>L'affaire Sokal</h3>
+          <div class="target">Cible : les <b>cultural studies</b> américaines et le <b>postmodernisme</b>.</div>
+          <figure class="fig narrow"><img src="img/alan-sokal.jpg" alt="Portrait d'Alan Sokal" loading="lazy"><figcaption>Alan Sokal en 2011.<span class="cr">Photo Yorgos Kourtakis · CC BY-SA 4.0</span></figcaption></figure>
+          <p class="ctx">Contexte ajouté : le physicien Alan Sokal fait publier un article parodique dans la revue <i>Social Text</i>, puis révèle le canular.</p>
+        </div>
+        <div class="affair">
+          <div class="yr">2017-2018</div>
+          <h3>L'affaire Grievance studies</h3>
+          <div class="target">Cible : les <b>gender studies</b>.</div>
+          <ul class="authors" aria-label="Auteurs des faux articles">
+            <li><b>Helen Wilson</b><span class="chip">pseudonyme</span><span class="y">2018</span></li>
+            <li><b>Richard Baldwin</b><span class="y">2018</span></li>
+            <li><b>M. Smith</b><span class="chip">pseudonyme</span><span class="y">2018</span></li>
+          </ul>
+          <p class="ctx">Contexte ajouté : canular mené par Peter Boghossian, James Lindsay et Helen Pluckrose, qui ont soumis une vingtaine de faux articles sous ces noms.</p>
+        </div>
+      </div>
+      <p class="muted" style="margin-top:14px;font-size:14px">Notes de cours du 05/10. Les lignes « Contexte ajouté » ne viennent pas des notes.</p>
+    </section>
+
+    <section id="methodes">
+      <h2><span class="num">IX</span>Les méthodes scientifiques</h2>
+      <p>Les principales dimensions des méthodes scientifiques se présentent par paires opposées.</p>
+      <div class="pairs">
+        <div class="pair">
+          <div><b>Expérimentale</b><p>On provoque le phénomène dans des conditions contrôlées.</p></div>
+          <div class="vsx">vs</div>
+          <div><b>Par observation in vivo</b><p>On observe le phénomène là où il se produit.</p></div>
+        </div>
+        <div class="pair">
+          <div><b>Hypothético-déductive</b><p class="flow">hypothèse → vérification empirique</p></div>
+          <div class="vsx">vs</div>
+          <div><b>Inductive</b><p class="flow">observation empirique → théorisation</p></div>
+        </div>
+        <div class="pair">
+          <div><b>Quantitative</b><p>Données formalisées à des fins de <b>mesures statistiques</b>.</p></div>
+          <div class="vsx">vs</div>
+          <div><b>Qualitative</b><p>Données formatées pour <b>créer des classifications</b> et préciser des qualifications.</p></div>
+        </div>
+      </div>
+      <p style="margin-top:12px">Dans les deux cas, quantitatif comme qualitatif, il faut <b>un grand nombre de données</b>.</p>
+      <h3>Différentes épistémologies</h3>
+      <div class="epis">
+        <div class="epi"><b>Positivisme</b><p>Contexte ajouté : la réalité existe indépendamment du chercheur, on la connaît en observant et en mesurant des faits.</p></div>
+        <div class="epi"><b>Constructivisme</b><p>Contexte ajouté : la connaissance est construite par le chercheur et les acteurs, elle ne reflète pas une réalité extérieure.</p></div>
+        <div class="epi"><b>Interprétativisme</b><p>Contexte ajouté : on cherche à comprendre le sens que les acteurs donnent à leurs actions.</p></div>
+      </div>
+      <p class="muted" style="margin-top:14px;font-size:14px">Notes de cours du 05/10. Les définitions de la première paire et des trois épistémologies sont ajoutées, tes notes ne donnaient que les noms.</p>
+    </section>
+
+    <section id="limites">
+      <h2><span class="num">X</span>Les limites du découpage strict prophète / scientifique</h2>
+      <p>Opposer strictement théorie prophétique et théorie scientifique a ses limites. Dans les médias, des postures types brouillent la frontière.</p>
+      <h3>Les postures médiatiques types</h3>
+      <p>Elles comportent des <b>risques catastrophiques</b> :</p>
+      <ul class="clean">
+        <li><b>réputationnels</b> pour le locuteur ou la locutrice ;</li>
+        <li><b>pédagogiques</b> pour les audiences.</li>
+      </ul>
+      <div class="postures">
+        <div class="posture">
+          <div class="k">A · ex. Didier Raoult</div>
+          <h4>Posture à géométrie variable</h4>
+          <p>Deux discours séparés par des espaces institutionnels différents :</p>
+          <ol class="clean-ol">
+            <li><b>Réseaux socionumériques et médias de masse traditionnels</b> : des opinions et théories « prophétiques » sont formulées.</li>
+            <li><b>Espaces scientifiques institutionnels et médiatiques</b> (colloques, articles, médiation scientifique…) : des débats et théories scientifiques sont alimentés.</li>
+          </ol>
+        </div>
+        <div class="posture">
+          <div class="k">B · ex. Robert F. Kennedy Jr (médecine), Charlie Kirk (université)</div>
+          <h4>Posture « gloubi-boulga »</h4>
+          <p>Une personne, un seul discours, qui mélange des genres épistémologiques incohérents entre eux :</p>
+          <ul class="clean">
+            <li><b>Ex. 1</b> : communication scientifique sur la forme, mais contenus issus de théories prophétiques.</li>
+            <li><b>Ex. 2</b> : revendication d'un statut d'expert·e ou d'une légitimité scientifique (diplômes, titres…), accompagnée d'un discours « prophétique ».</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Les exemples de la diapo</h3>
+      <ul class="clean">
+        <li><b>Nature</b>, « Trump links autism and Tylenol: is there any truth to it? » (Helen Pearson et Heidi Ledford, 22 septembre 2025). Le président américain répète « Don't take Tylenol », alors que les scientifiques jugent les preuves d'un lien entre ce médicament et l'autisme insuffisantes.</li>
+        <li>Une photo de <b>Donald Trump et Charlie Kirk</b> à un meeting de Turning Point Action, et une photo de <b>Robert F. Kennedy Jr</b> au pupitre.</li>
+        <li><b>Le Monde</b> (avec AFP, 20 septembre 2025) : « Bernard Arnault qualifie Gabriel Zucman de “militant d'extrême gauche” qui cherche à “mettre à terre l'économie française” ». Le PDG de LVMH juge l'analyse fiscale de l'économiste « biaisée » ; Zucman répond que « la fébrilité n'autorise pas la calomnie » et nie toute appartenance à un parti.</li>
+        <li>L'affiche du film <b><i>Merci Patron !</i></b>.</li>
+      </ul>
+      <h3>La logique de saturation cognitive par les médias</h3>
+      <div class="etym">
+        <span class="gr">Post-truth</span><span class="tr">post-vérité · 2016-2022</span>
+      </div>
+      <ul class="clean">
+        <li>Issue du livestream <b>War Room</b> de <b>Steve Bannon</b>.</li>
+        <li>Énonciation de <b>vérités alternatives</b> qui reprennent des contenus d'Internet, à un <b>rythme rapide, à la chaîne</b>.</li>
+        <li>Le public est saturé : il n'a plus le temps de vérifier chaque affirmation.</li>
+      </ul>
+      <p class="muted" style="font-size:14px;margin-top:12px">Contexte ajouté : Bannon a résumé cette stratégie par la formule « flood the zone » (inonder la zone d'informations). « Post-truth » a été élu mot de l'année 2016 par le dictionnaire Oxford.</p>
+      <p class="muted" style="margin-top:14px;font-size:14px">Notes et diapo du cours du 05/10. Le cours ne précise pas quelle posture chaque exemple illustre. La place exacte de la saturation cognitive dans le plan reste à préciser. La dernière puce et la ligne « Contexte ajouté » ne viennent pas du cours.</p>
+    </section>
+
+    <section id="mediation">
+      <h2><span class="num">XI</span>La médiation scientifique</h2>
+      <p class="muted" style="font-size:14px">Cours du 04/11, notes et diapos.</p>
+      <h3>Comment définir la médiation ?</h3>
+      <ul class="clean">
+        <li>C'est une <b>activité communicationnelle</b>.</li>
+        <li>Elle vise à <b>mettre en relation</b> et à <b>produire du sens</b>.</li>
+        <li>Le médiateur occupe un <b>rôle de tiers</b>, d'intermédiaire entre plusieurs acteurs, ou entre un public et des connaissances.</li>
+        <li>Il facilite la <b>diffusion</b> et la <b>transmission</b> de connaissances, et accompagne un public à <b>s'approprier</b> des connaissances : faire sens de contenus spécifiques, en fonction de ses ressources, de sa culture et de son expérience.</li>
+      </ul>
+      <h3>Une évolution au XXe siècle</h3>
+      <p>Le paradigme de l'individu « acteur de sa découverte ». Les CCSTI (centres de culture scientifique, technique et industrielle) sont des lieux <b>sans collections</b>, donc sans mission de conservation du patrimoine. Créés dans les années 80 sous l'impulsion de Giscard, ils servent une stratégie nationale pour favoriser l'appropriation et l'acceptabilité des innovations techniques par la population. Leur mission est <b>éducative</b> : médiation scientifique, diffusion des savoirs et <b>mise en culture des sciences</b>.</p>
+      <h3>Enjeux contemporains</h3>
+      <ul class="clean">
+        <li>Les SHS sont le <b>parent pauvre</b> de la médiation.</li>
+        <li>Les scientifiques sont rarement de « bons clients » pour les médias. Les journalistes sollicitent plus facilement des « experts » liés à des think tanks, à des organisations professionnelles ou à des lobbys. La médiation se transforme alors en <b>influence</b> (exemple actuel : l'IA).</li>
+        <li>Depuis le Covid, le rôle de médiation a été largement abandonné par le gouvernement.</li>
+        <li>Les discours scientifiques sont en <b>concurrence</b> avec la désinformation, parfois produite par l'État (attaques contre le CDC aux États-Unis).</li>
+      </ul>
+      <h3>Analyser un extrait (fictif) sur le Big Data</h3>
+      <p>Le Big Data est un phénomène <b>socio-technique</b>, qui repose sur l'interaction entre technologie, analyse et mythologie. Pour danah boyd et Kate Crawford, ce n'est pas qu'une technique : c'est aussi une <b>croyance</b>, l'idée que plus on a de données, plus on s'approche de la vérité.</p>
+      <p>Les problèmes de l'extrait, à éviter :</p>
+      <ul class="clean">
+        <li>Une <b>définition savante</b> dès l'entrée, avant même d'avoir lancé le podcast.</li>
+        <li>Une <b>traduction littérale</b> de l'anglais, sans reformulation : un copier-coller traduit.</li>
+        <li>Des adjectifs (« passionnant », « brillantes », « a révolutionné ») qui font de la médiation une <b>célébration</b> de la science.</li>
+        <li>Une <b>injonction morale</b> (« méfiez-vous ! ») sans clés de compréhension.</li>
+        <li>Des <b>savoirs non situés</b> : qui sont ces chercheuses, spécialistes de quoi, publié où, quand, sur quel pays ?</li>
+      </ul>
+      <p>Ce qu'on pourrait faire : <b>simplifier</b> le Big Data, l'<b>ancrer</b> dans des pratiques quotidiennes, <b>montrer concrètement</b> ce que fait la recherche plutôt que de qualifier sa valeur, et <b>situer</b> la recherche. Ne pas dire « ne touchez pas à cet objet ! », mais « on l'utilise tous les jours, et on ne sait pas vraiment comment il a été conçu ».</p>
+      <h3>Apprivoiser les concepts</h3>
+      <p>En médiation, on ne se contente pas de donner une définition : il faut la <b>mettre en récit</b> et l'ancrer dans les pratiques des publics. Exemple : chaque trace numérique (une écoute, une recherche, un pas compté) ne dit pas grand-chose. Des milliards de traces, analysées par des machines, dessinent des tendances : c'est le Big Data.</p>
+      <h3>Exercices</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="k">Exercice 1</div>
+          <h4>L'article en une phrase</h4>
+          <p>Relis l'abstract, puis complète le gabarit <b>sans reprendre un seul mot</b> du résumé : « [Qui] a étudié [quoi] à partir de [quel matériau] pour comprendre [quelle question]. Elle ou il montre que [résultat principal]. »</p>
+        </div>
+        <div class="step">
+          <div class="k">Exercice 2</div>
+          <h4>Chasser le jargon, apprivoiser les concepts</h4>
+          <p>Relève <b>3 à 5 concepts</b> sans lesquels l'article ne tient pas. Pour chacun, rédige une <b>reformulation en mots de tous les jours</b> et un <b>exemple concret</b>. Exemple du cours : « digital divide » (fracture numérique), reformulé en « tout le monde n'a pas le même accès aux technologies, ni la même aisance », illustré par des démarches administratives 100 % dématérialisées.</p>
+        </div>
+        <div class="step">
+          <div class="k">Exercice 3</div>
+          <h4>La fabrique des images</h4>
+          <p>À partir de l'idée principale de l'article, rédige <b>trois images</b> : une <b>métaphore</b> (une seule image pour l'idée centrale), une <b>comparaison</b> (rapprocher le phénomène d'une pratique connue, hors numérique si possible) et un <b>exemple incarné</b> (un cas, une personne, un objet plutôt qu'une généralité). Exemple du cours : « une donnée ne tombe pas du ciel, quelqu'un a décidé quoi compter et comment », illustré par la photo de vacances (le cadrage construit la photo) et par le sondage au café.</p>
+        </div>
+      </div>
+      <p class="muted" style="margin-top:14px;font-size:14px">Le travail se fait en binôme, sur l'un des deux articles choisis. Il faut mettre en œuvre différentes techniques de médiation.</p>
+      <h3>Repères historiques : musées, éducation et zoos humains</h3>
+      <div class="side"><p>L'affiche officielle de l'Exposition de 1931 montre déjà la mise en scène de l'altérité : « le tour du monde en un jour », des visages présentés comme des types humains.</p><figure class="fig"><img src="img/expo-coloniale-1931.jpg" alt="Affiche de l'Exposition coloniale internationale de Paris, 1931" loading="lazy"><figcaption>Affiche de l'Exposition coloniale internationale, Paris, 1931.<span class="cr">Victor Jean Desmeures · Paris Musées · CC0</span></figcaption></figure></div>
+      <ul class="clean">
+        <li>Au XIX<sup>e</sup> siècle, l'ouverture des musées au public est liée à la naissance des États-nations. Les musées diffusent un récit historique national et homogène, pour créer un <b>sentiment national</b>.</li>
+        <li>L'éducation populaire est présentée comme une <b>mission civilisatrice</b> envers les classes populaires. Des guides destinés aux ouvriers leur apprennent comment s'habiller et se comporter, pour façonner le citoyen occidental idéal.</li>
+        <li>En 1931, l'<b>Exposition coloniale internationale</b> de Paris présente des <b>zoos humains</b> : une centaine de Kanaks (Nouvelle-Calédonie) sont recrutés sous un faux prétexte, amenés à Paris par bateau, et plusieurs meurent pendant la traversée. Sur place, certains sont dévêtus et forcés de jouer le rôle de « cannibales féroces » pour les visiteurs du Jardin d'acclimatation.</li>
+        <li>La vulgarisation a alors servi à construire une opposition « nous » / « eux » (l'altérité). Le terme historique est celui d'« expositions d'ethnographie coloniale ».</li>
+      </ul>
+      <h3>Une brève chronologie de la médiation scientifique</h3>
+      <ul class="clean">
+        <li><b>1937</b> : le <b>Palais de la Découverte</b> (Paris) sort la science des laboratoires et la montre sous forme de spectacles.</li>
+        <li><b>1969</b> : l'<b>Exploratorium</b> (San Francisco) invente les expositions « hands-on ». Toucher, jusque-là interdit, devient un mode de visite.</li>
+        <li><b>1979</b> : premier <b>CCSTI</b> en France, <b>La Casemate</b> à Grenoble (centre de culture technique, scientifique et industrielle, tel qu'écrit sur la diapositive).</li>
+        <li><b>1986</b> : la <b>Cité des sciences et de l'industrie</b> ouvre à Paris.</li>
+      </ul>
+      <div class="figrow land"><figure class="fig"><img src="img/palais-decouverte.jpg" alt="Grand hall du Palais de la Découverte" loading="lazy"><figcaption><b>1937</b> · Palais de la Découverte, le grand hall.<span class="cr">Photo Thesupermat · CC BY-SA 4.0</span></figcaption></figure><figure class="fig"><img src="img/exploratorium.jpg" alt="Entrée de l'Exploratorium, Pier 15, San Francisco" loading="lazy"><figcaption><b>1969</b> · Exploratorium, San Francisco (site actuel, Pier 15).<span class="cr">Photo Mike Peel · CC BY-SA 4.0</span></figcaption></figure><figure class="fig"><img src="img/casemate.jpg" alt="Façade de La Casemate à Grenoble" loading="lazy"><figcaption><b>1979</b> · La Casemate, Grenoble, premier CCSTI.<span class="cr">Photo Milky · Licence Art Libre</span></figcaption></figure><figure class="fig"><img src="img/cite-sciences.jpg" alt="Intérieur de la Cité des sciences et de l'industrie" loading="lazy"><figcaption><b>1986</b> · Cité des sciences et de l'industrie, Paris.<span class="cr">Photo Adjoajo · CC BY-SA 3.0</span></figcaption></figure></div>
+      <h3>Deux conceptions de la médiation</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="k">Approche classique</div>
+          <h4>Proche de la vulgarisation</h4>
+          <p>Visée institutionnelle : <b>diffuser</b> le savoir des scientifiques vers les profanes. Modèle <b>vertical</b>, qui ne remet pas en question la séparation entre savants et publics.</p>
+        </div>
+        <div class="step">
+          <div class="k">Approche critique</div>
+          <h4>Proche de l'éducation populaire</h4>
+          <p>Visée <b>émancipatrice</b> : permettre aux publics de <b>s'approprier</b> les savoirs, de leur donner du sens, et même de <b>participer</b> à leur production.</p>
+        </div>
+      </div>
+      <h3>À retenir pour la suite du cours</h3>
+      <p>La médiation du XIX<sup>e</sup> siècle, comme la vulgarisation, s'est déroulée dans des <b>hiérarchies sociales et raciales</b> qui définissent qui est l'objet du savoir et qui a la <b>légitimité</b> pour le détenir. Ces hiérarchies apparaissent encore dans les musées et les dispositifs de médiation actuels. Les pratiques de médiation doivent donc rester attentives aux hiérarchies qu'elles peuvent maintenir ou renforcer.</p>
+      <h3>L'édition scientifique (cours du 12/11)</h3>
+      <p>Derrière une revue scientifique, il y a d'abord des <b>enseignants-chercheurs et des chercheurs CNRS bénévoles</b>. Leur travail vise le triomphe de la vérité scientifique, pas la gloire.</p>
+      <ul class="clean">
+        <li>La plupart du temps, une revue scientifique est <b>non lucrative</b> : les maigres « bénéfices » sont réinjectés dans son fonctionnement.</li>
+        <li>Toute la chaîne de production repose donc sur un <b>bénévolat</b> de personnes qui trouvent du temps libre en dehors de leurs activités d'enseignement : gestion administrative de leur structure, recherche de financements, collecte et analyse de données, veille sur l'édition de leur domaine, lecture de tout ce qui est publié sur leur sujet, participation à des colloques pour s'informer et réseauter.</li>
+        <li>L'enjeu économique est de <b>commercialiser un numéro à intervalle régulier</b>. Le nombre de numéros publiés par an conditionne le modèle économique, et le travail éditorial n'est pas le même selon ce rythme.</li>
+        <li>Exemples : la revue <b>Hermès</b> publie 3 numéros thématiques par an, de 30 articles de 6 à 10 pages environ ; la revue <b>Questions de communication</b> publie 2 numéros thématiques par an, de 5 à 8 articles de 16 à 20 pages.</li>
+      </ul>
+      <h3>La diversité des théories empiristes</h3>
+      <p>Au-delà de l'opposition entre théories scientifiques et prophétiques, toute théorie est d'abord une <b>identification de régularités</b>. Les pratiques empiriques dites « traditionnelles » peuvent être réappropriées sous forme de théorie scientifique, mais ce passage pose plusieurs questions :</p>
+      <ul class="clean">
+        <li><b>Collecte systématique de preuves ?</b> Souvent oui, mais sur un temps très long (plusieurs générations).</li>
+        <li><b>Analyse reproductible et réfutable ?</b> Oui quand elle repose sur des essais-erreurs validés sur un temps long. Non quand des interprétations prophétiques émergent et se mêlent aux validations, puis fusionnent dans des pratiques culturelles et des croyances stabilisées.</li>
+        <li><b>Validation par une institution scientifique ?</b> Non : la validation repose souvent sur une autorité sociale d'un autre type, souvent religieuse, thérapeutique, et/ou liée à des hiérarchies d'âge, d'ancienneté, de genre ou d'ethnie.</li>
+        <li>Les analyses « traditionnelles » sont <b>réexplorées puis réadaptées</b> selon des critères scientifiques, avec un <b>risque d'appropriation culturelle</b> de ces savoirs, sans prise en compte des impacts rétroactifs sur les cultures sources.</li>
+        <li>Ce regain d'intérêt des Occidentaux pour ces théories est souvent tardif, sauf si une industrialisation simple a été rapidement possible.</li>
+      </ul>
+      <figure class="schema"><svg viewBox="0 0 660 210" role="img" aria-label="Entre théorie prophétique et théorie scientifique, les savoirs empiriques traditionnels forment un continuum : régularités observées sur des générations, validées par une autorité sociale plutôt que par une institution scientifique.">
+<defs><linearGradient id="cg" x1="0" x2="1"><stop offset="0" stop-color="#e9b949"/><stop offset="1" stop-color="#1d5c63"/></linearGradient>
+<marker id="ca" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+<rect x="20" y="62" width="620" height="14" rx="7" fill="url(#cg)"/>
+<text x="20" y="44" font-size="13" font-weight="600" fill="currentColor">Théorie prophétique</text>
+<text x="20" y="98" font-size="11.5" class="mut">bon sens, observations ponctuelles</text>
+<text x="20" y="114" font-size="11.5" class="mut">irréfutable, vise l'emprise</text>
+<text x="640" y="44" font-size="13" font-weight="600" fill="currentColor" text-anchor="end">Théorie scientifique</text>
+<text x="640" y="98" font-size="11.5" class="mut" text-anchor="end">méthode reproductible</text>
+<text x="640" y="114" font-size="11.5" class="mut" text-anchor="end">réfutable, validée par l'institution</text>
+<circle cx="330" cy="69" r="11" class="bg" stroke="currentColor" stroke-width="2"/>
+<text x="330" y="44" font-size="13" font-weight="600" fill="currentColor" text-anchor="middle">Savoirs empiriques « traditionnels »</text>
+<path d="M330 82 V122" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/><text x="330" y="138" font-size="11.5" fill="currentColor" text-anchor="middle">régularités observées sur des générations</text>
+<text x="330" y="154" font-size="11.5" fill="currentColor" text-anchor="middle">validées par une autorité sociale (religieuse, thérapeutique…)</text>
+<path d="M360 188 H510" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3" fill="none" marker-end="url(#ca)"/>
+<text x="352" y="192" font-size="11.5" class="mut" text-anchor="end">réappropriation par la science occidentale :</text>
+<text x="518" y="186" font-size="11.5" fill="currentColor">risque d'appropriation</text>
+<text x="518" y="201" font-size="11.5" fill="currentColor">culturelle</text>
+</svg><figcaption>Schéma de synthèse : le cours ne présente pas une frontière nette mais un continuum. Les pratiques empiriques s'y situent au milieu, et leur passage vers la science pose la question de l'appropriation culturelle.</figcaption></figure>
+      <p class="muted" style="font-size:14px">Posture à risque à repérer : ethnocentrisme et appropriation culturelle, sans égard pour les rétroactions sur les cultures sources.</p>
+      <h3>Exemples développés à l'oral (cours du 12/11)</h3>
+      <div class="side"><p>Sur la photo, le motif du haut a été piqué à la main selon la méthode traditionnelle, les deux du bas à la machine : même motif, pratique sociale différente.</p><figure class="fig"><img src="img/sak-yant.jpg" alt="Dos tatoué de motifs sak yant" loading="lazy"><figcaption>Tatouages sak yant, Thaïlande.<span class="cr">Photo Ryaninuk · CC BY-SA 3.0</span></figcaption></figure></div>
+      <p class="muted" style="font-size:14px">Reconstitué à partir d'une transcription vocale très bruitée : les noms propres et les chiffres sont à vérifier.</p>
+      <ul class="clean">
+        <li><b>Les tatouages sacrés d'Asie du Sud-Est</b> (sak yant) : ils sont faits par des maîtres avec une tige métallique frappée, et non à la machine électrique. C'est plus long et plus douloureux, mais c'est pour des raisons culturelles : les boxeurs qui les portent y cherchent une protection contre le mauvais œil. Le savoir se transmet de maître à disciple. Quand des célébrités occidentales reprennent seulement les motifs, la pratique change complètement d'univers social : elle devient mode, visibilité médiatique et industrie culturelle. C'est l'<b>appropriation culturelle</b>.</li>
+        <li>Une pratique empirique validée par une autorité sociale (religieuse ou thérapeutique) peut se <b>stabiliser en culture</b> sur des générations. Un protocole scientifique occidental donnerait peut-être des résultats négatifs, mais la pratique reste fondée sur des observations : entre prophétie et science, il y a un <b>continuum</b>.</li>
+        <li><b>La transe étudiée par la science</b> : une chercheuse française, initiée à une pratique de transe, a travaillé avec des neurologues (Suisse, Belgique) pour mesurer par électroencéphalogramme (EEG) ce qui se passe dans le cerveau pendant la transe, et montrer qu'il s'agit d'un état cérébral distinct.</li>
+      </ul>
+      <h3>Comment fonctionne une revue scientifique</h3>
+      <figure class="schema"><svg viewBox="0 0 660 220" role="img" aria-label="Circuit d'un article : soumission au comité de rédaction, envoi aux relecteurs, retours et révisions (une à quatre versions, six mois ou plus), puis publication et médiation par les auteurs.">
+<defs><marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+<g font-size="12.5" text-anchor="middle" fill="currentColor">
+<rect x="10" y="40" width="110" height="52" rx="6" class="bg" stroke="currentColor"/><text x="65" y="62" font-weight="600">Auteur·es</text><text x="65" y="78" font-size="11" class="mut">non payé·es</text>
+<rect x="180" y="40" width="130" height="52" rx="6" class="soft accs" stroke-width="1.5"/><text x="245" y="62" font-weight="600">Comité de rédaction</text><text x="245" y="78" font-size="11" class="mut">suit les numéros</text>
+<rect x="370" y="40" width="120" height="52" rx="6" class="bg" stroke="currentColor"/><text x="430" y="62" font-weight="600">Relecteurs</text><text x="430" y="78" font-size="11" class="mut">les pairs, anonymes</text>
+<rect x="540" y="40" width="110" height="52" rx="6" class="soft accs" stroke-width="1.5"/><text x="595" y="62" font-weight="600">Publication</text><text x="595" y="78" font-size="11" class="mut">dans un numéro</text>
+<rect x="540" y="150" width="110" height="52" rx="6" class="marksoft mk" stroke-width="1.5"/><text x="595" y="172" font-weight="600">Médiation</text><text x="595" y="188" font-size="11" class="mut">par les auteur·es</text>
+<rect x="180" y="4" width="130" height="24" rx="4" class="bg"/><text x="245" y="20" font-size="11" class="mut">comité scientifique : prestige</text>
+</g>
+<g stroke="currentColor" stroke-width="1.5" fill="none">
+<path d="M120 66 H178" marker-end="url(#pa)"/><path d="M310 66 H368" marker-end="url(#pa)"/>
+<path d="M430 92 V140 H80 V94" marker-end="url(#pa)" stroke-dasharray="5 3"/>
+<path d="M490 66 H538" marker-end="url(#pa)"/>
+<path d="M595 92 V148" marker-end="url(#pa)"/>
+</g>
+<g font-size="11.5" fill="currentColor"><text x="149" y="58" text-anchor="middle" font-size="11">soumet</text><text x="339" y="58" text-anchor="middle" font-size="11">envoie</text>
+<text x="255" y="134" text-anchor="middle">retours → l'article est révisé (1 à 4 versions)</text>
+<text x="255" y="160" text-anchor="middle" class="mut">souvent 6 mois ou plus, parfois des années</text>
+<text x="515" y="58" text-anchor="middle" font-size="11">accepté</text>
+<text x="586" y="118" text-anchor="end" font-size="11">réseaux,</text><text x="586" y="132" text-anchor="end" font-size="11">journalistes</text></g>
+</svg><figcaption>Schéma : le parcours d'un article dans une revue. La boucle en pointillés (retours des relecteurs puis nouvelle version) est ce qui prend le plus de temps.</figcaption></figure>
+      <ul class="clean">
+        <li><b>Les auteurs ne sont pas payés.</b> La plupart des revues sont portées par des <b>associations</b> (structure non lucrative) : l'argent existe, mais il est intégralement réinjecté dans le fonctionnement. Seuls d'éventuels salariés (secrétariat de rédaction) sont rémunérés.</li>
+        <li>La motivation des chercheurs n'est pas que la carrière : produire des connaissances originales est une <b>contribution au fonctionnement de la société</b>.</li>
+        <li>Le <b>comité scientifique</b> réunit des chercheurs très connus de la discipline : il sert à identifier la revue et à lui donner du prestige, mais il intervient peu au quotidien. Le <b>comité de rédaction</b> fait le gros du travail : suivre en parallèle tous les numéros en préparation et faire avancer les articles.</li>
+        <li><b>L'évaluation par les pairs</b> : entre la soumission et la publication, comptez souvent six mois ou plus, et en général <b>une à quatre versions</b> de l'article. Les relecteurs n'ont pas tous la même expertise : certains retours sont très utiles, d'autres complètement à côté de la plaque. Un article peut mettre des années à paraître.</li>
+        <li>Une fois l'article publié, c'est aux auteurs d'en faire la <b>médiation</b> et la promotion (réseaux, journalistes scientifiques).</li>
+      </ul>
+      <h3>Outils de veille scientifique</h3>
+      <ul class="clean">
+        <li><b>Calenda</b> : le calendrier francophone des sciences humaines et sociales (France, Québec, Suisse…). Il centralise colloques, journées d'étude et <b>appels à contributions</b>.</li>
+        <li><b>Les associations savantes</b>, calquées sur les disciplines : par exemple la <b>SFSIC</b> (Société française des sciences de l'information et de la communication). Elles éditent souvent des revues de la discipline et organisent des <b>colloques</b>, sortes de salons professionnels de la recherche.</li>
+        <li>Les appels à contributions montrent les thématiques en train d'émerger : utile pour savoir ce qui se prépare avant que les articles paraissent.</li>
+      </ul>
+      <h3>Histoire et modèle économique des revues</h3>
+      <div class="figrow tall" style="grid-template-columns:repeat(2,minmax(0,1fr))"><figure class="fig"><img src="img/journal-des-scavans-1665.jpg" alt="Page de titre du Journal des sçavans, 5 janvier 1665" loading="lazy"><figcaption><i>Journal des sçavans</i>, premier numéro, Paris, 5 janvier 1665.<span class="cr">Wikimedia Commons · domaine public</span></figcaption></figure><figure class="fig"><img src="img/philosophical-transactions-1665.jpg" alt="Page de titre du volume 1 des Philosophical Transactions" loading="lazy"><figcaption><i>Philosophical Transactions</i> de la Royal Society, volume 1 (1665-1666).<span class="cr">Royal Society · CC BY 4.0</span></figcaption></figure></div>
+      <ul class="clean">
+        <li>Les premières revues savantes naissent au <b>XVII<sup>e</sup> siècle</b>, en même temps en France (<b>Journal des sçavans</b>, 1665) et en Angleterre (Philosophical Transactions de la Royal Society).</li>
+        <li>Dès le départ : des numéros expédiés sur <b>abonnement</b>, et non vendus en librairie. Ensuite, les <b>bibliothèques universitaires</b> mutualisent les achats, ce qui ouvre l'accès aux étudiants et aux chercheurs.</li>
+        <li>Une deuxième économie, <b>symbolique</b> : la carrière des chercheurs dépend de leurs publications. Les chercheurs sont à la fois producteurs et consommateurs des revues, et l'institution garantit la demande.</li>
+        <li>Avec le numérique, des <b>distributeurs</b> (plateformes qui agrègent les revues en bouquets, comme Cairn) s'ajoutent entre les revues et les bibliothèques.</li>
+        <li>Les revues imposent souvent un <b>embargo</b> (de 1 à 5 ans environ) avant que l'article puisse être diffusé librement. L'auteur peut en général diffuser sa propre version (manuscrit auteur), mais pas la version mise en page par la revue.</li>
+        <li>Le <b>libre accès</b> : l'archive ouverte <b>HAL</b> (CNRS), des plateformes comme <b>OpenEdition</b>, et des revues en accès gratuit sous licence <b>Creative Commons</b>.</li>
+      </ul>
+      <figure class="schema"><svg viewBox="0 0 720 250" role="img" aria-label="Économie des revues : les chercheurs écrivent gratuitement pour les revues, les distributeurs agrègent les revues en bouquets vendus aux bibliothèques universitaires, qui donnent accès aux chercheurs et étudiants. Après l'embargo, ou via le manuscrit auteur, l'article rejoint le libre accès.">
+<defs><marker id="ea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+<g font-size="12.5" text-anchor="middle" fill="currentColor">
+<rect x="10" y="20" width="130" height="56" rx="6" class="soft accs" stroke-width="1.5"/><text x="75" y="44" font-weight="600">Chercheur·es</text><text x="75" y="61" font-size="11" class="mut">auteurs ET lecteurs</text>
+<rect x="215" y="20" width="120" height="56" rx="6" class="bg" stroke="currentColor"/><text x="275" y="44" font-weight="600">Revues</text><text x="275" y="61" font-size="11" class="mut">souvent associatives</text>
+<rect x="405" y="20" width="120" height="56" rx="6" class="bg" stroke="currentColor"/><text x="465" y="44" font-weight="600">Distributeurs</text><text x="465" y="61" font-size="11" class="mut">bouquets (Cairn…)</text>
+<rect x="595" y="20" width="115" height="56" rx="6" class="bg" stroke="currentColor"/><text x="652" y="44" font-weight="600">Bibliothèques</text><text x="652" y="61" font-size="11" class="mut">universitaires</text>
+<rect x="215" y="170" width="310" height="56" rx="6" class="marksoft mk" stroke-width="1.5"/><text x="370" y="194" font-weight="600">Libre accès</text><text x="370" y="211" font-size="11" class="mut">HAL, OpenEdition, revues sous Creative Commons</text>
+</g>
+<g stroke="currentColor" stroke-width="1.5" fill="none">
+<path d="M140 48 H213" marker-end="url(#ea)"/><path d="M335 48 H403" marker-end="url(#ea)"/><path d="M525 48 H593" marker-end="url(#ea)"/>
+<path d="M652 76 V110 H75 V78" marker-end="url(#ea)"/>
+<path d="M275 76 V168" marker-end="url(#ea)" stroke-dasharray="5 3"/>
+<path d="M525 198 H630 Q645 198 645 183 V112" stroke-dasharray="5 3"/>
+</g>
+<g font-size="11" fill="currentColor" text-anchor="middle">
+<text x="177" y="40">écrivent</text><text x="177" y="66">gratuitement</text>
+<text x="369" y="40">agrégées</text><text x="559" y="40" font-size="10.5">abonnements</text>
+<text x="465" y="102" font-size="11.5">donnent accès aux lecteurs</text>
+<text x="287" y="138" text-anchor="start">après l'embargo (1 à 5 ans)</text><text x="287" y="153" text-anchor="start" class="mut">ou manuscrit auteur</text>
+<text x="655" y="150" text-anchor="start">accès</text><text x="655" y="164" text-anchor="start">gratuit</text>
+</g>
+</svg><figcaption>Schéma : deux économies se superposent. L'argent circule des bibliothèques vers distributeurs et revues ; la reconnaissance (l'économie symbolique) revient aux chercheurs, qui sont à la fois producteurs et lecteurs.</figcaption></figure>
+      <div class="side" style="grid-template-columns:minmax(0,1fr) 90px"><p class="muted" style="font-size:14px">Le cadenas ouvert orange est le symbole international du libre accès : on le retrouve sur les articles consultables gratuitement.</p><figure class="fig"><img src="img/open-access.png" alt="Logo du libre accès, un cadenas ouvert orange" loading="lazy"><figcaption>Logo Open Access.<span class="cr">PLoS · domaine public</span></figcaption></figure></div>
+      <h3>Moteurs de recherche et accès aux articles</h3>
+      <ul class="clean">
+        <li><b>Google Scholar</b> trie par défaut par <b>« pertinence »</b> : ce n'est pas seulement le nombre de citations (il compte, mais l'algorithme n'est pas public). Il ne faut donc pas prendre cette hiérarchie pour argent comptant : mieux vaut changer le tri (par date, entre deux dates) pour reprendre la main, comme sur les réseaux sociaux.</li>
+        <li>Bon réflexe : tester plusieurs mots-clés (Google Trends peut indiquer ceux qui circulent dans les médias) et, dans un dossier, <b>expliquer sa méthode de recherche</b> : moteur utilisé, mots-clés, nombre d'articles retenus.</li>
+        <li><b>Open Library</b> négocie avec les éditeurs des licences de prêt en ligne, comme une bibliothèque : on attend qu'une licence se libère pour emprunter l'ouvrage.</li>
+        <li>Le <b>piratage</b> (sites comme Sci-Hub) répond à un problème d'accès : les abonnements sont très chers, même les universités renoncent à certains, et dans beaucoup de pays c'est le seul accès possible.</li>
+      </ul>
+      <h3>Plateformes de médiation scientifique</h3>
+      <ul class="clean">
+        <li><b>The Conversation</b> : média en ligne où des chercheurs écrivent gratuitement, accompagnés par des journalistes salariés, à partir de <b>leurs propres recherches publiées</b>. Il fonctionne par appels à articles. Le modèle reprend celui de l'édition académique (auteurs non payés). Il existe plusieurs éditions nationales.</li>
+        <li><b>Hypothèses</b> (OpenEdition) : plateforme de <b>carnets de recherche</b>, des blogs tenus par des chercheurs. Ce sont souvent des doctorants qui parlent de leur thèse, ou des projets financés qui cherchent de la visibilité.</li>
+      </ul>
+    </section>
+
+    <section id="glossaire">
+      <h2><span class="num">XII</span>Glossaire</h2>
+      <dl class="gloss">
+        <div><dt>Publication académique</dt><dd><span class="todo">À compléter</span> <span class="muted">séance 1</span></dd></div>
+        <div><dt>Médiation scientifique</dt><dd><span class="todo">À compléter</span> <span class="muted">séance 1</span></dd></div>
+        <div><dt>Theôria</dt><dd>Du grec : contempler, observer, examiner. Chez Aristote, la pensée contemplative qui crée de la connaissance pour elle-même.</dd></div>
+        <div><dt>Praxis</dt><dd>Chez Aristote, une manière de penser qui tend vers l'action.</dd></div>
+        <div><dt>Poiesis</dt><dd>Chez Aristote, une manière de penser qui tend vers la production.</dd></div>
+        <div><dt>Théorie prophétique</dt><dd>Discours fondé sur le bon sens et quelques observations ponctuelles, sans méthode systématique ni reproduction : irréfutable, ni vrai ni faux, il vise l'emprise plutôt que la vérité.</dd></div>
+        <div><dt>Sophistes</dt><dd>Maîtres des arts oratoires et de la rhétorique dans la Grèce antique. Leur pratique sert ici de modèle à la théorie prophétique : convaincre et dominer plutôt que chercher le vrai.</dd></div>
+        <div><dt>Réfutabilité</dt><dd>Propre à la théorie scientifique : elle donne toujours les moyens de tenter de la contredire. Elle en sort renforcée, ou réfutée et remplacée par une théorie plus vraie.</dd></div>
+        <div><dt>Falsifiabilité</dt><dd>Critère de Karl Popper (<i>Logik der Forschung</i>, 1934) : une théorie T est falsifiable si, dans le cas où elle serait fausse, on peut démontrer qu'elle est fausse. Cela ne veut pas dire que T est fausse.</dd></div>
+        <div><dt>Science Wars</dt><dd>Affrontements autour de la rigueur de certaines sciences humaines, illustrés par les canulars Sokal (cultural studies, postmodernisme) et Grievance studies (gender studies).</dd></div>
+        <div><dt>Hypothético-déductive</dt><dd>Méthode qui part d'une hypothèse puis la vérifie de façon empirique.</dd></div>
+        <div><dt>Inductive</dt><dd>Méthode qui part de l'observation empirique pour aller vers la théorisation.</dd></div>
+        <div><dt>Post-vérité</dt><dd>(<i>post-truth</i>, 2016-2022) Situation où des vérités alternatives circulent plus vite qu'on ne peut les vérifier. Le cours la rattache au livestream War Room de Steve Bannon.</dd></div>
+        <div><dt>Saturation cognitive</dt><dd>Logique médiatique qui enchaîne les affirmations à un rythme rapide, à la chaîne, à partir de contenus d'Internet, jusqu'à saturer l'attention du public.</dd></div>
+        <div><dt>Posture à géométrie variable</dt><dd>Deux discours séparés selon l'espace : prophétique sur les réseaux et dans les médias de masse, scientifique en colloques et dans les articles (ex. Didier Raoult).</dd></div>
+        <div><dt>Posture « gloubi-boulga »</dt><dd>Un seul discours qui mélange des genres épistémologiques incohérents : forme scientifique et contenu prophétique, ou titre d'expert et discours prophétique (ex. RFK Jr, Charlie Kirk).</dd></div>
+        <div><dt>Thèse CIFRE</dt><dd>Convention industrielle de formation par la recherche : une thèse réalisée en entreprise.</dd></div>
+      </dl>
+    </section>
+
+    <section id="revisions">
+      <h2><span class="num">XIII</span>Révisions</h2>
+      <ul class="clean">
+        <li>Écrit : <b>carnet de bord de 15 000 à 20 000 signes</b> sur deux IA qui synthétisent (12 000 signes) et commentent (3 000-3 500) un article. Même premier prompt, fact-checking du premier texte, écarts cités page + paragraphe. PDF sur Upedago le <b>mardi 10/11</b>.</li>
+        <li>Oral : podcast de <b>6 minutes</b> en binôme, monté et habillé.</li>
+        <li>Deux facettes : <b>publications académiques</b> et <b>médiation scientifique</b>.</li>
+        <li>Trois cercles de production des savoirs : <b>institution scientifique</b> (enquêtes, expérimentations), <b>formations universitaires</b> (mémoire, thèse CIFRE, recherche hybride privé/public) et <b>collectifs de recherche autonomes</b>.</li>
+        <li>« Théorie » vient du grec <b>theôria</b> (contempler, observer, examiner). Aristote l'oppose à la <b>praxis</b> (action) et à la <b>poiesis</b> (production). En français, le mot désigne soit des règles cohérentes avec l'observation, soit une hypothèse non vérifiée.</li>
+        <li>La <b>théorie prophétique</b> s'appuie sur le bon sens et des observations ponctuelles, sans méthode ni reproduction. Elle est irréfutable (ni vraie ni fausse) et vise l'emprise, comme chez les sophistes, pas la vérité.</li>
+        <li>La <b>théorie scientifique</b> prolonge Aristote : méthode reproductible à l'identique par n'importe qui, réfutable par essence, elle donne les moyens de la contredire et en sort renforcée ou remplacée par une théorie plus vraie.</li>
+        <li><b>Popper</b>, <i>Logik der Forschung</i> (1934) : falsifiable ne veut pas dire faux, mais « si T est fausse, on peut le démontrer ».</li>
+        <li><b>Science Wars</b> : affaire Sokal (cultural studies, postmodernisme) et affaire Grievance studies (gender studies, faux auteurs Helen Wilson, Richard Baldwin, M. Smith, 2018).</li>
+        <li><b>Méthodes</b> : expérimentale vs observation in vivo ; hypothético-déductive (hypothèse → vérification) vs inductive (observation → théorie) ; quantitative (mesures statistiques) vs qualitative (classifications). Les deux dernières demandent beaucoup de données.</li>
+        <li><b>Épistémologies</b> : positivisme, constructivisme, interprétativisme.</li>
+        <li><b>Limites</b> du découpage prophète / scientifique : postures médiatiques à risques réputationnels (locuteur) et pédagogiques (audiences). A. <b>Géométrie variable</b> (Raoult) : deux discours selon l'espace. B. <b>Gloubi-boulga</b> (RFK Jr, Kirk) : un seul discours qui mélange les genres. Saturation cognitive et <b>post-vérité</b> (2016-2022), War Room de Steve Bannon : vérités alternatives à la chaîne.</li>
+        <li>Une méthodologie se lit en trois points : <b>corpus</b>, <b>méthode</b>, <b>éthique</b>.</li>
+      </ul>
+      <p class="muted" style="margin-top:12px">Les idées clés des prochains CM s'ajouteront au fil des séances.</p>
+    </section>
+
+    <section id="quiz">
+      <div class="quiz-head">
+        <h2 style="margin:0"><span class="num">?</span>Quiz</h2>
+        <span class="score" id="score">0 / 0 répondu</span>
+      </div>
+      <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+      <div id="qs"></div>
+      <div class="result" id="result" hidden>
+        <div><div class="big" id="final"></div><p id="verdict"></p></div>
+        <button class="btn" id="retry" type="button">Recommencer le quiz</button>
+      </div>
+    </section>
+
+    <footer>D'après le support « Communication scientifique – Cours S1 ». Les sections marquées « À compléter » le sont aussi dans le cours. Photos : Wikimedia Commons, sous licence libre (auteur et licence indiqués sous chaque image). Schémas dessinés pour cette page à partir des notes de cours.</footer>
+  </main>
+</div>
+
+<script>
+const Q=[
+  {q:"Quelle longueur doit faire le carnet de bord rendu ?",o:["12 000 signes","15 000 à 20 000 signes espaces compris","3 000 à 3 500 signes","30 000 signes"],a:1,w:"Le carnet de bord fait entre 15 000 et 20 000 signes espaces compris."},
+  {q:"Que doit produire chaque IA ?",o:["Une synthèse de 15 000 signes","Une synthèse de 12 000 signes et un commentaire d'actualité de 3 000 à 3 500 signes","Un résumé de 3 000 signes","Une bibliographie APA"],a:1,w:"Chaque IA produit une synthèse de 12 000 signes et un commentaire de 3 000 à 3 500 signes qui relie l'article à l'actualité."},
+  {q:"Quelle règle s'applique au premier prompt ?",o:["Il est rédigé par l'IA","Il doit être rigoureusement identique sur les deux plateformes","Il doit être en anglais","Il est fourni par l'enseignant"],a:1,w:"Tu rédiges toi-même le premier prompt et tu le reproduis tel quel sur les deux plateformes. Les échanges suivants sont libres."},
+  {q:"Quelle différence entre service et modèle ?",o:["Aucune","Le service est le produit (Claude, ChatGPT), le modèle est le système qui génère le texte (Opus 5, Sonnet 5…)","Le modèle est la marque, le service est le moteur","Le service est gratuit, le modèle payant"],a:1,w:"Claude est le service ; Opus 5, Sonnet 5 ou Haiku 4.5 sont des modèles. Il faut noter le modèle utilisé et la date."},
+  {q:"Comment cite-t-on une source informationnelle (presse, rapport, baromètre) ?",o:["(Auteur, année) dans le texte","En note de bas de page, avec la référence complète et la date de consultation","Seulement dans la bibliographie","On ne la cite pas"],a:1,w:"Sources informationnelles : note de bas de page + date de consultation. Sources académiques : (Auteur, année) + bibliographie APA."},
+  {q:"Un article de presse cite un rapport. Que faut-il citer ?",o:["L'article de presse","Le rapport, la source primaire","Les deux, sans distinction","Aucun des deux"],a:1,w:"Une donnée doit toujours être remontée jusqu'à sa source primaire : c'est le rapport qu'il faut retrouver et citer."},
+  {q:"Lequel de ces types d'écart n'est PAS dans la liste des consignes ?",o:["Omission","Contresens","Erreur de mise en page","Perte de nuance"],a:2,w:"Les cinq types : omission, contresens, ajout non fondé, perte de nuance, déformation du cadre théorique."},
+  {q:"Sur quels trois appuis repose un jugement recevable ?",o:["Intuition, style, longueur","Observation précise (page), raisonnement explicite, appui documentaire","Note de l'IA, avis du prof, bibliographie","Captures, transcription, conclusion"],a:1,w:"Observation précise renvoyant au passage et à la page, raisonnement explicite, et appui documentaire dès qu'on dépasse la comparaison au texte."},
+  {q:"Quel est le format de l'évaluation orale ?",o:["Un exposé individuel de 10 minutes","Un podcast de 6 minutes en binôme","Une vidéo de 3 minutes en groupe","Un débat filmé de 15 minutes"],a:1,w:"Un podcast de médiation scientifique de 6 minutes, en binôme, enregistré, monté et habillé."},
+  {q:"Quelles sont les deux grandes facettes de la communication scientifique dans ce cours ?",o:["Vulgarisation et journalisme","Publications académiques et médiation scientifique","Recherche fondamentale et recherche appliquée","Presse écrite et radio"],a:1,w:"Le cours étudie les publications académiques et la médiation scientifique."},
+  {q:"Laquelle de ces questions fait partie du « regard analytique » demandé ?",o:["Combien coûte une publication scientifique ?","Comment se structurent ceux qui remettent en cause les institutions scientifiques ?","Quel chercheur a le plus d'influence ?","Quel média est le plus fiable ?"],a:1,w:"Les quatre questions portent sur les institutions, les bases des discours, les formats et leurs limites, et ceux qui contestent les institutions scientifiques."},
+  {q:"Sur quoi porte le CM6 ?",o:["La sociologie des professions scientifiques","L'histoire de la production des savoirs","La socioéconomie des plateformes de publication en ligne","La médiation scientifique : concepts et enjeux"],a:2,w:"CM6 : socioéconomie des plateformes de publication en ligne. CM2 = sociologie des professions, CM3 = histoire des savoirs, CM5 = médiation."},
+  {q:"Que se passe-t-il au CM7 ?",o:["Un examen écrit","L'écoute et l'évaluation collective des podcasts","La remise des notes de synthèse","Une conférence invitée"],a:1,w:"Le dernier CM est consacré à l'écoute et à l'évaluation collective de vos podcasts."},
+  {q:"Quel est le thème de la journée « Les Menstrueuses » du 19 novembre ?",o:["Désinformation et santé publique","Technologies numériques et santé des femmes","Intelligence artificielle et recherche médicale","Réseaux sociaux et science ouverte"],a:1,w:"Technologies numériques et santé des femmes, à l'EMF, le jeudi 19 novembre après-midi."},
+  {q:"Dans quelle partie d'un article trouve-t-on le corpus, la méthode et l'éthique ?",o:["Le résumé","L'introduction","La méthodologie","La conclusion"],a:2,w:"L'exemple d'Axie Infinity montre une méthodologie en trois points : corpus, méthode, éthique."},
+  {q:"Quelle approche utilise l'article sur Axie Infinity ?",o:["Quantitative, par questionnaire","Expérimentale, en laboratoire","Qualitative, issue des cultural studies et de l'histoire des technologies","Ethnographique, par entretiens avec les joueurs"],a:2,w:"Analyse conjoncturelle du white paper et suivi chronologique des réactions des joueurs aux crises."},
+  {q:"Faute de consentement direct des internautes, que font les auteurs de l'article sur Axie Infinity ?",o:["Ils anonymisent les pseudos et citent mot à mot","Ils paraphrasent au lieu de citer et évitent de lier les posts sensibles","Ils n'utilisent que des sources de presse","Ils demandent l'accord de Reddit"],a:1,w:"Les données sont publiques, donc pas de consentement direct ; en échange, ils paraphrasent et ne lient pas les posts contenant des infos personnelles sensibles."},
+  {q:"Quel est le premier cercle de production des savoirs scientifiques vu en cours ?",o:["Les médias","L'institution scientifique","Les entreprises","Les réseaux sociaux"],a:1,w:"L'institution scientifique, qui produit des savoirs par l'enquête et l'expérimentation."},
+  {q:"Qu'est-ce qu'une thèse CIFRE ?",o:["Une thèse réalisée en entreprise","Une thèse financée par l'Union européenne","Un mémoire de master","Une thèse en sciences de l'information uniquement"],a:0,w:"La CIFRE (convention industrielle de formation par la recherche) permet de faire une thèse en entreprise. Elle illustre le cercle des formations universitaires."},
+  {q:"Les recherches hybrides privé / public appartiennent à quel cercle ?",o:["L'institution scientifique","Les formations universitaires","Les collectifs de recherche autonomes","La médiation scientifique"],a:1,w:"Dans les notes, mémoire de recherche, thèse CIFRE et recherches hybrides privé/public relèvent des formations universitaires."},
+  {q:"Quel cercle produit des savoirs en dehors des institutions ?",o:["Les collectifs de recherche autonomes","Les formations universitaires","Les laboratoires publics","Les revues académiques"],a:0,w:"Les collectifs de recherche autonomes forment le troisième cercle, hors institution."},
+  {q:"Que signifie le mot grec theôria, à l'origine du mot « théorie » ?",o:["Prédire, annoncer","Contempler, observer, examiner","Démontrer, prouver","Croire, révéler"],a:1,w:"Theôria veut dire contempler, observer, examiner."},
+  {q:"Pour Pythagore, qu'est-ce que la théorie ?",o:["Une prophétie sur l'avenir","Une méthode pour fabriquer des objets","La contemplation dépassionnée d'une vérité rationnelle et immuable","Une hypothèse à vérifier par l'expérience"],a:2,w:"Pythagore la définit comme la contemplation dépassionnée d'une vérité rationnelle et immuable."},
+  {q:"Chez Aristote, la praxis désigne…",o:["une manière de penser qui tend vers l'action","une manière de penser qui tend vers la production","la contemplation pure","l'observation des astres"],a:0,w:"Praxis = tendre vers l'action. Poiesis = tendre vers la production. Theôria = contempler."},
+  {q:"Dans « ce n'est qu'une théorie », quel sens du mot est utilisé ?",o:["Le sens initial : des règles cohérentes avec l'observation","Le sens dérivé : une hypothèse non vérifiée","Le sens grec : contempler","Le sens d'Aristote : la poiesis"],a:1,w:"Le sens dérivé sous-entend l'inverse du sens initial : une hypothèse qu'on n'a pas vérifiée."},
+  {q:"Sur quoi s'appuie une théorie prophétique ?",o:["Sur des expériences reproduites en laboratoire","Sur le bon sens, les évidences et quelques observations ponctuelles","Sur une méthode statistique systématique","Sur des articles évalués par les pairs"],a:1,w:"Elle se réfère au bon sens, aux évidences et à quelques observations ponctuelles, sans méthode systématisée."},
+  {q:"Pourquoi dit-on qu'une théorie prophétique n'est ni vraie ni fausse ?",o:["Parce qu'elle est trop récente","Parce qu'elle n'est pas réfutable","Parce qu'elle a été réfutée","Parce qu'elle est contemplative"],a:1,w:"Sans méthode systématique ni reproduction par autrui, on ne peut pas la réfuter : elle n'est donc ni vraie ni fausse."},
+  {q:"Quelle est la visée d'une théorie prophétique ?",o:["La vérité","La production d'objets","L'emprise, la prise de pouvoir sur autrui","La contemplation"],a:2,w:"Elle sort du cadre aristotélicien : elle ne vise pas la vérité mais l'emprise, comme les pratiques des sophistes et de la rhétorique."},
+  {q:"Qu'est-ce qui caractérise la méthode d'une théorie scientifique ?",o:["Elle repose sur l'intuition de son auteur","Elle est reproductible à l'identique par n'importe qui","Elle n'est accessible qu'aux spécialistes","Elle s'appuie sur des observations ponctuelles"],a:1,w:"La méthode d'identification des régularités doit pouvoir être reproduite à l'identique par n'importe qui."},
+  {q:"Pourquoi dit-on qu'une théorie scientifique est rétroactive ?",o:["Parce qu'elle explique uniquement le passé","Parce qu'elle donne toujours les moyens de tenter de la contredire","Parce qu'elle ne change jamais","Parce qu'elle s'appuie sur la tradition"],a:1,w:"Elle fournit les moyens de la contredire, pour en restreindre ou en préciser la portée."},
+  {q:"Que peut-il arriver à une théorie scientifique mise à l'épreuve ?",o:["Elle devient une théorie prophétique","Elle reste ni vraie ni fausse","Elle sort renforcée, ou elle est réfutée et remplacée par une théorie plus vraie","Rien, une théorie scientifique est définitive"],a:2,w:"Soit elle sort renforcée, soit elle est réfutée et remplacée par une autre plus vraie."},
+  {q:"Dans quel ouvrage, et en quelle année, Karl Popper expose-t-il la falsifiabilité ?",o:["Logik der Forschung, 1934","La Structure des révolutions scientifiques, 1962","Le Discours de la méthode, 1637","Logik der Forschung, 1968"],a:0,w:"Logik der Forschung, publié en 1934."},
+  {q:"Dire qu'une théorie T est falsifiable, c'est dire que…",o:["T est fausse","si T est fausse, alors on peut démontrer qu'elle est fausse","T ne pourra jamais être contredite","T n'a pas encore été vérifiée"],a:1,w:"Falsifiable ne veut pas dire fausse : cela veut dire que si T est fausse, on peut le démontrer."},
+  {q:"Quels courants l'affaire Sokal visait-elle ?",o:["Les gender studies","Les cultural studies américaines et le postmodernisme","La physique théorique","Les sciences de l'information"],a:1,w:"L'affaire Sokal ciblait les cultural studies américaines et le postmodernisme."},
+  {q:"Quel champ l'affaire Grievance studies visait-elle ?",o:["Le postmodernisme","L'économie","Les gender studies","La biologie"],a:2,w:"L'affaire Grievance studies ciblait les gender studies, avec de faux articles signés notamment Helen Wilson et M. Smith (2018)."},
+  {q:"Quelle démarche part d'une hypothèse pour la vérifier de façon empirique ?",o:["Inductive","Hypothético-déductive","Qualitative","Par observation in vivo"],a:1,w:"Hypothético-déductive : hypothèse → vérification empirique. L'inductive fait l'inverse : observation → théorisation."},
+  {q:"Quel est le chemin de la démarche inductive ?",o:["Hypothèse → vérification empirique","Théorie → expérimentation","Observation empirique → théorisation","Mesure statistique → classification"],a:2,w:"L'inductive part de l'observation empirique pour aller vers la théorisation."},
+  {q:"À quoi servent les données en méthodologie qualitative ?",o:["À faire des mesures statistiques","À créer des classifications et préciser des qualifications","À vérifier une hypothèse unique","À reproduire une expérience"],a:1,w:"Qualitatif : données formatées pour créer des classifications. Quantitatif : données formalisées pour des mesures statistiques."},
+  {q:"Laquelle de ces épistémologies a été citée en cours ?",o:["Le structuralisme","Le positivisme","Le pragmatisme","Le rationalisme critique"],a:1,w:"Les trois épistémologies vues : positivisme, constructivisme et interprétativisme."},
+  {q:"À quelle période le cours situe-t-il la « post-truth » ?",o:["1996-2000","2008-2012","2016-2022","2020-2026"],a:2,w:"Le cours situe la post-vérité entre 2016 et 2022."},
+  {q:"De quel média le cours fait-il partir la logique de saturation cognitive ?",o:["Le journal Social Text","Le livestream War Room de Steve Bannon","La revue Gender, Place & Culture","Le podcast La Méthode scientifique"],a:1,w:"Elle est issue du livestream War Room de Steve Bannon."},
+  {q:"Comment fonctionne la saturation cognitive ?",o:["Peu d'informations, longuement vérifiées","Des vérités alternatives reprises d'Internet, à rythme rapide et à la chaîne","Des articles évalués par les pairs","Des débats contradictoires encadrés"],a:1,w:"Elle enchaîne des vérités alternatives tirées d'Internet, à un rythme rapide, à la chaîne."},
+  {q:"Quels risques les postures médiatiques types font-elles courir ?",o:["Juridiques et financiers","Réputationnels pour le locuteur et pédagogiques pour les audiences","Techniques et éditoriaux","Aucun, elles sont sans danger"],a:1,w:"Des risques catastrophiques : réputationnels pour le locuteur ou la locutrice, pédagogiques pour les audiences."},
+  {q:"Qu'est-ce qui définit la posture « à géométrie variable » (ex. Didier Raoult) ?",o:["Un seul discours qui mélange tous les genres","Deux discours séparés selon l'espace : prophétique dans les médias, scientifique en colloques et articles","Un refus de parler aux médias","Un discours uniquement scientifique"],a:1,w:"Deux discours séparés par des espaces institutionnels différents : prophétique sur les réseaux et médias de masse, scientifique dans les espaces scientifiques."},
+  {q:"Lequel de ces cas illustre la posture « gloubi-boulga » ?",o:["Publier un article évalué par les pairs","Tenir deux discours différents selon le public","Revendiquer un titre d'expert tout en tenant un discours prophétique","Refuser de communiquer"],a:2,w:"Gloubi-boulga : un seul discours qui mélange les genres, par exemple un statut d'expert revendiqué avec un discours prophétique (ex. RFK Jr, Charlie Kirk)."},
+  {q:"Pourquoi l'édition scientifique repose-t-elle en grande partie sur du bénévolat ?",o:["Les revues sont très rentables et n'ont pas besoin de salariés","Les revues sont le plus souvent non lucratives, et chaque étape de la chaîne est assurée par des chercheurs en dehors de leurs heures d'enseignement","Les chercheurs sont obligés par la loi de publier gratuitement","Les éditeurs refusent de payer les relecteurs"],a:1,w:"Les bénéfices sont réinjectés dans la revue, et l'enseignement, la gestion, le financement, la collecte de données et la veille reposent sur du temps libre des chercheurs."},
+  {q:"Quel est l'enjeu économique d'une revue scientifique selon le cours ?",o:["Vendre un maximum d'exemplaires d'un seul numéro","Commercialiser un numéro à intervalle régulier, le nombre de numéros annuels conditionnant le modèle économique","Obtenir des subventions publiques uniquement","Ne jamais publier plus d'un numéro par an"],a:1,w:"Le rythme de publication (par exemple 3 numéros par an pour Hermès, 2 pour Questions de communication) conditionne le modèle économique."},
+  {q:"Pourquoi une pratique empirique « traditionnelle » réappropriée par la science pose-t-elle question ?",o:["Parce qu'elle n'a jamais de régularités","Parce qu'elle peut conduire à une appropriation culturelle de ces savoirs, sans prise en compte des impacts rétroactifs sur les cultures sources","Parce qu'elle est toujours scientifiquement réfutée","Parce qu'elle ne peut pas être collectée systématiquement"],a:1,w:"La réadaptation selon des critères scientifiques peut relever d'une appropriation culturelle, sans égard pour les cultures sources."},
+  {q:"Combien de versions d'un article sérieux passent en général par l'évaluation par les pairs ?",o:["Une seule, toujours acceptée","Entre une et quatre versions","Au moins dix","Aucune, l'article est publié tel quel"],a:1,w:"Le cours estime une à quatre versions, selon la qualité de l'article et l'expertise des relecteurs."},
+  {q:"À quoi sert Calenda ?",o:["À publier des articles payants","À centraliser les événements francophones de la recherche en SHS : colloques, journées d'étude, appels à contributions","À classer les revues par prestige","À héberger des carnets de recherche"],a:1,w:"Calenda est le calendrier francophone des SHS : un outil clé pour la veille scientifique."},
+  {q:"Comment Google Scholar trie-t-il les résultats par défaut ?",o:["Uniquement par nombre de citations","Par « pertinence », selon un algorithme non public où les citations comptent mais pas seules","Par date de publication","Par ordre alphabétique d'auteur"],a:1,w:"Le tri par pertinence n'est pas transparent ; on peut changer le critère (par date) pour reprendre la main."},
+  {q:"Quel est le principe de The Conversation ?",o:["Des journalistes écrivent sur la science sans chercheurs","Des chercheurs écrivent gratuitement, accompagnés de journalistes, à partir de leurs propres recherches publiées","Une revue à comité de lecture payante","Une archive ouverte du CNRS"],a:1,w:"On ne peut y faire un article de médiation que sur une recherche qu'on a soi-même publiée."}
+];
+const L="ABCD", box=document.getElementById("qs");
+let answered=0, good=0;
+function render(){
+  box.innerHTML=""; answered=0; good=0;
+  Q.forEach((it,i)=>{
+    const d=document.createElement("div"); d.className="q";
+    d.innerHTML=`<div class="qn">Question ${i+1} / ${Q.length}</div><div class="qt"></div><div class="opts"></div>`;
+    d.querySelector(".qt").textContent=it.q;
+    const opts=d.querySelector(".opts");
+    it.o.forEach((t,j)=>{
+      const b=document.createElement("button"); b.type="button"; b.className="opt"; b.id=`q${i}o${j}`;
+      b.innerHTML=`<span class="l">${L[j]}</span><span></span>`; b.lastChild.textContent=t;
+      b.onclick=()=>pick(d,it,j);
+      opts.appendChild(b);
+    });
+    box.appendChild(d);
+  });
+  document.getElementById("result").hidden=true; update();
+}
+function pick(d,it,j){
+  const bs=[...d.querySelectorAll(".opt")];
+  bs.forEach((b,k)=>{b.disabled=true; if(k===it.a)b.classList.add("ok"); else if(k===j)b.classList.add("bad"); else b.classList.add("dim");});
+  const w=document.createElement("div"); w.className="why";
+  w.textContent=(j===it.a?"Bonne réponse. ":"Raté. ")+it.w; d.appendChild(w);
+  answered++; if(j===it.a)good++; update();
+  if(answered===Q.length){
+    const r=document.getElementById("result"); r.hidden=false;
+    document.getElementById("final").textContent=`${good} / ${Q.length}`;
+    document.getElementById("verdict").textContent= good===Q.length?"Sans faute, le cadrage est acquis.": good>=37?"Très bien, relis les explications des questions ratées.": good>=6?"Correct. Relis les sections I, I·b, III, V à X.":"À retravailler : relis le cours puis recommence.";
+  }
+}
+function update(){
+  document.getElementById("score").textContent=`${good} bonne${good>1?"s":""} · ${answered} / ${Q.length} répondu${answered>1?"es":""}`;
+  document.getElementById("prog").style.width=(answered/Q.length*100)+"%";
+}
+document.getElementById("retry").onclick=()=>{render(); document.getElementById("quiz").scrollIntoView({behavior:"smooth"});};
+render();
+</script>
+</body>
+</html>

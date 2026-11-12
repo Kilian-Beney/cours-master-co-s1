@@ -1,0 +1,1145 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Veille stratégique et médiatique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : fiche de révision, sommaire collant à gauche, deux cartes d'évaluation datées en tête, quiz final noté */
+:root{
+  --bg:#f3f6f5; --surface:#ffffff; --ink:#15211e; --muted:#566661; --rule:#d5dedb;
+  --accent:#0f6b5c; --accent-soft:#dcefea; --note:#ebf1ef; --good:#1f7a4d; --good-soft:#e2f2e9; --bad:#b3261e; --bad-soft:#f8e1df;
+  --display:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1514; --surface:#16201e; --ink:#e5ece9; --muted:#97a8a2; --rule:#293633;
+  --accent:#5fd0b8; --accent-soft:#16302b; --note:#1a2624; --good:#5cc895; --good-soft:#163026; --bad:#f08a80; --bad-soft:#3a1f1e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1514; --surface:#16201e; --ink:#e5ece9; --muted:#97a8a2; --rule:#293633;
+  --accent:#5fd0b8; --accent-soft:#16302b; --note:#1a2624; --good:#5cc895; --good-soft:#163026; --bad:#f08a80; --bad-soft:#3a1f1e; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:220px minmax(0,1fr);gap:48px}
+@media (max-width:860px){.wrap{grid-template-columns:minmax(0,1fr);gap:0}.toc{display:none}}
+
+header.hero{max-width:1120px;margin:0 auto;padding-block:48px 32px;border-bottom:1px solid var(--rule);margin-bottom:32px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,7vw,68px);line-height:1.02;margin:.25em 0 .3em;text-wrap:balance;letter-spacing:-.01em}
+h1 em{color:var(--accent)}
+.lede{max-width:62ch;color:var(--muted);font-size:18px;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:20px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+
+.toc{position:sticky;top:24px;align-self:start;font-size:14px}
+.toc p{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px;border-left:1px solid var(--rule)}
+.toc a{display:block;padding:5px 0 5px 14px;color:var(--muted);text-decoration:none;margin-left:-1px;border-left:2px solid transparent}
+.toc a:hover,.toc a.on{color:var(--ink);border-left-color:var(--accent)}
+
+main{min-width:0}
+section{padding-block:8px 40px;border-bottom:1px solid var(--rule);margin-bottom:40px;scroll-margin-top:24px}
+section:last-of-type{border-bottom:0}
+.num{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.04em}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(30px,4.4vw,42px);line-height:1.1;margin:.15em 0 .4em;text-wrap:balance}
+h3{font-size:17px;font-weight:700;margin:28px 0 10px;text-wrap:balance}
+p,li{max-width:68ch}
+ul{padding-left:1.2em;margin:0;display:grid;gap:8px}
+li::marker{color:var(--accent)}
+strong{font-weight:600}
+.principle{font-family:var(--display);font-size:clamp(21px,2.6vw,25px);line-height:1.35;margin:0 0 20px;padding-left:18px;border-left:3px solid var(--accent);max-width:60ch}
+.box{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:16px 20px;margin:20px 0}
+.box .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.box.alert{border-color:var(--accent);background:var(--accent-soft)}
+.box.alert .lbl{color:var(--accent)}
+.hid{color:var(--muted);font-style:italic}
+
+/* Cartes d'évaluation */
+.evals{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px;margin:8px 0 8px}
+.ev{background:var(--surface);border:1px solid var(--rule);border-top:4px solid var(--accent);border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.ev .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ev h3{margin:0;font-family:var(--display);font-weight:400;font-size:30px;line-height:1.1}
+.ev .row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px}
+.ev .date{font-family:var(--display);font-size:40px;line-height:1;color:var(--accent)}
+.ev .pts{font-family:var(--mono);font-size:15px;font-weight:500;background:var(--accent-soft);color:var(--accent);padding:3px 10px;border-radius:999px}
+.ev .left{font-family:var(--mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{display:flex;height:30px;border-radius:5px;overflow:hidden;gap:2px}
+.bar span{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:#fff;background:var(--accent);white-space:nowrap;overflow:hidden}
+.bar span:nth-child(2){opacity:.78}.bar span:nth-child(3){opacity:.58}.bar span:nth-child(4){opacity:.42}
+:root[data-theme="dark"] .bar span{color:#0f1514}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .bar span{color:#0f1514}}
+.legend{display:grid;gap:4px;font-size:14px;color:var(--muted);margin:0;padding:0;list-style:none}
+.legend b{color:var(--ink);font-family:var(--mono);font-weight:500;margin-right:6px}
+
+.tbl{overflow-x:auto;margin:16px 0;border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--rule)}
+tr:last-child td{border-bottom:0}
+th{font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--note)}
+td:first-child{font-weight:600}
+
+.steps{list-style:none;padding:0;margin:20px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px;counter-reset:st}
+.steps li{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:16px 18px;max-width:none;counter-increment:st;position:relative}
+.steps li::before{content:counter(st);font-family:var(--display);font-size:40px;line-height:1;color:var(--accent);display:block;margin-bottom:6px}
+.steps b{display:block;font-size:16px;margin-bottom:6px}
+.steps span{font-size:15px;color:var(--muted)}
+.steps .pts{position:absolute;top:16px;right:16px;font-family:var(--mono);font-size:12px;background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:999px}
+.fig{margin:24px 0;max-width:820px;background:var(--surface);border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.fig img{display:block;width:100%;height:auto;background:#fff}
+.fig figcaption{font-size:14px;color:var(--muted);padding:10px 14px;border-top:1px solid var(--rule);max-width:none}
+.fig figcaption b{color:var(--ink);font-weight:600}
+.fig.narrow{max-width:640px}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px;margin:16px 0}
+.tools div{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:12px 14px;font-size:15px}
+.tools div b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:4px}
+.warn{color:var(--bad);font-weight:600}
+.seance{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--bg);padding:3px 10px;border-radius:4px;margin-bottom:10px}
+.live{font-family:var(--mono);font-size:12px;color:var(--muted)}
+dl.gloss{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr);gap:0;margin:16px 0;background:var(--surface);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+dl.gloss dt,dl.gloss dd{margin:0;padding:10px 14px;border-bottom:1px solid var(--rule)}
+dl.gloss dt{font-weight:600;background:var(--note)}
+dl.gloss dt:nth-last-of-type(1),dl.gloss dd:last-of-type{border-bottom:0}
+@media (max-width:560px){dl.gloss{grid-template-columns:minmax(0,1fr)}dl.gloss dt{border-bottom:0;padding-bottom:2px}}
+/* Quiz */
+.qhead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 20px;margin-bottom:20px}
+.score{font-family:var(--mono);font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.score b{color:var(--ink);font-size:20px}
+.q{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:20px;margin-bottom:16px}
+.q .qn{font-family:var(--mono);font-size:12px;color:var(--muted);margin:0 0 4px}
+.q .qt{font-weight:600;margin:0 0 14px;max-width:none}
+.q .tag{font-family:var(--mono);font-size:11px;color:var(--accent);margin-left:6px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--rule);border-radius:6px;padding:10px 14px;cursor:pointer;line-height:1.45}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt:focus-visible,.btn:focus-visible,.toc a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt .k{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:2px;flex:none}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--good-soft);border-color:var(--good)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.expl{margin-top:12px;font-size:15px;padding:12px 14px;border-radius:6px;background:var(--note);max-width:none}
+.expl b.ok{color:var(--good)} .expl b.ko{color:var(--bad)}
+.qfoot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:8px}
+.btn{font:inherit;font-weight:600;font-size:15px;border-radius:6px;padding:10px 18px;cursor:pointer;border:1px solid var(--ink);background:transparent;color:var(--ink)}
+.result{font-family:var(--display);font-size:24px}
+
+/* Schémas dessinés (SVG) */
+.dia svg{display:block;width:100%;height:auto;background:var(--surface)}
+.dia text{font-family:var(--body);font-size:15px;fill:var(--ink)}
+.dia .tm{fill:var(--muted)} .dia .ta{fill:var(--accent)} .dia .tb{font-weight:700} .dia .ts{font-size:13px}
+.dia .tk{font-family:var(--mono);font-size:12px;letter-spacing:.06em}
+.dia .ton{fill:var(--surface)}
+.dia .fa{fill:var(--accent)} .dia .fs{fill:var(--accent-soft)} .dia .fn{fill:var(--note)} .dia .fsu{fill:var(--surface)} .dia .fi{fill:var(--ink)} .dia .fg{fill:var(--muted);fill-opacity:.45}
+.dia .sk{stroke:var(--ink);stroke-width:1.5;fill:none} .dia .sa{stroke:var(--accent);stroke-width:2.5;fill:none} .dia .sr{stroke:var(--rule);stroke-width:1.5;fill:none} .dia .sm{stroke:var(--muted);stroke-width:1.5;fill:none}
+.dia .bo{stroke:var(--rule);stroke-width:1.5}
+.dia .dash{stroke-dasharray:5 5}
+.fig .credit{display:block;font-size:12px;margin-top:4px}
+.fig .credit a{color:var(--muted)}
+.fig.photo{max-width:520px}
+@media (max-width:560px){.dia{overflow-x:auto}.dia svg{min-width:500px}}
+@media (prefers-reduced-motion:no-preference){.opt{transition:border-color .15s,background .15s}}
+</style></head><body>
+<!-- Lien retour vers le sommaire (ajouté pour le site GitHub Pages) -->
+<nav style="font:600 14px/1 system-ui,-apple-system,'Segoe UI',sans-serif;padding:10px 16px;border-bottom:1px solid rgba(127,127,127,.3)"><a href="../" style="color:inherit;text-decoration:none">← Sommaire des cours</a></nav>
+
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--accent)"/></marker>
+<marker id="arm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--muted)"/></marker>
+</defs></svg>
+<header class="hero">
+  <div class="eyebrow">Master SNC · Semestre 1 · Fiche de cours</div>
+  <h1>Informations en ligne, <em>veille stratégique et médiatique</em></h1>
+  <p class="lede">Apprendre à collecter, analyser et exploiter l'information pour une entreprise, une démarche d'intelligence économique ou sa propre recherche d'emploi.</p>
+  <div class="meta"><span>Séances 1 à 5 · du 2 octobre au 9 novembre 2026</span><span>7 séances de 3 h</span><span>Plan de veille · 4/11 · 10 pts</span><span>Dossier de veille · 21/12 (1/12 à confirmer) · 10 pts</span><span>Quiz de 74 questions</span></div>
+</header>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Sommaire">
+    <p>Sommaire</p>
+    <ol>
+      <li><a href="#eval">Mes rendus individuels</a></li>
+      <li><a href="#plan">Plan de veille (4/11)</a></li>
+      <li><a href="#dossier">Dossier de veille (21/12)</a></li>
+      <li><a href="#objectifs">À quoi sert le cours</a></li>
+      <li><a href="#definition">Définition de la veille</a></li>
+      <li><a href="#signaux">Signaux faibles et types</a></li>
+      <li><a href="#etapes">Les 4 étapes de la veille</a></li>
+      <li><a href="#demo">Démonstration outillée</a></li>
+      <li><a href="#iag">Faire mieux que ChatGPT</a></li>
+      <li><a href="#organisation">Calendrier des séances</a></li>
+      <li><a href="#loin">Pour aller plus loin</a></li>
+      <li><a href="#seance2">Séance 2 · mise en place</a></li>
+      <li><a href="#seance3">Séance 3 · recherche d'info</a></li>
+      <li><a href="#seance5">Séance 5 · choisir ses sources</a></li>
+      <li><a href="#glossaire">Glossaire</a></li>
+      <li><a href="#verifier">Points à vérifier</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section id="eval">
+      <div class="num">Infos pratiques</div>
+      <h2>Mes rendus individuels : deux rendus, 10 points chacun</h2>
+      <p class="principle">Le plan de veille prépare le dossier : le premier montre que vous savez collecter et analyser, le second que vous maîtrisez toutes les étapes de la veille.</p>
+      <div class="box alert">
+        <p class="lbl">Ce que tu dois rendre, toi (point au 9 novembre)</p>
+        <ul>
+          <li><strong>Plan de veille individuel</strong>, 10 pts : <strong>rendu</strong> ✓</li>
+          <li><strong>Dossier de veille métier et stratégie de carrière</strong>, 10 pts, PDF sur Upedago pour le <strong>lundi 21 décembre</strong>, dernier délai. Secteur choisi : la communication dans le sport automobile.</li>
+          <li><strong>À éclaircir</strong> : la « synthèse analytique » du <span class="warn">20/11</span> (calendrier, séance 7), et le dossier du 1/12 annoncé en séance 1, peut-être le même travail que celui du 21/12.</li>
+        </ul>
+        <p class="hid" style="margin:8px 0 0">Les diapos des séances 2, 3 et 5 n'ajoutent ni date ni barème. Celles des séances 2 et 3 datent de l'an dernier (2025-2026) : leur structure de dossier est remplacée par la fiche du 16 octobre. Les envois « par mail » de la séance 2 concernaient l'atelier de groupe.</p>
+      </div>
+      <div class="evals">
+        <article class="ev">
+          <div class="k">Évaluation 1 · individuel</div>
+          <h3>Plan de veille</h3>
+          <div class="row"><span class="date">4 nov.</span><span class="pts">10 pts</span><span class="left" data-due="2026-11-04"></span></div>
+          <div class="bar" role="img" aria-label="Barème : 5 points plan de veille, 3 points analyse, 2 points éléments actionnables">
+            <span style="flex:5">5</span><span style="flex:3">3</span><span style="flex:2">2</span>
+          </div>
+          <ul class="legend"><li><b>5 pts</b>le plan de veille</li><li><b>3 pts</b>l'analyse</li><li><b>2 pts</b>les éléments actionnables</li></ul>
+        </article>
+        <article class="ev">
+          <div class="k">Évaluation 2 · individuel · avec l'orientation pro</div>
+          <h3>Dossier de veille métier</h3>
+          <div class="row"><span class="date">21 déc.</span><span class="pts">10 pts</span><span class="left" data-due="2026-12-21"></span></div>
+          <div class="bar" role="img" aria-label="Barème : 2,5 points par étape de la veille : besoins, collecte, traitement, diffusion">
+            <span style="flex:1">1 · 2,5</span><span style="flex:1">2 · 2,5</span><span style="flex:1">3 · 2,5</span><span style="flex:1">4 · 2,5</span>
+          </div>
+          <ul class="legend"><li><b>PDF sur Upedago</b>lundi 21 décembre, dernier délai</li><li><b>1er déc.</b>date annoncée en séance 1, à confirmer</li><li><b>2,5 pts</b>par étape de la veille (barème annoncé en séance 1)</li><li>Besoins · collecte · traitement · diffusion (voir <a href="#etapes" style="color:var(--accent)">les étapes</a>)</li></ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="plan">
+      <div class="num">Évaluation 1 · 4 novembre · 10 pts</div>
+      <h2>Le plan de veille</h2>
+      <p>Objectif : <strong>démontrer la maîtrise de l'étape de la collecte d'information et de l'analyse</strong>.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Critère</th><th>Attendu</th></tr></thead>
+        <tbody>
+          <tr><td>Format</td><td>Individuel, 4 à 5 pages</td></tr>
+          <tr><td>Sujet</td><td>Un métier ou un secteur pro qui vous intéresse</td></tr>
+          <tr><td>Contenu</td><td>Axes, outils, sources, type d'information et de collecte</td></tr>
+          <tr><td>Références</td><td>2 références scientifiques en SHS</td></tr>
+          <tr><td>Conclusion</td><td>1 à 2 pages : analyse des résultats et éléments actionnables pour un plan de carrière ou une recherche d'emploi</td></tr>
+        </tbody>
+      </table></div>
+      <div class="box alert">
+        <p class="lbl">Bon à savoir</p>
+        <p style="margin:0">La conclusion pèse 5 points sur 10 (3 pts d'analyse, 2 pts d'éléments actionnables). Choisir un secteur qui vous concerne vraiment rend ces recommandations plus faciles à écrire.</p>
+      </div>
+    </section>
+
+    <section id="dossier">
+      <div class="num">Évaluation 2 · lundi 21 décembre · 10 pts</div>
+      <h2>Le dossier de veille métier et stratégie de carrière</h2>
+      <p class="principle">Mettre en pratique la recherche documentaire, la veille stratégique et la synthèse analytique au service de votre insertion professionnelle.</p>
+      <p>Un travail commun avec le cours d'<strong>Orientation professionnelle</strong> (Marion Coville et Gabrielle Lavenir). Le sujet est un <strong>secteur ou métier de la communication</strong> que vous choisissez.</p>
+      <div class="box alert">
+        <p class="lbl">Rendu</p>
+        <p style="margin:0">Un <strong>PDF</strong> déposé sur <strong>Upedago</strong>, pour le <strong>lundi 21 décembre, dernier délai</strong>. La diapo de la séance 1 annonçait un dossier de veille pour le <span class="warn">1er décembre</span> : il s'agit peut-être du même travail. À confirmer avec la prof, en attendant garde les deux dates en tête.</p>
+      </div>
+
+      <h3>Les 3 étapes</h3>
+      <ol class="steps">
+        <li><b>Connaissance du secteur, des acteurs et de l'emploi</b><span>Partie I.1. Principaux acteurs (entreprises, institutions, instances de régulation, associations pro, syndicats, presse sectorielle) et enjeux qu'ils identifient. Sources précises, avec leur statut et leurs méthodes.</span></li>
+        <li><b>Mise en place d'une stratégie de veille</b><span>Parties I.2 et I.3. Une problématique de veille pertinente pour un futur pro, puis l'analyse des données : tendances, résultats, implications pour votre recherche d'emploi.</span></li>
+        <li><b>Élaboration d'une stratégie de carrière</b><span>Partie II. Un texte en quatre parties, à partir des analyses : représentations, compétences, recherche de stage et d'alternance, CV.</span></li>
+      </ol>
+
+      <h3>Étape 2 en détail</h3>
+      <ul>
+        <li><strong>Élaboration d'une stratégie de veille (I.2)</strong> : quelle problématique ? Quels types d'information, sources, méthodes, outils ? Quelles requêtes et mots-clés ? On attend un <strong>plan de veille rédigé</strong> (modèle vu en cours) et la <strong>justification de vos choix</strong>.</li>
+        <li><strong>Analyse des données (I.3)</strong> : tendances, principaux résultats, implications pour la recherche d'emploi (compétences à valoriser, sujets à maîtriser, domaines porteurs, controverses en cours). On attend <strong>plusieurs axes d'analyse</strong> et des <strong>recommandations concrètes</strong>, appuyées sur <strong>au moins 5 références</strong> identifiées pendant la veille.</li>
+      </ul>
+
+      <h3>Étape 3 en détail</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Partie</th><th>Questions à traiter</th></tr></thead>
+        <tbody>
+          <tr><td>Mes représentations vs la réalité</td><td>Quelles idées aviez-vous du secteur et des métiers de la communication ? Comment l'analyse les modifie-t-elle ? Que retenez-vous ?</td></tr>
+          <tr><td>Bilan sur mes compétences</td><td>À partir du bilan de compétences d'Orientation pro : quelles compétences mettre en avant, quelles lacunes combler en priorité ?</td></tr>
+          <tr><td>Stratégie de stage et d'alternance</td><td>Comment mobiliser les mots-clés, missions, acteurs et plateformes repérés dans les offres et les tendances ?</td></tr>
+          <tr><td>Adaptation de mon CV</td><td>Comment « rebrander » votre CV pour le secteur ? Un texte qui décrit la stratégie, avec votre <strong>CV modifié</strong>.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Sources minimales</h3>
+      <div class="tools">
+        <div><b>Offres d'emploi</b>10 offres en CDD ou CDI</div>
+        <div><b>Étude de marché</b>1 source</div>
+        <div><b>Organisations pro</b>2 sources</div>
+        <div><b>Presse pro sectorielle</b>2 sources</div>
+        <div><b>Presse pro communication</b>2 sources</div>
+        <div><b>Revue scientifique</b>1 article publié après 2024</div>
+      </div>
+
+      <h3>Structure du rendu final</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Partie</th><th>Contenu</th></tr></thead>
+        <tbody>
+          <tr><td>Courte introduction</td><td>D'où vous venez, vos expériences, quel secteur vous intéresse et pourquoi</td></tr>
+          <tr><td>I. Connaissance et analyse du marché du travail</td><td>1. Résultats principaux de la recherche documentaire<br>2. Élaboration d'une stratégie de veille<br>3. Analyse des données</td></tr>
+          <tr><td>II. Élaboration d'une stratégie de carrière</td><td>1. Mes représentations versus la réalité<br>2. Bilan sur mes compétences<br>3. Ma stratégie de recherche de stage et d'alternance<br>4. Adaptation de mon CV au secteur</td></tr>
+          <tr><td>Annexes</td><td>1. Bibliographie des sources de la recherche documentaire<br>2. Plan de veille<br>3. Tableau du corpus de veille</td></tr>
+        </tbody>
+      </table></div>
+      <p>Le <a href="#plan" style="color:var(--accent)">plan de veille</a> rendu en novembre sert donc de base à la partie I.2 et figure en annexe 2.</p>
+      <p class="hid">La diapo de la séance 1 annonçait aussi 15 à 20 pages, une présentation professionnelle et 2,5 pts par étape de la veille. La fiche ne reprend pas ces points : à confirmer s'ils restent valables.</p>
+
+      <h3>Où trouver des ressources ?</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Type</th><th>Ressources citées</th></tr></thead>
+        <tbody>
+          <tr><td>Marché de l'emploi</td><td><strong>APEC</strong> : Prévisions de recrutements de cadres 2026, Pratiques de recrutement de cadres 2026, Cadres et management : une relation paradoxale, Les cadres et l'IA 2026, Perspectives sur les pratiques de recrutement de cadres en 2035, Les métiers cadres porteurs (édition 2026).<br><strong>OIT</strong> : Cartographie des besoins en compétences des pays européens dans le secteur des TIC, Observatoire sur l'IA et le travail dans l'économie numérique, Apprentissage permanent et compétences pour l'avenir, Tendances sociales et de l'emploi 2026 (enquête mondiale).</td></tr>
+          <tr><td>Études de marché</td><td>Xerfi, Euromonitor, Mintel. Kantar et Ipsos pour les baromètres. Enjeu : situer les acteurs (qui domine, qui émerge, segments en croissance) et comprendre les enjeux économiques auxquels la communication doit répondre.</td></tr>
+          <tr><td>Organisations pro</td><td>Fédérations, syndicats, observatoires de branche : FEBEA, Cosmetic Valley (cosmétique), Union Sport &amp; Cycle, Sporsora (sport), Le Mouvement associatif, France Générosités (ONG), Leem, France Biotech (santé), Union française des métiers de l'événement. Leurs rapports annuels et listes d'adhérents aident à cartographier.</td></tr>
+          <tr><td>Presse pro sectorielle</td><td>Beauté : Premium Beauty News, CosmeticOBS, Glossy. Santé : Hospimedia, Le Quotidien du Médecin, La Veille Acteurs de Santé. Sport : Sport Stratégies, Sport Buzz Business. ONG : Carenews, Associations Mode d'Emploi, le Journal des Acteurs Sociaux.</td></tr>
+          <tr><td>Presse pro communication et marketing</td><td>En français : Stratégies, CB News, Influencia, The Media Leader, E-marketing, BDM (Le Blog du Modérateur), le blog du marketing d'influence (Kolsquare), L'ADN. À l'international : Social Media Today, Search Engine Land, Marketing Brew, Tubefilter (économie des créateurs), Platformer (newsletter sur les plateformes).</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="objectifs">
+      <div class="num">Introduction</div>
+      <h2>À quoi sert ce cours ?</h2>
+      <ul>
+        <li>Maîtriser les <strong>enjeux, les méthodes et les outils</strong> de la veille stratégique.</li>
+        <li>Articuler les <strong>savoirs pro</strong> et une <strong>réflexion nourrie par les sciences sociales</strong>.</li>
+        <li>Pour quoi faire : un <strong>travail de veille en entreprise</strong>, une démarche d'<strong>intelligence économique</strong>, une <strong>recherche d'emploi</strong>.</li>
+      </ul>
+      <p>Pour bien commencer, la prof fixe trois repères : un <strong>angle</strong> (la communication des organisations), une <strong>approche critique</strong> (mobiliser les sciences sociales) et une <strong>ambition</strong> : dépasser les platitudes et les fausses évidences.</p>
+    </section>
+
+    <section id="definition">
+      <div class="num">Notion clé</div>
+      <h2>Qu'est-ce que la veille stratégique ?</h2>
+      <p class="principle">Une activité de gestion de l'information, sous la forme d'une surveillance, pour anticiper les évolutions d'un environnement, de manière à réduire les risques et saisir les opportunités.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Élément</th><th>Ce qu'il dit de la veille</th></tr></thead>
+        <tbody>
+          <tr><td>Nature</td><td>Une activité de <strong>gestion de l'information</strong></td></tr>
+          <tr><td>Forme</td><td>Une <strong>surveillance</strong></td></tr>
+          <tr><td>But</td><td><strong>Anticiper</strong> les évolutions d'un environnement</td></tr>
+          <tr><td>Finalité</td><td><strong>Réduire les risques</strong> et <strong>saisir les opportunités</strong></td></tr>
+        </tbody>
+      </table></div>
+      <h3>Trois visages de la veille</h3>
+      <ul>
+        <li><strong>Un objet de recherche</strong> : la revue <em>Études de communication</em> n° 60 consacre un dossier aux « Nouveaux ancrages de la veille en sciences de l'information et de la communication ».</li>
+        <li><strong>Un marché</strong> : Sindup, logiciel de veille présenté en séance 1, vend ses offres de 2 940 € HT/an (Starter) à 18 490 € HT/an (Premium), sur devis pour les grands groupes.</li>
+        <li><strong>Une pratique institutionnelle</strong> : l'IHEDN publie une « Veille stratégique » mensuelle. En septembre 2025 : cybercriminalité, Inde au Moyen-Orient, risques nucléaires, Indopacifique, bataille de l'information, marine allemande, EU Space Act.</li>
+      </ul>
+      <figure class="fig">
+        <img src="img/exemples-veille.jpg" alt="Couverture de la revue Études de communication n° 60, grille tarifaire de Sindup et lettre Veille stratégique de septembre 2025 de l'IHEDN" loading="lazy">
+        <figcaption><b>Diapo 12.</b> La veille comme champ de recherche (<em>Études de communication</em> n° 60), comme produit commercial (tarifs Sindup) et comme publication d'État (IHEDN).</figcaption>
+      </figure>
+    </section>
+
+    <section id="signaux">
+      <div class="num">Notions clés</div>
+      <h2>Signaux faibles et types de veille</h2>
+      <h3>Les signaux faibles · Ansoff (1975)</h3>
+      <p class="principle">Certains indicateurs permettent d'anticiper des évènements à fort impact : l'enjeu est de réagir assez tôt pour éviter l'évènement, le minimiser, voire l'exploiter.</p>
+      <ul>
+        <li><strong>Limite théorique</strong> : un concept peu opératoire. Comment savoir d'avance quels signaux faibles annoncent vraiment quelque chose ?</li>
+        <li><strong>Limite éthique</strong> : le recours aux algorithmes prédictifs.</li>
+        <li><strong>En pratique</strong> : on s'appuie sur l'intuition, l'intelligence collective et l'expertise localisée.</li>
+      </ul>
+      <figure class="fig dia">
+        <svg viewBox="0 0 560 300" role="img" aria-label="Courbe : un signal faible grandit avec le temps jusqu'à devenir un signal fort ; plus on le repère tôt, plus on a de marge pour agir">
+          <rect x="62" y="24" width="200" height="226" class="fs"/>
+          <line x1="50" y1="250" x2="535" y2="250" class="sk" marker-end="url(#arm)"/>
+          <line x1="50" y1="250" x2="50" y2="22" class="sk" marker-end="url(#arm)"/>
+          <text x="530" y="275" text-anchor="end" class="tm ts">temps</text>
+          <text x="40" y="140" text-anchor="middle" class="tm ts" transform="rotate(-90 40 140)">intensité du signal</text>
+          <path d="M60,240 C250,238 380,220 520,40" class="sa"/>
+          <text x="74" y="50" class="tk ta">SIGNAL FAIBLE</text>
+          <text x="74" y="72" class="ts">peu visible, ambigu</text>
+          <text x="74" y="90" class="ts">mais beaucoup de</text>
+          <text x="74" y="108" class="ts">marge pour agir</text>
+          <circle cx="216.7" cy="229.9" r="6" class="fa"/>
+          <line x1="216.7" y1="221" x2="216.7" y2="160" class="sm dash"/>
+          <text x="216" y="134" text-anchor="middle" class="ts tb">repéré ici :</text>
+          <text x="216" y="152" text-anchor="middle" class="ts">éviter, minimiser, exploiter</text>
+          <circle cx="457.4" cy="110.6" r="6" class="fi"/>
+          <text x="410" y="200" class="tk">SIGNAL FORT</text>
+          <text x="410" y="222" class="ts">évident pour tous,</text>
+          <text x="410" y="240" class="ts">peu de temps</text>
+        </svg>
+        <figcaption><b>Schéma.</b> L'idée d'Ansoff : un évènement à fort impact s'annonce d'abord par des indices discrets. Le repérer tôt laisse le temps de réagir. Toute la difficulté (la « limite théorique ») est de savoir, au moment où on le voit, si ce point vert annonce vraiment quelque chose.</figcaption>
+      </figure>
+      <h3>Les types de veille</h3>
+      <div class="tools">
+        <div><b>Concurrentielle</b>les concurrents</div>
+        <div><b>Commerciale</b>clients, fournisseurs, marchés</div>
+        <div><b>Technologique</b>innovations, brevets</div>
+        <div><b>Légale</b>lois et réglementations</div>
+        <div><b>Marketing</b>tendances, consommateurs</div>
+        <div><b>E-réputation</b>l'image en ligne</div>
+      </div>
+      <p class="hid">Les descriptions courtes sous chaque type sont ajoutées pour mémoriser, la diapo ne donne que les noms.</p>
+      <figure class="fig dia">
+        <svg viewBox="0 0 560 320" role="img" aria-label="Schéma : la veille stratégique au centre, reliée aux six types de veille">
+          <line x1="280" y1="160" x2="280" y2="45" class="sr"/><line x1="280" y1="160" x2="453" y2="102" class="sr"/><line x1="280" y1="160" x2="453" y2="218" class="sr"/><line x1="280" y1="160" x2="280" y2="275" class="sr"/><line x1="280" y1="160" x2="107" y2="218" class="sr"/><line x1="280" y1="160" x2="107" y2="102" class="sr"/>
+          <circle cx="280" cy="160" r="72" class="fa"/>
+          <text x="280" y="152" text-anchor="middle" class="ton tb">Veille</text>
+          <text x="280" y="172" text-anchor="middle" class="ton tb">stratégique</text>
+          <text x="280" y="196" text-anchor="middle" class="ton tk">MÉTA-VEILLE</text>
+          <rect x="205" y="25" width="150" height="40" rx="20" class="fsu bo"/><text x="280" y="50" text-anchor="middle">Concurrentielle</text><rect x="378" y="82" width="150" height="40" rx="20" class="fsu bo"/><text x="453" y="107" text-anchor="middle">Commerciale</text><rect x="378" y="198" width="150" height="40" rx="20" class="fsu bo"/><text x="453" y="223" text-anchor="middle">Technologique</text><rect x="205" y="255" width="150" height="40" rx="20" class="fsu bo"/><text x="280" y="280" text-anchor="middle">Légale</text><rect x="32" y="198" width="150" height="40" rx="20" class="fsu bo"/><text x="107" y="223" text-anchor="middle">Marketing</text><rect x="32" y="82" width="150" height="40" rx="20" class="fsu bo"/><text x="107" y="107" text-anchor="middle">E-réputation</text>
+        </svg>
+        <figcaption><b>Schéma.</b> La veille stratégique ne s'ajoute pas aux six autres : elle les relie et les met au service des décisions de l'organisation.</figcaption>
+      </figure>
+      <div class="box alert">
+        <p class="lbl">À retenir</p>
+        <p style="margin:0">La veille stratégique est une <strong>méta-veille</strong> : elle englobe et articule toutes les autres.</p>
+      </div>
+    </section>
+
+    <section id="etapes">
+      <div class="num">Méthode</div>
+      <h2>Les 4 étapes de la veille</h2>
+      <p class="principle">La veille est un cycle : on part d'un besoin, on collecte, on traite, puis on diffuse le résultat à ceux qui l'ont commandé.</p>
+      <figure class="fig dia">
+        <svg viewBox="0 0 560 420" role="img" aria-label="Schéma : le cycle de la veille, besoins, collecte, traitement, diffusion, puis retour aux besoins">
+          <path d="M376.4,95.1 A150,150 0 0 1 415.9,146.6" class="sa" marker-end="url(#ar)"/>
+          <path d="M415.9,273.4 A150,150 0 0 1 376.4,324.9" class="sa" marker-end="url(#ar)"/>
+          <path d="M183.6,324.9 A150,150 0 0 1 144.1,273.4" class="sa" marker-end="url(#ar)"/>
+          <path d="M144.1,146.6 A150,150 0 0 1 183.6,95.1" class="sa" marker-end="url(#ar)"/>
+          <circle cx="280" cy="210" r="52" class="fs"/>
+          <text x="280" y="196" text-anchor="middle" class="ts tm">le</text>
+          <text x="280" y="214" text-anchor="middle" class="ts tb ta">commanditaire</text>
+          <text x="280" y="232" text-anchor="middle" class="ts tm">décide</text>
+          <rect x="185" y="26" width="190" height="68" rx="8" class="fsu bo"/><text x="280" y="54" text-anchor="middle" class="tb"><tspan class="ta">1 · </tspan>Besoins</text><text x="280" y="77" text-anchor="middle" class="tm ts">Qui commande ? Pourquoi ?</text>
+          <rect x="335" y="176" width="190" height="68" rx="8" class="fsu bo"/><text x="430" y="204" text-anchor="middle" class="tb"><tspan class="ta">2 · </tspan>Collecte</text><text x="430" y="227" text-anchor="middle" class="tm ts">Sources, outils, stockage</text>
+          <rect x="185" y="326" width="190" height="68" rx="8" class="fsu bo"/><text x="280" y="354" text-anchor="middle" class="tb"><tspan class="ta">3 · </tspan>Traitement</text><text x="280" y="377" text-anchor="middle" class="tm ts">Analyser, interpréter</text>
+          <rect x="35" y="176" width="190" height="68" rx="8" class="fsu bo"/><text x="130" y="204" text-anchor="middle" class="tb"><tspan class="ta">4 · </tspan>Diffusion</text><text x="130" y="227" text-anchor="middle" class="tm ts">Livrables, supports, rythme</text>
+        </svg>
+        <figcaption><b>Schéma.</b> La veille tourne en boucle : ce que la diffusion apprend au commanditaire fait naître de nouveaux besoins. Chaque étape vaut 2,5 pts dans le dossier (barème de la séance 1).</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><span class="pts">2,5 pts</span><b>Identification des besoins</b><span>Qui passe commande ? Dans quel but ? Quelle question de recherche ?</span></li>
+        <li><span class="pts">2,5 pts</span><b>Collecte des informations</b><span>Quelles sources ? Comment organiser les informations ?</span></li>
+        <li><span class="pts">2,5 pts</span><b>Traitement des informations</b><span>Comment analyser les informations ?</span></li>
+        <li><span class="pts">2,5 pts</span><b>Diffusion</b><span>Comment faire connaître le résultat de la veille ? Sur quels supports, à quelle fréquence ?</span></li>
+      </ol>
+      <div class="box alert">
+        <p class="lbl">Lien avec les évaluations</p>
+        <ul>
+          <li><strong>Plan de veille (4/11)</strong> : il porte surtout sur les étapes 1 à 3. Les besoins donnent les axes, la collecte les outils et les sources, le traitement l'analyse de la conclusion.</li>
+          <li><strong>Dossier de veille (21/12, 1/12 à confirmer)</strong> : les 4 étapes, à 2,5 pts chacune selon la séance 1. La partie I.1 (acteurs, sources) prépare la collecte, la partie I.2 formalise le plan de veille, la partie I.3 relève du traitement, et le PDF rendu de la diffusion.</li>
+        </ul>
+        <p class="hid" style="margin:8px 0 0">Ce rapprochement est déduit des diapos, la prof ne l'a pas écrit ainsi.</p>
+      </div>
+    </section>
+
+    <section id="demo">
+      <div class="num">Démonstration</div>
+      <h2>Les 4 étapes, outil par outil</h2>
+      <p>La prof déroule le cycle sur son propre sujet : <strong>les jeux vidéo et les aîné·es</strong>. Question : dans quelle mesure le rapport des gens âgés avec les jeux vidéo est-il en train de changer ?</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Axe</th><th>Ce qu'on surveille</th></tr></thead>
+        <tbody>
+          <tr><td>Social</td><td>Les pratiques vidéoludiques des gens âgés</td></tr>
+          <tr><td>Commercial</td><td>La promotion des jeux vidéo auprès des gens âgés</td></tr>
+          <tr><td>Médiatique</td><td>La représentation de la vieillesse dans les jeux vidéo</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>1 · Identification des besoins</h3>
+      <ul>
+        <li><strong>Type de veille</strong> : scientifique et médiatique. <strong>Commanditaire</strong> : individuel, dans le cadre d'un projet de recherche.</li>
+        <li><strong>Besoins</strong> : rassembler des données pour tester une question de recherche, identifier des tendances nouvelles.</li>
+        <li><strong>Types d'information</strong> : données (médias, blogs, réseaux sociaux, sites spécialisés), références scientifiques (livres, articles), évènements pro (colloques, conférences, appels à publication).</li>
+      </ul>
+
+      <h3>2 · Collecte des informations</h3>
+      <div class="tools">
+        <div><b>Recherche</b>Moteurs de recherche et bases de données</div>
+        <div><b>Flux RSS</b>Inoreader</div>
+        <div><b>Abonnements</b>Newsletters</div>
+        <div><b>Surveillance de pages</b>WatchThatPage, Distill</div>
+        <div><b>Alertes</b>Google Alerts, Google Scholar Alerts</div>
+        <div><b>Réseaux sociaux</b>SocialSearcher, OWL</div>
+      </div>
+      <figure class="fig">
+        <img src="img/collecte-inoreader-scholar.jpg" alt="Inoreader avec des flux de requêtes booléennes sur les jeux vidéo, et une alerte Google Scholar sur serious game" loading="lazy">
+        <figcaption><b>Diapo 23.</b> À gauche, Inoreader regroupe des flux Google Actualités construits avec des requêtes booléennes (<code>"serious game" AND "jeu vidéo"</code>). À droite, une alerte Google Scholar sur « serious game » pour suivre les nouvelles publications.</figcaption>
+      </figure>
+
+      <h3>3 · Traitement des informations</h3>
+      <div class="tools">
+        <div><b>Prise de notes</b>Evernote, Notion</div>
+        <div><b>Bibliographie</b>Zotero</div>
+        <div><b>Rédaction</b>Scrivener</div>
+      </div>
+      <figure class="fig">
+        <img src="img/traitement-evernote-zotero.jpg" alt="Carnet Evernote Aîné-es et jeux vidéo, et bibliothèque Zotero Silver Gamers classée en sous-dossiers" loading="lazy">
+        <figcaption><b>Diapo 24.</b> En haut, un carnet de notes « Aîné-es et jeux vidéo » avec les extraits clés d'un article. En bas, une bibliothèque Zotero « Silver Gamers » rangée par disciplines (médias, sciences médicales, sciences sociales).</figcaption>
+      </figure>
+
+      <h3>4 · Diffusion</h3>
+      <div class="tools">
+        <div><b>Commanditaire</b>Ses propres plateformes</div>
+        <div><b>Archive ouverte</b>HAL-SHS</div>
+        <div><b>Blog académique</b>hypotheses.org</div>
+        <div><b>Présentation</b>Prezi, Canva</div>
+        <div><b>Newsletters</b>Brevo</div>
+      </div>
+      <figure class="fig">
+        <img src="img/diffusion-hal-brevo.jpg" alt="Notice HAL-SHS d'une communication de colloque, et statistiques d'une campagne d'emailing Brevo" loading="lazy">
+        <figcaption><b>Diapo 25.</b> Une communication déposée sur HAL-SHS, puis une campagne Brevo et ses indicateurs : 2 618 mails délivrés, 33,84 % d'ouverture, 18,53 % de clics. La diffusion se mesure.</figcaption>
+      </figure>
+    </section>
+
+    <section id="iag">
+      <div class="num">Atelier</div>
+      <h2>Faire mieux que ChatGPT</h2>
+      <p class="principle">Une IA générative produit du texte plausible, pas de la veille. La veille, ce sont des méthodes, des sources et un traitement critique de l'information.</p>
+      <ul>
+        <li>IAG et LLM sont des <strong>modèles statistiques</strong>, des « <strong>perroquets stochastiques</strong> » sujets aux <strong>hallucinations</strong>.</li>
+        <li><strong>Exercice</strong> : lister 5 à 7 idées de sens commun sur « les écrans », puis demander à un chatbot : « Tu es un·e analyste de veille. Écris un brief de dix lignes sur le rôle des écrans dans la société ». Comparer. Refaire l'exercice en groupe sur le sujet du dossier.</li>
+      </ul>
+      <figure class="fig">
+        <img src="img/brief-iag.jpg" alt="Réponse d'un chatbot à la demande d'un brief de veille sur les personnes âgées et les jeux vidéo" loading="lazy">
+        <figcaption><b>Diapo 19.</b> Le brief produit par ChatGPT sur les personnes âgées et les jeux vidéo. Verdict de la prof : <b>un joli texte de fiction, un échantillon de stéréotypes, de la très mauvaise veille</b>. Aucune source, que des généralités.</figcaption>
+      </figure>
+      <h3>Et l'IAG dans les outils de veille ?</h3>
+      <ul>
+        <li>Des outils qui s'imposent, dans la logique de l'<strong>automatisation de la surveillance</strong>.</li>
+        <li>On est passé de l'IA à l'IAG dans la veille, avec des <strong>conséquences écologiques et éthiques</strong>.</li>
+        <li><strong>Flux automatisés</strong> : Make, Zapier, tâches planifiées par les chatbots.</li>
+      </ul>
+      <figure class="fig">
+        <img src="img/iag-make-chatbot.jpg" alt="Scénario Make enchaînant Iterator, HTTP, Text parser, Mistral AI et Google Sheets, et un brief quotidien programmé dans un chatbot" loading="lazy">
+        <figcaption><b>Diapo 26.</b> En haut, un scénario Make qui récupère des pages web, en extrait le texte, le fait résumer par Mistral AI et range le résultat dans Google Sheets. En bas, un chatbot programmé pour envoyer chaque matin un brief international sur le vieillissement et les jeux vidéo.</figcaption>
+      </figure>
+    </section>
+
+    <section id="organisation">
+      <div class="num">Organisation</div>
+      <h2>Le calendrier des 7 séances</h2>
+      <p>Séances de 3 h : <strong>1h30 de cours, 1 h d'atelier, 30 min de conclusion</strong>, avec des démonstrations d'outils pro. Diapos disponibles après chaque séance.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Séance</th><th>Thème</th><th>Atelier</th></tr></thead>
+        <tbody>
+          <tr><td>1 · 2 oct.<br>9h-12h</td><td>Introduction, présentation du logiciel Sindup</td><td>Usages de l'IAG en veille</td></tr>
+          <tr><td>2 · 5 oct.<br>13h45-16h45</td><td>Mise en place d'un plan de veille : besoins, problématique, méthode, outils</td><td>Problématisation et choix des outils pour le dossier</td></tr>
+          <tr><td>3 · 16 oct.<br>9h-12h</td><td>La recherche d'information : <em>digital methods</em>, automatisation de la collecte, mots-clés et opérateurs booléens, veille au-delà d'Internet</td><td>Lancement du travail collectif sur les dossiers, questions Sindup</td></tr>
+          <tr><td>4 · 2 nov.<br>9h-12h</td><td><strong>Premier rendu : plan de veille.</strong> La veille en organisation (entreprise, institution, collectif), enjeux politiques et sociaux</td><td>Optimisation des mots-clés, en groupe</td></tr>
+          <tr><td>5 · 9 nov.<br>13h45-16h45</td><td>Intervention Curebot. Sélection et validation des sources, sources scientifiques, citer une source, plagiat</td><td>Sources du dossier</td></tr>
+          <tr><td>6 · 13 nov.<br>13h45-16h45</td><td>L'analyse des informations : données en entreprise, méthodes des sciences sociales, statistiques</td><td>Analyse d'un réseau d'acteurs</td></tr>
+          <tr><td>7 · 20 nov.<br>13h45-16h45</td><td><strong>Deuxième rendu : synthèse analytique.</strong> La diffusion, focus veille scientifique, outils pour le mémoire</td><td>Travail individuel sur un article scientifique</td></tr>
+        </tbody>
+      </table></div>
+      <figure class="fig dia">
+        <svg viewBox="0 0 560 270" role="img" aria-label="Frise : les 7 séances du 2 octobre au 20 novembre, plan de veille rendu le 4 novembre, synthèse analytique le 20 novembre à confirmer, dossier le 1er décembre à confirmer, dossier le 21 décembre">
+          <text x="30" y="40" class="tk tm">OCT.</text>
+          <line x1="217.5" y1="28" x2="217.5" y2="112" class="sr"/><text x="223.5" y="40" class="tk tm">NOV.</text>
+          <line x1="405.0" y1="28" x2="405.0" y2="112" class="sr"/><text x="411.0" y="40" class="tk tm">DÉC.</text>
+          <text x="30" y="72" class="ts tm">séances</text>
+          <line x1="30" y1="100" x2="535" y2="100" class="sk"/>
+          <circle cx="30.0" cy="100" r="10" class="fa"/><text x="30.0" y="105" text-anchor="middle" class="ton ts tb">1</text><circle cx="48.8" cy="100" r="10" class="fa"/><text x="48.8" y="105" text-anchor="middle" class="ton ts tb">2</text><circle cx="117.5" cy="100" r="10" class="fa"/><text x="117.5" y="105" text-anchor="middle" class="ton ts tb">3</text><circle cx="223.8" cy="100" r="10" class="fa"/><text x="223.8" y="105" text-anchor="middle" class="ton ts tb">4</text><circle cx="267.5" cy="100" r="10" class="fa"/><text x="267.5" y="105" text-anchor="middle" class="ton ts tb">5</text><circle cx="292.5" cy="100" r="10" class="fa"/><text x="292.5" y="105" text-anchor="middle" class="ton ts tb">6</text><circle cx="336.2" cy="100" r="10" class="fa"/><text x="336.2" y="105" text-anchor="middle" class="ton ts tb">7</text>
+          <line x1="236.2" y1="114" x2="236.2" y2="134" class="sm"/><rect x="230.2" y="128" width="12" height="12" transform="rotate(45 236.2 134)" class="fa" style="stroke:var(--accent);stroke-width:1.5"/><text x="236.2" y="158" text-anchor="middle" class="ts tb">Plan de veille ✓</text><text x="236.2" y="175" text-anchor="middle" class="ts tm">4/11, rendu</text>
+          <line x1="336.2" y1="114" x2="336.2" y2="189" class="sm dash"/><rect x="330.2" y="183" width="12" height="12" transform="rotate(45 336.2 189)" class="fsu" style="stroke:var(--accent);stroke-width:1.5"/><text x="336.2" y="213" text-anchor="middle" class="ts tb">Synthèse ?</text><text x="336.2" y="230" text-anchor="middle" class="ts tm">20/11</text>
+          <line x1="405.0" y1="114" x2="405.0" y2="134" class="sm dash"/><rect x="399.0" y="128" width="12" height="12" transform="rotate(45 405.0 134)" class="fsu" style="stroke:var(--accent);stroke-width:1.5"/><text x="405.0" y="158" text-anchor="middle" class="ts tb">Dossier ?</text><text x="405.0" y="175" text-anchor="middle" class="ts tm">1/12</text>
+          <line x1="530.0" y1="114" x2="530.0" y2="189" class="sm"/><rect x="524.0" y="183" width="12" height="12" transform="rotate(45 530.0 189)" class="fa" style="stroke:var(--accent);stroke-width:1.5"/><text x="530.0" y="213" text-anchor="end" class="ts tb">Dossier</text><text x="530.0" y="230" text-anchor="end" class="ts tm">21/12</text>
+        </svg>
+        <figcaption><b>Frise.</b> Les séances (ronds) et les rendus (losanges). Losange plein : date sûre. Losange vide et trait pointillé : date annoncée par une diapo, à faire confirmer.</figcaption>
+      </figure>
+      <div class="box alert">
+        <p class="lbl">Dates à faire confirmer</p>
+        <p style="margin:0">Le calendrier ne colle pas avec la diapo des évaluations. Il place le plan de veille le <span class="warn">2 novembre</span> (séance 4), pas le 4. Il annonce aussi une « synthèse analytique » le <span class="warn">20 novembre</span>. La fiche du dossier fixe son rendu au <strong>lundi 21 décembre</strong>, alors que la diapo des évaluations disait le 1er décembre.</p>
+      </div>
+    </section>
+
+    <section id="loin">
+      <div class="num">Ressource</div>
+      <h2>Pour aller plus loin</h2>
+      <p>« Démarche et outils pour développer une veille numérique personnelle », <strong>URFIST Rennes</strong> : <a href="https://urfist.univ-rennes2.fr/ressources/supports-de-formation/demarche-et-outils-pour-developper-une-veille-numerique" style="color:var(--accent);overflow-wrap:anywhere">urfist.univ-rennes2.fr</a></p>
+      <figure class="fig">
+        <img src="img/urfist-carte-outils.jpg" alt="Carte mentale de l'URFIST classant les outils de veille selon leur coût, leur spécificité, la nature des sources et leur fonction" loading="lazy">
+        <figcaption><b>Diapo 27.</b> Carte mentale de l'URFIST : les outils de veille classés par coût (gratuits ou payants), par nature des sources (web, réseaux sociaux, blogs, actualité, personnes) et par fonction (collecte, stockage, traitement, diffusion). Les 4 fonctions recoupent les 4 étapes de la veille.</figcaption>
+      </figure>
+    </section>
+
+    <section id="seance2">
+      <span class="seance">Séance 2 · 5 octobre</span>
+      <h2>La mise en place de la veille</h2>
+      <p class="live">Tes notes, complétées par les diapos de la séance (PDF reçu le 9 novembre).</p>
+
+      <h3>Définition et enjeux</h3>
+      <p>On reprend la <a href="#definition" style="color:var(--accent)">définition de la séance 1</a>, en précisant ce que la veille doit produire :</p>
+      <ul>
+        <li><strong>anticiper les tendances</strong> ;</li>
+        <li>fournir des <strong>informations avérées</strong> pour <strong>assister la prise de décision</strong> ;</li>
+        <li>assurer un <strong>avantage stratégique</strong>.</li>
+      </ul>
+      <div class="box alert">
+        <p class="lbl">Conséquence</p>
+        <p style="margin:0">Il faut détecter les <a href="#signaux" style="color:var(--accent)">signaux faibles</a> <strong>en se rapprochant de leur source</strong>.</p>
+      </div>
+
+      <h3>1.1 Un peu d'histoire</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Repère</th><th>Ce qu'il faut retenir</th></tr></thead>
+        <tbody>
+          <tr><td>Filiation</td><td>La veille prolonge le <strong>renseignement</strong> et l'<strong>intelligence économique</strong></td></tr>
+          <tr><td>Différence</td><td>Elle s'appuie sur des <strong>sources ouvertes</strong> et vise un <strong>objectif d'information</strong></td></tr>
+          <tr><td>Vision du monde</td><td>Un environnement marqué par l'<strong>instabilité</strong> et le <strong>risque d'excès d'information</strong></td></tr>
+        </tbody>
+      </table></div>
+      <p>Ressource citée : vie-publique.fr, « Intelligence économique et stratégie des entreprises ».</p>
+      <h3>Sources ouvertes, sources fermées</h3>
+      <p>Une distinction héritée du renseignement : les <strong>sources ouvertes</strong> sont accessibles à tous, les <strong>sources fermées</strong> réservées (accès restreint, confidentiel). Les diapos classent aussi l'information selon son <strong>degré d'accessibilité</strong> :</p>
+      <div class="tools">
+        <div><b>Information blanche</b>Publique, librement accessible</div>
+        <div><b>Information grise</b>Accessible, mais difficile à trouver ou à obtenir</div>
+        <div><b>Information noire</b>Confidentielle, protégée, hors du champ de la veille</div>
+      </div>
+      
+      <figure class="fig dia">
+        <svg viewBox="0 0 560 300" role="img" aria-label="Iceberg : l'information blanche émerge, la grise est juste sous la surface, la noire tout au fond ; la veille travaille sur la blanche et la grise">
+          <path d="M60,110 q15,-8 30,0 t30,0 t30,0 t30,0 t30,0 t30,0 t30,0 t30,0 t30,0 t30,0 t30,0 t30,0 t30,0 t30,0 t30,0" class="sa"/>
+          <polygon points="220,30 300,110 140,110" class="fsu" style="stroke:var(--ink);stroke-width:1.5"/>
+          <polygon points="140,110 300,110 340,200 100,200" class="fg" style="stroke:var(--ink);stroke-width:1.5"/>
+          <polygon points="100,200 340,200 280,280 160,280" class="fi"/>
+          <path d="M84,30 h-12 v170 h12" class="sa"/>
+          <text x="58" y="115" text-anchor="middle" class="ts ta tb" transform="rotate(-90 58 115)">champ de la veille</text>
+          <text x="370" y="62" class="tk ta">BLANCHE</text><text x="370" y="82" class="ts">publique, en libre accès</text>
+          <text x="370" y="148" class="tk ta">GRISE</text><text x="370" y="168" class="ts">accessible, mais</text><text x="370" y="185" class="ts">difficile à trouver</text>
+          <text x="370" y="236" class="tk ta">NOIRE</text><text x="370" y="256" class="ts">confidentielle, protégée :</text><text x="370" y="273" class="ts">hors du champ de la veille</text>
+        </svg>
+        <figcaption><b>Schéma.</b> Comme un iceberg : la part visible (blanche) est la plus petite. La valeur ajoutée du veilleur se joue souvent dans l'information grise, rapports, littérature pro, archives. La noire relève de l'espionnage, pas de la veille.</figcaption>
+      </figure><p class="hid">Les définitions courtes sont la lecture usuelle de ces catégories, la diapo ne donne que les termes.</p>
+
+      <h3>Sindup, une plateforme intégrée</h3>
+      <p>Après la vidéo de présentation, deux questions à se poser :</p>
+      <ul>
+        <li>Comment Sindup cherche-t-il à se distinguer de ses concurrents ? Quelle est son <strong>USP</strong> (<em>Unique Selling Proposition</em>) ?</li>
+        <li>Pourquoi Sindup met-il sa plateforme <strong>gratuitement</strong> à votre disposition ?</li>
+        <li>Quelle <strong>place</strong> Sindup donne-t-il à l'<strong>IA</strong> et à l'IA générative ? <span class="hid">(question ajoutée sur les diapos)</span></li>
+      </ul>
+      <p>La présentation de Sindup qui a suivi donne des éléments de réponse :</p>
+      <div class="tools">
+        <div><b>Clients</b>Petites et grandes entreprises privées, une multiplicité d'usages et de marchés</div>
+        <div><b>Collecte</b>Récupération des contenus garantie conforme</div>
+        <div><b>Analyse</b>Humain + IA : on valide, supprime ou commente chaque article remonté</div>
+        <div><b>Diffusion</b>Newsletters, alertes, bibliothèque consultable, envoi vers Teams, Slack ou un CRM</div>
+        <div><b>Accompagnement</b>Service client inclus (chat, mail) et communauté de clients</div>
+        <div><b>Sécurité</b>IA générative intégrée, accès par SSO, environnement sécurisé</div>
+      </div>
+      <div class="box alert">
+        <p class="lbl">Réponses possibles aux deux questions</p>
+        <ul>
+          <li><strong>USP</strong> : une plateforme <strong>intégrée</strong> qui couvre tout le cycle de la veille, de la collecte conforme à la diffusion dans les outils internes, avec un accompagnement humain inclus. Ce n'est pas un logiciel vendu seul.</li>
+          <li><strong>Gratuité</strong> : non expliquée dans la présentation. Hypothèse : former et fidéliser de futurs professionnels, et nourrir la communauté d'usages que Sindup met en avant.</li>
+          <li><strong>IA</strong> : un rôle d'assistant. L'IA trie et résume, mais l'humain garde la main : il valide, supprime ou commente ce qui remonte.</li>
+        </ul>
+        <p class="hid" style="margin:8px 0 0">Tes notes viennent d'une dictée automatique très déformée. Ce résumé reconstitue le sens probable. Restent incertains : l'hébergement en France, d'éventuels accords avec les éditeurs, et un exemple sur un article de l'Université d'Ottawa.</p>
+      </div>
+
+      <h3>1.2 Les 4 étapes en détail</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Étape</th><th>Ce qu'on fait</th><th>Ce que ça produit</th></tr></thead>
+        <tbody>
+          <tr><td>1. Identification des besoins</td><td>Cerner les utilisateurs, leurs besoins, le périmètre, les moyens, la finalité, les types de données</td><td>Entrevue de veille, plan de veille, problématique et axes</td></tr>
+          <tr><td>2. Collecte</td><td>Identifier les sources, collecter de façon ponctuelle et automatique, stocker et classer</td><td>Outils de collecte automatique, base de données</td></tr>
+          <tr><td>3. Traitement</td><td>Contextualiser, mettre en lien, interpréter, proposer une analyse</td><td>Analyse, outils de visualisation</td></tr>
+          <tr><td>4. Diffusion</td><td>Choisir le format et le mode (ponctuel ou automatisé), diffuser les livrables, définir les niveaux d'accès</td><td>Restitution, livrables, plan de diffusion</td></tr>
+        </tbody>
+      </table></div>
+      <p>Pour la collecte, voir la <a href="#demo" style="color:var(--accent)">démonstration de la séance 1</a> (RSS, alertes, agents de surveillance).</p>
+
+      <h3>Pourquoi tout part des besoins</h3>
+      <ul>
+        <li>Une veille est <strong>inutile si elle ne répond pas au but</strong> fixé.</li>
+        <li>La <strong>problématique</strong> définit la méthode, les sources, le calendrier et la diffusion.</li>
+        <li>Il faut donc <strong>identifier les besoins avant</strong> de chercher quoi que ce soit.</li>
+      </ul>
+      <h3>L'entrevue de veille</h3>
+      <p>Un échange avec les commanditaires pour cerner :</p>
+      <div class="tools">
+        <div><b>Objectifs</b>Les objectifs stratégiques</div>
+        <div><b>Commanditaires</b>Qui commande, pour qui</div>
+        <div><b>Existant</b>Les pratiques de veille déjà en place</div>
+        <div><b>Manques</b>Les informations qui font défaut</div>
+        <div><b>Ressources</b>Le temps, le budget, les outils</div>
+      </div>
+      <p>Le plan de veille qui en sort est ensuite <strong>validé avec les commanditaires</strong>.</p>
+
+      <h3>Formuler une problématique</h3>
+      <p>Sur un même thème (les jeux vidéo), la problématique change selon le commanditaire : un <strong>petit éditeur</strong>, une <strong>association professionnelle</strong> ou une <strong>institution régionale</strong> n'ont pas les mêmes besoins, donc pas les mêmes axes.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Plutôt que…</th><th>Essayez</th></tr></thead>
+        <tbody>
+          <tr><td>Les soins médicaux</td><td>La place de l'innovation dans le soin</td></tr>
+          <tr><td>L'agriculture</td><td>Les stratégies de l'élevage bovin face à la crise écologique</td></tr>
+          <tr><td>La voiture autonome</td><td>Le positionnement des acteurs de la voiture autonome</td></tr>
+          <tr><td>Les réseaux sociaux menacent le lien social</td><td>Quelles sociabilités les réseaux sociaux favorisent-ils ?</td></tr>
+        </tbody>
+      </table></div>
+      <figure class="fig dia">
+        <svg viewBox="0 0 560 270" role="img" aria-label="Entonnoir : du thème la voiture autonome à la problématique le positionnement des acteurs de la voiture autonome">
+          <polygon points="40,20 520,20 360,150 360,180 200,180 200,150" class="fs" style="stroke:var(--accent);stroke-width:1.5"/>
+          <text x="280" y="50" text-anchor="middle" class="tk ta">THÈME</text>
+          <text x="280" y="75" text-anchor="middle" class="tb">La voiture autonome</text>
+          <text x="280" y="115" text-anchor="middle" class="ts tm">+ un commanditaire, un angle</text>
+          <text x="280" y="140" text-anchor="middle" class="ts tm">+ une question ouverte</text>
+          <line x1="280" y1="182" x2="280" y2="206" class="sa" marker-end="url(#ar)"/>
+          <rect x="30" y="212" width="500" height="50" rx="8" class="fa"/>
+          <text x="280" y="232" text-anchor="middle" class="tk ton">PROBLÉMATIQUE</text>
+          <text x="280" y="252" text-anchor="middle" class="ton tb">Le positionnement des acteurs de la voiture autonome</text>
+        </svg>
+        <figcaption><b>Schéma.</b> On entre large (un thème), on ressort étroit (une question que la veille peut traiter). C'est la problématique qui dira ensuite quelles sources, quels outils et quel calendrier choisir.</figcaption>
+      </figure>
+      <div class="box alert">
+        <p class="lbl">La règle</p>
+        <p style="margin:0">Un thème n'est pas une problématique. On resserre sur une question, et on évite les affirmations toutes faites : on demande « quelles sociabilités ? » au lieu de poser que les réseaux « menacent » le lien social.</p>
+      </div>
+
+      <h3>La méthode fait la réponse</h3>
+      <figure class="fig narrow">
+        <img src="img/qui-joue.jpg" alt="Deux cartes de France : 71 % des Français ont joué aux jeux vidéo dans l'année selon Médiamétrie pour le SELL en 2019, 44 % selon l'enquête Pratiques culturelles de 2018" loading="lazy">
+        <figcaption><b>Séance 2, « Qui joue ? ».</b> Même question (« Au cours des douze derniers mois, avez-vous joué à des jeux vidéo ? »), deux résultats : <b>71 %</b> pour Médiamétrie et le SELL, le syndicat des éditeurs (2019), <b>44 %</b> pour l'enquête Pratiques culturelles (2018). L'écart vient de la méthode : questionnaire en ligne d'un côté, enquête en face à face de l'autre, et un commanditaire qui a intérêt à un chiffre élevé.</figcaption>
+      </figure>
+      <p class="hid">La diapo indique « INSEE » pour l'enquête Pratiques culturelles, habituellement menée par le ministère de la Culture.</p>
+
+      <h3>Atelier et conclusion</h3>
+      <ul>
+        <li><strong>Atelier en groupe</strong> : définir le commanditaire, la problématique et les axes, choisir les outils et faire de premiers tests (à envoyer à la prof par mail), préparer une question par groupe pour Sindup.</li>
+        <li><strong>Conclusion</strong> : la question posée et les outils choisis <strong>déterminent la réponse</strong> obtenue.</li>
+      </ul>
+
+      <h3>Quelles références théoriques ?</h3>
+      <ul>
+        <li><em>Revue internationale d'intelligence économique</em></li>
+        <li><em>Revue des Sciences de Gestion</em></li>
+        <li><em>Sociologie du travail</em></li>
+      </ul>
+      <p class="hid">Titres confirmés par les diapos.</p>
+      <p>Utile pour le plan de veille, qui demande <strong>2 références scientifiques en SHS</strong>.</p>
+    </section>
+
+    <section id="seance3">
+      <span class="seance">Séance 3 · 16 octobre</span>
+      <h2>La recherche d'information : digital methods et mots-clés</h2>
+      <p class="live">Tes notes, complétées par les diapos de la séance (PDF reçu le 9 novembre).</p>
+
+      <h3>Les digital methods</h3>
+      <p class="principle">La rencontre entre les objets numériques, en particulier le web, et les méthodes des sciences sociales : le numérique devient à la fois objet d'étude et outil de recherche.</p>
+      <p>Ce n'est pas une simple adaptation technique : les digital methods interrogent <strong>ce que le numérique fait aux sciences sociales</strong>.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Approche</th><th>Principe</th><th>Exemples</th></tr></thead>
+        <tbody>
+          <tr><td>1. Méthodes classiques, nouveaux objets</td><td>Traduire les méthodes des sciences sociales pour étudier des objets numériques. Pour étudier les mondes numériques, il faut y entrer.</td><td>Entretiens sur IRC, observation d'une partie de poker en ligne, ethnographie en ligne</td></tr>
+          <tr><td>2. Méthodes natives du web</td><td>Développer des méthodes en <strong>détournant des outils numériques</strong></td><td>Outils du médialab de Sciences Po, Search Engine Scraper de la Digital Methods Initiative, le web crawler open source <strong>Scrapy</strong></td></tr>
+        </tbody>
+      </table></div>
+      <p>Liens donnés sur les diapos : <a href="http://medialab.github.io/double-dating-data/#/" style="color:var(--accent);overflow-wrap:anywhere">medialab.github.io/double-dating-data</a> · <a href="https://tools.digitalmethods.net" style="color:var(--accent)">tools.digitalmethods.net</a> · <a href="https://docs.scrapy.org/en/latest/intro/tutorial.html" style="color:var(--accent)">tutoriel Scrapy</a>.</p>
+      <p>Exemple d'étude citée : la <strong>Digital City d'Amsterdam</strong> (Oudshoorn et al., 2004), sur la façon dont un service en ligne inscrit une image de ses utilisateurs.</p>
+
+      <h3>Les Science &amp; Technology Studies (STS)</h3>
+      <p class="principle">Les technologies et les usages se font mutuellement.</p>
+      <ul>
+        <li><strong>Les technologies portent des représentations</strong>, qu'elles renforcent en encourageant certains usagers et en en excluant d'autres. Exemple : les <strong>ponts de Robert Moses</strong> à New York, conçus trop bas pour laisser passer les bus.</li>
+        <li><strong>Les usagers gardent une marge de manœuvre</strong> : les <strong>machinimas</strong>, des films tournés en détournant le moteur d'un jeu vidéo.</li>
+      </ul>
+      <p class="hid">Les ponts de Robert Moses sont confirmés par les diapos. Le détail des bus et la définition des machinimas sont des compléments.</p>
+      <figure class="fig dia">
+        <svg viewBox="0 0 560 230" role="img" aria-label="Dessin : un pont bas au-dessus d'une route ; une voiture passe dessous, un bus est trop haut et reste bloqué">
+          <rect x="150" y="86" width="260" height="34" class="fg" style="stroke:var(--ink);stroke-width:1.5"/>
+          <rect x="150" y="120" width="34" height="70" class="fg" style="stroke:var(--ink);stroke-width:1.5"/>
+          <rect x="376" y="120" width="34" height="70" class="fg" style="stroke:var(--ink);stroke-width:1.5"/>
+          <line x1="20" y1="190" x2="540" y2="190" class="sk"/>
+          <line x1="196" y1="124" x2="196" y2="186" class="sm" marker-start="url(#arm)" marker-end="url(#arm)"/>
+          <rect x="250" y="150" width="90" height="28" rx="8" class="fa"/><rect x="266" y="134" width="56" height="20" rx="6" class="fa"/>
+          <circle cx="270" cy="180" r="9" class="fi"/><circle cx="322" cy="180" r="9" class="fi"/>
+          <text x="295" y="214" text-anchor="middle" class="ts tb ta">la voiture passe</text>
+          <rect x="22" y="72" width="112" height="106" rx="8" class="fsu" style="stroke:var(--ink);stroke-width:1.5"/>
+          <rect x="34" y="86" width="22" height="22" class="fn bo"/><rect x="64" y="86" width="22" height="22" class="fn bo"/><rect x="94" y="86" width="22" height="22" class="fn bo"/>
+          <circle cx="48" cy="180" r="9" class="fi"/><circle cx="108" cy="180" r="9" class="fi"/>
+          <text x="78" y="140" text-anchor="middle" class="tk">BUS</text>
+          <line x1="140" y1="80" x2="140" y2="124" style="stroke:var(--bad);stroke-width:3"/>
+          <text x="78" y="214" text-anchor="middle" class="ts tb" style="fill:var(--bad)">le bus reste bloqué</text>
+          <text x="280" y="40" text-anchor="middle" class="tk tm">UN PONT DE PARKWAY, VERS LES PLAGES DE LONG ISLAND</text>
+        </svg>
+        <figcaption><b>Dessin.</b> L'exemple des STS : une décision technique (la hauteur d'un pont) trie les usagers. Les automobilistes passent, les bus, et donc les gens qui n'ont pas de voiture, restent à l'écart. L'objet technique n'est pas neutre.</figcaption>
+      </figure>
+
+      <h3>Les mots-clés : aller plus loin que Google</h3>
+      <div class="tools">
+        <div><b>Accès limité</b>Une portion seulement du web</div>
+        <div><b>Opacité</b>Des biais et des mécanismes opaques</div>
+        <div><b>Signaux faibles</b>Par définition, peu de signaux faibles</div>
+        <div><b>Hégémonie</b>À remettre en cause : préférer les sources spécialisées</div>
+      </div>
+      <div class="box alert">
+        <p class="lbl">Les bons réflexes</p>
+        <ul>
+          <li><strong>Travailler ses mots-clés</strong> (voir les requêtes booléennes de la <a href="#demo" style="color:var(--accent)">démonstration Inoreader</a>).</li>
+          <li><strong>Croiser ses sources.</strong></li>
+          <li><strong>Récolter des données</strong> de deux façons : en personne, et via des sources informelles.</li>
+        </ul>
+      </div>
+      <p class="hid">« Portion limitée », « sources spécialisées » et « sources informelles » corrigent tes notes (« portion liée », « sources spectrales », « sources informationnelles »).</p>
+
+      <h3>Automatiser la collecte : push ou pull</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Mode</th><th>Principe</th><th>Outils</th></tr></thead>
+        <tbody>
+          <tr><td>Push</td><td>L'information vient à vous</td><td>Google Alerts, Google Scholar Alerts, listes de diffusion, newsletters, Distill</td></tr>
+          <tr><td>Pull</td><td>Vous allez chercher l'information</td><td>Agrégateur de flux (Inoreader), moteurs et bases de données</td></tr>
+        </tbody>
+      </table></div>
+      <p>Puis on range : <strong>Evernote</strong> pour les notes, <strong>Zotero</strong> pour les références.</p>
+      <p class="hid">Le classement des outils entre push et pull est déduit, la diapo les liste ensemble.</p>
+      <figure class="fig dia">
+        <svg viewBox="0 0 560 250" role="img" aria-label="Schéma : en push, l'information part des sources et arrive chez vous ; en pull, vous envoyez une requête et récupérez les résultats">
+          <text x="20" y="34" class="tk ta">PUSH</text>
+          <rect x="20" y="46" width="130" height="56" rx="8" class="fsu bo"/><text x="85" y="80" text-anchor="middle" class="tb">Sources</text>
+          <rect x="410" y="46" width="130" height="56" rx="8" class="fa"/><text x="475" y="80" text-anchor="middle" class="tb ton">Vous</text>
+          <line x1="156" y1="74" x2="402" y2="74" class="sa" marker-end="url(#ar)"/>
+          <text x="280" y="64" text-anchor="middle" class="ts">l'information vient à vous</text>
+          <text x="280" y="96" text-anchor="middle" class="ts tm">alertes, newsletters, Distill</text>
+          <line x1="20" y1="128" x2="540" y2="128" class="sr dash"/>
+          <text x="20" y="158" class="tk ta">PULL</text>
+          <rect x="20" y="170" width="130" height="56" rx="8" class="fsu bo"/><text x="85" y="204" text-anchor="middle" class="tb">Sources</text>
+          <rect x="410" y="170" width="130" height="56" rx="8" class="fa"/><text x="475" y="204" text-anchor="middle" class="tb ton">Vous</text>
+          <line x1="402" y1="186" x2="156" y2="186" class="sa" marker-end="url(#ar)"/>
+          <line x1="156" y1="212" x2="402" y2="212" class="sm" marker-end="url(#arm)"/>
+          <text x="280" y="180" text-anchor="middle" class="ts">vous allez la chercher (requête)</text>
+          <text x="280" y="236" text-anchor="middle" class="ts tm">agrégateur, moteurs, bases de données</text>
+        </svg>
+        <figcaption><b>Schéma.</b> En push, on configure une fois et les nouveautés arrivent seules. En pull, chaque recherche est une démarche active. Une bonne veille combine les deux.</figcaption>
+      </figure>
+
+      <h3>Les opérateurs de recherche</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Opérateur</th><th>Effet</th></tr></thead>
+        <tbody>
+          <tr><td><code>x AND y</code></td><td>Les deux termes</td></tr>
+          <tr><td><code>x OR y</code></td><td>L'un ou l'autre</td></tr>
+          <tr><td><code>x NOT y</code> · <code>-y</code></td><td>Exclut un terme</td></tr>
+          <tr><td><code>(x OR y) AND z</code></td><td>Combine des conditions</td></tr>
+          <tr><td><code>"x y"</code></td><td>Expression exacte</td></tr>
+          <tr><td><code>+x</code></td><td>Terme obligatoire</td></tr>
+          <tr><td><code>psy*</code></td><td>Troncature : psychologie, psychique…</td></tr>
+          <tr><td><code>2000..2020</code></td><td>Intervalle de nombres ou de dates</td></tr>
+          <tr><td><code>site:</code> · <code>inurl:</code></td><td>Limite à un site, ou à un mot dans l'adresse</td></tr>
+          <tr><td><code>allintitle:</code> · <code>title:</code></td><td>Termes dans le titre</td></tr>
+          <tr><td><code>filetype:pdf</code></td><td>Type de fichier</td></tr>
+          <tr><td><code>author:</code> · <code>date:</code></td><td>Auteur ou date (bases et Google Scholar)</td></tr>
+        </tbody>
+      </table></div>
+      <figure class="fig dia">
+        <svg viewBox="0 0 560 200" role="img" aria-label="Trois diagrammes : AND garde l'intersection, OR garde les deux ensembles, NOT garde x sans y">
+          <clipPath id="vb1"><circle cx="117" cy="80" r="44"/></clipPath><circle cx="69" cy="80" r="44" clip-path="url(#vb1)" class="fa"/><circle cx="69" cy="80" r="44" class="sk"/><circle cx="117" cy="80" r="44" class="sk"/><text x="47" y="85" text-anchor="middle" class="tb">x</text><text x="139" y="85" text-anchor="middle" class="tb">y</text><text x="93" y="160" text-anchor="middle" class="tk">x AND y</text><text x="93" y="182" text-anchor="middle" class="ts tm">les deux à la fois</text>
+          <circle cx="256" cy="80" r="44" class="fa"/><circle cx="304" cy="80" r="44" class="fa"/><circle cx="256" cy="80" r="44" class="sk"/><circle cx="304" cy="80" r="44" class="sk"/><text x="234" y="85" text-anchor="middle" class="tb ton">x</text><text x="326" y="85" text-anchor="middle" class="tb ton">y</text><text x="280" y="160" text-anchor="middle" class="tk">x OR y</text><text x="280" y="182" text-anchor="middle" class="ts tm">l'un, l'autre ou les deux</text>
+          <circle cx="443" cy="80" r="44" class="fa"/><circle cx="491" cy="80" r="44" class="fsu"/><circle cx="443" cy="80" r="44" class="sk"/><circle cx="491" cy="80" r="44" class="sk"/><text x="421" y="85" text-anchor="middle" class="tb ton">x</text><text x="513" y="85" text-anchor="middle" class="tb">y</text><text x="467" y="160" text-anchor="middle" class="tk">x NOT y</text><text x="467" y="182" text-anchor="middle" class="ts tm">x, sans y</text>
+        </svg>
+        <figcaption><b>Schéma.</b> La zone verte, c'est ce que la requête renvoie. AND resserre, OR élargit, NOT retire le bruit. On les combine avec des parenthèses : <code>"sport automobile" AND (sponsoring OR partenariat)</code>.</figcaption>
+      </figure>
+      <p>Exemple : <code>"sport automobile" AND (sponsoring OR partenariat) site:sportstrategies.com</code></p>
+
+      <h3>La veille avant le Web</h3>
+      <p>Internet n'est pas tout : la plus-value vient souvent de ce qu'on trouve <strong>hors ligne</strong>. Les méthodes des sciences sociales (entretiens, observation), les collègues, le réseau de contacts et les <strong>sources informelles</strong> en font partie.</p>
+      <div class="box alert">
+        <p class="lbl">À retenir</p>
+        <ul>
+          <li><strong>Automatiser la collecte</strong> pour surveiller sans y passer ses journées.</li>
+          <li><strong>Aller chercher des sources au-delà d'Internet.</strong></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="seance5">
+      <span class="seance">Séance 5 · 9 novembre</span>
+      <h2>Sélectionner et valider ses sources</h2>
+      <p class="live">D'après les diapos de la séance (PDF reçu le 9 novembre).</p>
+      <p class="principle">Une bonne veille ne se mesure pas au nombre de sources : on cherche des sources pertinentes et valides, on les vérifie, et on les cite correctement.</p>
+
+      <h3>1 · La pertinence</h3>
+      <ul>
+        <li><strong>Combien de sources ?</strong> Pas de chiffre magique : on s'arrête à la <strong>saturation</strong>, quand de nouvelles sources n'apportent plus rien.</li>
+        <li><strong>Sources primaires</strong> (les données d'origine : un rapport, une enquête, un entretien) et <strong>sources secondaires</strong> (qui commentent ou reprennent les premières).</li>
+        <li>Exemple de la photographie : distinguer les sources qui renseignent vraiment sur le sujet du <strong>bruit</strong> (pages promotionnelles, contenus recopiés).</li>
+      </ul>
+      <figure class="fig dia">
+        <svg viewBox="0 0 560 280" role="img" aria-label="Histogramme : chaque nouvelle source apporte de moins en moins d'informations nouvelles, jusqu'à la saturation">
+          <line x1="56" y1="220" x2="540" y2="220" class="sk"/>
+          <text x="40" y="130" text-anchor="middle" class="ts tm" transform="rotate(-90 40 130)">infos nouvelles</text>
+          <rect x="70" y="70" width="32" height="150" class="fa"/><text x="86" y="240" text-anchor="middle" class="ts tm">1</text><rect x="116" y="108" width="32" height="112" class="fa"/><text x="132" y="240" text-anchor="middle" class="ts tm">2</text><rect x="162" y="136" width="32" height="84" class="fa"/><text x="178" y="240" text-anchor="middle" class="ts tm">3</text><rect x="208" y="158" width="32" height="62" class="fa"/><text x="224" y="240" text-anchor="middle" class="ts tm">4</text><rect x="254" y="176" width="32" height="44" class="fa"/><text x="270" y="240" text-anchor="middle" class="ts tm">5</text><rect x="300" y="192" width="32" height="28" class="fa"/><text x="316" y="240" text-anchor="middle" class="ts tm">6</text><rect x="346" y="204" width="32" height="16" class="fn" style="stroke:var(--accent);stroke-width:1.2"/><text x="362" y="240" text-anchor="middle" class="ts tm">7</text><rect x="392" y="211" width="32" height="9" class="fn" style="stroke:var(--accent);stroke-width:1.2"/><text x="408" y="240" text-anchor="middle" class="ts tm">8</text><rect x="438" y="215" width="32" height="5" class="fn" style="stroke:var(--accent);stroke-width:1.2"/><text x="454" y="240" text-anchor="middle" class="ts tm">9</text><rect x="484" y="217" width="32" height="3" class="fn" style="stroke:var(--accent);stroke-width:1.2"/><text x="500" y="240" text-anchor="middle" class="ts tm">10</text>
+          <text x="300" y="268" text-anchor="middle" class="ts tm">sources consultées, dans l'ordre</text>
+          <path d="M346,150 h194" class="sa dash"/>
+          <text x="443" y="120" text-anchor="middle" class="tk ta">SATURATION</text>
+          <text x="443" y="140" text-anchor="middle" class="ts">on peut s'arrêter</text>
+        </svg>
+        <figcaption><b>Schéma.</b> Les premières sources apprennent beaucoup, les suivantes répètent. Quand une nouvelle source n'ajoute presque plus rien, on a atteint la saturation. Les valeurs sont illustratives.</figcaption>
+      </figure>
+
+      <h3>2 · La validité</h3>
+      <ul>
+        <li>Toute source est <strong>située</strong> : qui parle, d'où, pour qui ?</li>
+        <li>Elle a des <strong>biais</strong>, qu'il faut identifier plutôt qu'ignorer (voir l'exemple <a href="#seance2" style="color:var(--accent)">« Qui joue ? »</a>).</li>
+        <li>On se demande à quels <strong>interlocuteurs</strong> elle s'adresse.</li>
+      </ul>
+
+      <h3>3 · Vérifier concrètement</h3>
+      <figure class="fig dia">
+        <svg viewBox="0 0 560 175" role="img" aria-label="Chaîne : le rapport de l'APEC est la source primaire, l'article de presse qui le commente une source secondaire, un post qui reprend l'article une reprise de reprise ; il faut remonter au rapport">
+          <path d="M460,52 C460,14 100,14 100,52" class="sa dash" marker-end="url(#ar)"/>
+          <text x="280" y="22" text-anchor="middle" class="ts ta tb">remonter à l'origine</text>
+          <rect x="20" y="60" width="160" height="92" rx="8" class="fa"/><text x="100" y="86" text-anchor="middle" class="tk ton">PRIMAIRE</text><text x="100" y="112" text-anchor="middle" class="tb ton">Rapport APEC</text><text x="100" y="134" text-anchor="middle" class="ts ton">la donnée d'origine</text>
+          <line x1="184" y1="106" x2="196" y2="106" class="sm" marker-end="url(#arm)"/>
+          <rect x="200" y="60" width="160" height="92" rx="8" class="fsu bo"/><text x="280" y="86" text-anchor="middle" class="tk ta">SECONDAIRE</text><text x="280" y="112" text-anchor="middle" class="tb">Article de presse</text><text x="280" y="134" text-anchor="middle" class="ts tm">commente le rapport</text>
+          <line x1="364" y1="106" x2="376" y2="106" class="sm" marker-end="url(#arm)"/>
+          <rect x="380" y="60" width="160" height="92" rx="8" class="fsu bo"/><text x="460" y="86" text-anchor="middle" class="tk ta">REPRISE</text><text x="460" y="112" text-anchor="middle" class="tb">Post LinkedIn</text><text x="460" y="134" text-anchor="middle" class="ts tm">résume l'article</text>
+        </svg>
+        <figcaption><b>Schéma.</b> Plus on s'éloigne de la source primaire, plus le risque de déformation grandit. Dans le dossier, on cite le rapport lui-même, pas l'article qui en parle. Le troisième maillon est un exemple ajouté.</figcaption>
+      </figure>
+      <div class="tools">
+        <div><b>Données</b>Sont-elles référencées ?</div>
+        <div><b>Croisement</b>D'autres sources disent-elles la même chose ?</div>
+        <div><b>Origine</b>Remonter aux sources primaires</div>
+        <div><b>Auteur</b>Qui est-il, quelle légitimité ?</div>
+        <div><b>Publication</b>Où, quand, par quel éditeur ?</div>
+        <div><b>Liens</b>Liens institutionnels ou commerciaux</div>
+      </div>
+      <p>Guides cités : ceux des bibliothèques de l'<strong>UQAC</strong> et de l'<strong>UQAM</strong> sur l'évaluation des sources.</p>
+      <p>Certaines sources sont <strong>à éviter selon le contexte</strong> : ce qui passe pour une veille rapide ne se cite pas forcément dans un mémoire.</p>
+      <div class="box alert">
+        <p class="lbl">En bref</p>
+        <ul>
+          <li>Être <strong>prudent</strong> et <strong>méfiant</strong>, et clair sur les biais de chaque source.</li>
+          <li><strong>Exclure les sources peu fiables</strong>, mais rester attentif aux <a href="#signaux" style="color:var(--accent)">signaux faibles</a> qu'elles peuvent porter.</li>
+        </ul>
+      </div>
+
+      <h3>4 · Les sources scientifiques</h3>
+      <div class="tools">
+        <div><b>Moteur</b>Google Scholar</div>
+        <div><b>Bases</b>Celles de l'université</div>
+        <div><b>Revues</b>Persée, OpenEdition</div>
+        <div><b>Rebonds</b>Les bibliographies des articles lus</div>
+      </div>
+      <p>Utile pour les <strong>2 références SHS</strong> du plan de veille et l'<strong>article scientifique publié après 2024</strong> du dossier.</p>
+
+      <h3>Atelier</h3>
+      <ul>
+        <li>Remplir un <strong>tableau de sources</strong> partagé (Framacalc) pour le dossier.</li>
+        <li>Quiz : « peut-on citer cette source dans un mémoire ? »</li>
+      </ul>
+
+      <h3>5 · Citer sans plagier</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Pratique</th><th>Ce que c'est</th></tr></thead>
+        <tbody>
+          <tr><td>Citation</td><td>Reprendre les mots exacts de l'auteur, entre guillemets, avec la référence</td></tr>
+          <tr><td>Paraphrase</td><td>Reformuler l'idée avec ses propres mots, <strong>en citant quand même la source</strong></td></tr>
+          <tr><td>Plagiat</td><td>Reprendre des mots ou des idées sans dire d'où ils viennent, même reformulés</td></tr>
+        </tbody>
+      </table></div>
+      <p>Exemple travaillé en cours à partir d'un texte de Dominique Pasquier (2017).</p>
+      <ul>
+        <li><strong>Un format de citation, et un seul</strong>, tenu sur tout le document.</li>
+        <li>Une <strong>référence courte dans le texte</strong> et la <strong>référence complète en bibliographie</strong>.</li>
+        <li>Ressources citées : guides de Sciences Po, de l'UCO et de l'UQAM.</li>
+      </ul>
+    </section>
+
+    <section id="glossaire">
+      <div class="num">Révision</div>
+      <h2>Glossaire</h2>
+      <dl class="gloss">
+        <dt>Veille stratégique</dt><dd>Activité de gestion de l'information, sous forme de surveillance, pour anticiper les évolutions d'un environnement, réduire les risques et saisir les opportunités.</dd>
+        <dt>Méta-veille</dt><dd>La veille stratégique englobe toutes les autres : concurrentielle, commerciale, technologique, légale, marketing, e-réputation.</dd>
+        <dt>Signaux faibles</dt><dd>Indices précoces d'évènements à fort impact (Ansoff, 1975). Concept utile mais peu opératoire.</dd>
+        <dt>Renseignement</dt><dd>Ancêtre de la veille. La veille s'en distingue par le recours aux sources ouvertes.</dd>
+        <dt>Intelligence économique</dt><dd>Démarche voisine dont la veille prolonge la logique, au service de la stratégie des entreprises.</dd>
+        <dt>Sources ouvertes / fermées</dt><dd>Ouvertes : informations publiques et licitement accessibles, base de la veille. Fermées : à accès restreint ou confidentiel.</dd>
+        <dt>Information blanche, grise, noire</dt><dd>Classement selon l'accessibilité : publique, difficile à obtenir, confidentielle.</dd>
+        <dt>Entrevue de veille</dt><dd>Échange avec les commanditaires pour cerner objectifs, pratiques existantes, manques et ressources.</dd>
+        <dt>Push / pull</dt><dd>Push : l'information vient à vous (alertes, newsletters). Pull : vous allez la chercher (agrégateur, moteur).</dd>
+        <dt>Saturation</dt><dd>Moment où de nouvelles sources n'apportent plus d'information nouvelle.</dd>
+        <dt>Source primaire / secondaire</dt><dd>Primaire : la donnée d'origine. Secondaire : un texte qui la commente ou la reprend.</dd>
+        <dt>Paraphrase</dt><dd>Reformulation d'une idée avec ses propres mots, qui doit quand même citer sa source.</dd>
+        <dt>Plagiat</dt><dd>Reprise de mots ou d'idées sans en indiquer l'origine.</dd>
+        <dt>Excès d'information</dt><dd>Risque propre à la veille : trop d'informations noie l'essentiel, d'où l'importance du tri et du classement.</dd>
+        <dt>Collecte ponctuelle / automatique</dt><dd>Recherche faite à la main à un moment donné, ou surveillance continue par des outils (alertes, flux RSS, agents).</dd>
+        <dt>Flux RSS</dt><dd>Fil d'actualités d'un site, regroupé dans un agrégateur comme Inoreader.</dd>
+        <dt>Agent de surveillance</dt><dd>Outil qui signale les changements d'une page web (WatchThatPage, Distill).</dd>
+        <dt>Digital methods</dt><dd>Rencontre entre objets numériques et méthodes des sciences sociales : le numérique comme objet et comme outil de recherche.</dd>
+        <dt>Méthodes natives du web</dt><dd>Méthodes construites en détournant des outils numériques (scrapers, crawlers).</dd>
+        <dt>Scraper</dt><dd>Outil qui extrait automatiquement des données d'une page, par exemple les résultats d'un moteur de recherche.</dd>
+        <dt>Web crawler</dt><dd>Robot qui parcourt le web de lien en lien pour en cartographier une partie.</dd>
+        <dt>STS</dt><dd><em>Science &amp; Technology Studies</em> : les technologies et les usages se façonnent mutuellement.</dd>
+        <dt>Machinima</dt><dd>Film réalisé en détournant un jeu vidéo : exemple de marge de manœuvre des usagers.</dd>
+        <dt>SSO</dt><dd><em>Single Sign-On</em> : connexion unique avec les identifiants de l'entreprise, gage de sécurité.</dd>
+        <dt>CRM</dt><dd>Logiciel de gestion de la relation client, vers lequel une veille peut être diffusée.</dd>
+        <dt>USP</dt><dd><em>Unique Selling Proposition</em> : ce qui distingue une offre de ses concurrentes.</dd>
+        <dt>Commanditaire</dt><dd>Celui qui passe commande de la veille et en définit les besoins.</dd>
+        <dt>Perroquet stochastique</dt><dd>Image critique des IA génératives : elles produisent du texte probable, sans compréhension ni sources.</dd>
+      </dl>
+    </section>
+
+    <section id="verifier">
+      <div class="num">À confirmer</div>
+      <h2>Points à vérifier</h2>
+      <ul>
+        <li><strong>Plan de veille</strong> : rendu le 2 ou le 4 novembre ? Et que recouvre la « synthèse analytique » du 20 novembre ?</li>
+        <li><strong>Dossier</strong> : le dossier du 1er décembre (séance 1) et celui du 21 décembre (fiche) sont-ils le même travail ?</li>
+        <li>Dossier : les 15 à 20 pages et le barème de 2,5 pts par étape annoncés en séance 1 valent-ils encore ?</li>
+        <li>Les <strong>4 étapes notées 2,5 pts</strong> sont-elles bien besoins, collecte, traitement, diffusion ?</li>
+                <li>Présentation Sindup : hébergement en France ? accords avec les éditeurs ? pourquoi la plateforme est-elle gratuite pour les étudiants ?</li>
+      </ul>
+    </section>
+
+    <section id="quiz">
+      <div class="num">Entraînement</div>
+      <div class="qhead">
+        <h2>Quiz</h2>
+        <div class="score" aria-live="polite"><b id="sc">0</b> / <span id="tot">0</span> · <span id="done">0</span> répondues</div>
+      </div>
+      <div id="qs"></div>
+      <div class="qfoot">
+        <span class="result" id="res" hidden></span>
+        <button class="btn" id="reset" type="button">Recommencer le quiz</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const Q=[
+ {p:"Évaluations",t:"Pour quand faut-il rendre le plan de veille ?",o:["4 octobre","4 novembre","1er décembre","18 décembre"],a:1,e:"Le plan de veille est à rendre le 4 novembre (le calendrier dit le 2, à confirmer). Le dossier est à déposer le 21 décembre (le 1er décembre annoncé en séance 1 reste à confirmer)."},
+ {p:"Évaluations",t:"Combien de points vaut chacune des deux évaluations ?",o:["5 et 15 points","10 points chacune","20 points chacune","Le plan 8, le dossier 12"],a:1,e:"Plan de veille : 10 pts. Dossier de veille : 10 pts."},
+ {p:"Plan de veille",t:"Sur quel sujet porte le plan de veille ?",o:["Un sujet imposé par la prof","Une entreprise tirée au sort","Un métier ou un secteur pro qui vous intéresse","L'actualité médiatique de la semaine"],a:2,e:"Il est individuel et porte sur un métier ou secteur professionnel de votre choix."},
+ {p:"Plan de veille",t:"Combien de références scientifiques le plan de veille doit-il inclure ?",o:["Aucune","1 référence","2 références en SHS","5 références minimum"],a:2,e:"Il inclut 2 références scientifiques en sciences humaines et sociales."},
+ {p:"Plan de veille",t:"Quelle partie du plan de veille est notée sur 5 points ?",o:["L'analyse","Les éléments actionnables","Le plan de veille lui-même","La bibliographie"],a:2,e:"5 pts sur le plan de veille, 3 pts sur l'analyse, 2 pts sur les éléments actionnables."},
+ {p:"Plan de veille",t:"Que doivent servir les « éléments actionnables » de la conclusion ?",o:["Un plan de carrière ou une recherche d'emploi","Un plan de communication pour une marque","Une campagne publicitaire","Un article de presse"],a:0,e:"La conclusion (1-2 pages) analyse les résultats et dégage des éléments actionnables pour un plan de carrière ou une recherche d'emploi."},
+ {p:"Plan de veille",t:"Que doit contenir le plan de veille ?",o:["Axes, outils, sources, type d'information et de collecte","Uniquement une liste de sites web","Un questionnaire et ses résultats","Un entretien avec un professionnel"],a:0,e:"Il contient les axes, les outils, les sources, le type d'information et de collecte."},
+ {p:"Dossier de veille",t:"Comment le dossier de veille est-il noté ?",o:["Sur la forme uniquement","2,5 pts par étape de la veille","5 pts d'introduction, 5 pts de conclusion","Une note globale sans barème"],a:1,e:"2,5 pts par étape de la veille, selon la diapo de la séance 1 : il s'agit de démontrer la maîtrise de chaque étape."},
+ {p:"Dossier de veille",t:"Que doit présenter la courte introduction du dossier ?",o:["Le CV complet","D'où vous venez, vos expériences, quel secteur vous intéresse et pourquoi","Uniquement la bibliographie","Les résultats chiffrés de la veille"],a:1,e:"Selon la fiche du dossier : d'où vous venez, vos expériences, le secteur qui vous intéresse et pourquoi."},
+ {p:"Dossier de veille",t:"Où retrouve-t-on le plan de veille dans le dossier ?",o:["En introduction","Dans la partie II","En annexe, avec la bibliographie et le tableau du corpus de veille","Il n'y figure pas"],a:2,e:"Annexes : 1. bibliographie, 2. plan de veille, 3. tableau du corpus de veille. Le plan rédigé sert aussi la partie I.2."},
+ {p:"Objectifs",t:"Lequel n'est PAS cité comme usage de la veille dans ce cours ?",o:["Un travail de veille en entreprise","Une démarche d'intelligence économique","Une recherche d'emploi","Le montage d'une émission de radio"],a:3,e:"Les trois usages cités : veille en entreprise, intelligence économique, recherche d'emploi."},
+ {p:"Définition",t:"Sous quelle forme s'exerce la veille stratégique, selon la définition du cours ?",o:["Une enquête ponctuelle","Une surveillance","Une campagne de communication","Un audit annuel"],a:1,e:"La veille est une activité de gestion de l'information sous la forme d'une surveillance."},
+ {p:"Définition",t:"Quel est le but de cette surveillance ?",o:["Anticiper les évolutions d'un environnement","Archiver l'information","Produire du contenu pour les réseaux sociaux","Contrôler les salariés"],a:0,e:"On surveille pour anticiper les évolutions d'un environnement."},
+ {p:"Définition",t:"Quelle est la double finalité de la veille stratégique ?",o:["Informer et divertir","Réduire les risques et saisir les opportunités","Vendre et fidéliser","Publier et archiver"],a:1,e:"La veille sert à réduire les risques et à saisir les opportunités."},
+ {p:"Définition",t:"La veille stratégique est d'abord une activité de…",o:["gestion de l'information","relations presse","gestion de projet","publicité"],a:0,e:"Définition du cours : une activité de gestion de l'information."}
+,
+ {p:"Étapes",t:"Quelle est la première étape de la veille ?",o:["La collecte des informations","L'identification des besoins","Le traitement des informations","La diffusion"],a:1,e:"On commence par identifier les besoins : qui passe commande, dans quel but, avec quelle question de recherche."},
+ {p:"Étapes",t:"« Quelles sources ? Comment organiser les informations ? » relève de quelle étape ?",o:["Identification des besoins","Collecte des informations","Traitement des informations","Diffusion"],a:1,e:"Ce sont les questions de la collecte, deuxième étape."},
+ {p:"Étapes",t:"À quelle étape se demande-t-on comment analyser les informations ?",o:["Identification des besoins","Collecte","Traitement des informations","Diffusion"],a:2,e:"Le traitement, troisième étape, consiste à analyser l'information collectée."},
+ {p:"Étapes",t:"Les questions « Sur quels supports, à quelle fréquence ? » concernent…",o:["la collecte","le traitement","la diffusion","l'identification des besoins"],a:2,e:"La diffusion : faire connaître le résultat de la veille, sur quels supports et à quel rythme."},
+ {p:"Étapes",t:"Quelle question n'appartient PAS à l'identification des besoins ?",o:["Qui passe commande ?","Dans quel but ?","Quelle question de recherche ?","Quelles sources ?"],a:3,e:"« Quelles sources ? » relève de la collecte."}
+,
+ {p:"Notions",t:"Qui a théorisé les signaux faibles, selon le cours ?",o:["Porter (1980)","Ansoff (1975)","Mintzberg (1994)","Bourdieu (1979)"],a:1,e:"Le cours cite Ansoff (1975)."},
+ {p:"Notions",t:"Quel est l'enjeu stratégique des signaux faibles ?",o:["Réagir assez tôt pour éviter, minimiser voire exploiter un évènement","Prédire l'avenir avec certitude","Remplacer les experts par des algorithmes","Archiver les rumeurs"],a:0,e:"On repère des indices d'évènements à fort impact pour réagir assez tôt."},
+ {p:"Notions",t:"Quelle critique le cours fait-il au concept de signaux faibles ?",o:["Il est trop récent","Il est peu opératoire : on ne sait pas d'avance quels signaux annoncent vraiment quelque chose","Il ne concerne que la finance","Il est interdit par le RGPD"],a:1,e:"Concept peu opératoire, plus un problème éthique avec les algorithmes prédictifs. En pratique : intuition, intelligence collective, expertise localisée."},
+ {p:"Notions",t:"Pourquoi dit-on que la veille stratégique est une « méta-veille » ?",o:["Parce qu'elle surveille Meta","Parce qu'elle englobe les autres types de veille","Parce qu'elle est automatisée","Parce qu'elle ne porte que sur les métadonnées"],a:1,e:"Concurrentielle, commerciale, technologique, légale, marketing, e-réputation : la veille stratégique les articule toutes."},
+ {p:"Notions",t:"Lequel n'est PAS un type de veille cité en cours ?",o:["Veille légale","Veille en e-réputation","Veille technologique","Veille météorologique"],a:3,e:"Les 6 types cités : concurrentielle, commerciale, technologique, légale, marketing, e-réputation."},
+ {p:"IAG",t:"Pourquoi le brief de ChatGPT est-il qualifié de « très mauvaise veille » ?",o:["Il est trop long","Il est en anglais","C'est un texte plausible mais sans sources, rempli de stéréotypes","Il cite trop d'articles scientifiques"],a:2,e:"« Un joli texte de fiction, un échantillon de stéréotypes. » La veille exige des méthodes, des sources et un traitement critique."},
+ {p:"IAG",t:"Que désigne l'expression « perroquets stochastiques » ?",o:["Des robots de veille","Les LLM, qui produisent du texte probable sans le comprendre","Les influenceurs","Les flux RSS"],a:1,e:"Les IA génératives sont des modèles statistiques qui reproduisent des enchaînements probables, d'où les hallucinations."},
+ {p:"Outils",t:"Inoreader est un outil de…",o:["prise de notes","gestion bibliographique","agrégation de flux RSS","gestion de newsletters"],a:2,e:"Inoreader agrège des flux RSS (étape de collecte)."},
+ {p:"Outils",t:"À quelle étape de la veille sert Zotero ?",o:["Collecte","Traitement","Diffusion","Identification des besoins"],a:1,e:"Zotero gère la bibliographie : c'est un outil de traitement, avec Evernote, Notion et Scrivener."},
+ {p:"Outils",t:"WatchThatPage et Distill servent à…",o:["surveiller les changements d'une page web","rédiger un mémoire","envoyer des newsletters","déposer en archive ouverte"],a:0,e:"Ce sont des agents de surveillance de pages (collecte)."},
+ {p:"Outils",t:"HAL-SHS et hypotheses.org interviennent à quelle étape ?",o:["Collecte","Traitement","Diffusion","Identification des besoins"],a:2,e:"HAL-SHS (archive ouverte) et hypotheses.org (blog académique) servent à diffuser, comme Brevo, Prezi ou Canva."},
+ {p:"Organisation",t:"Comment se déroule une séance de 3 h ?",o:["3 h de cours magistral","1h30 de cours, 1 h d'atelier, 30 min de conclusion","1 h de cours, 2 h d'examen","2 h d'atelier, 1 h de quiz"],a:1,e:"1h30 de cours, 1 h d'atelier, 30 min de conclusion, sur 7 séances."}
+,
+ {p:"Séance 2",t:"Selon la séance 2, que doit fournir la veille pour assister la prise de décision ?",o:["Des opinions d'experts","Des informations avérées","Des rumeurs à vérifier plus tard","Des prévisions chiffrées certaines"],a:1,e:"La veille anticipe les tendances et fournit des informations avérées pour assister la décision et assurer un avantage stratégique."},
+ {p:"Séance 2",t:"Que faut-il faire pour détecter les signaux faibles ?",o:["Attendre qu'ils deviennent forts","Se rapprocher de leur source","Les confier à un algorithme prédictif","Se limiter à la presse nationale"],a:1,e:"Détecter les signaux faibles implique de se rapprocher de leur source."},
+ {p:"Séance 2",t:"De quelles pratiques la veille est-elle le prolongement ?",o:["Le marketing et la publicité","Le renseignement et l'intelligence économique","Le journalisme et l'édition","L'audit et le contrôle de gestion"],a:1,e:"Elle prolonge le renseignement et l'intelligence économique."},
+ {p:"Séance 2",t:"Qu'est-ce qui différencie la veille du renseignement ?",o:["Les sources ouvertes et un objectif d'information","Le recours aux espions","L'absence d'outils","Le secret absolu des résultats"],a:0,e:"La veille repose sur des sources ouvertes et poursuit un objectif d'information."},
+ {p:"Séance 2",t:"Quel risque caractérise la vision du monde propre à la veille ?",o:["Le manque d'information","L'excès d'information","La censure","La lenteur d'Internet"],a:1,e:"Instabilité et risque d'excès d'information."},
+ {p:"Séance 2",t:"Que signifie USP, à propos de Sindup ?",o:["Universal Search Platform","Unique Selling Proposition","User Support Program","Unified Sources Protocol"],a:1,e:"L'USP est ce qui distingue une offre de ses concurrentes."},
+ {p:"Séance 2",t:"Lequel n'est PAS un temps de la collecte des informations vu en séance 2 ?",o:["Identification des sources","Collecte ponctuelle et automatique","Stockage et classement des données","Diffusion d'une newsletter"],a:3,e:"La diffusion est la 4e étape de la veille, pas une partie de la collecte."},
+ {p:"Séance 2",t:"Quelle différence entre collecte ponctuelle et collecte automatique ?",o:["Aucune","La ponctuelle se fait à la main à un moment donné, l'automatique surveille en continu via des outils","La ponctuelle est payante, l'automatique gratuite","L'automatique ne concerne que les réseaux sociaux"],a:1,e:"Ponctuelle : recherche faite à un instant. Automatique : alertes, flux RSS, agents de surveillance."}
+,
+ {p:"Sindup",t:"Comment Sindup décrit-il la phase d'analyse ?",o:["Entièrement automatique","Entièrement manuelle","Une combinaison de travail humain et d'IA","Sous-traitée à l'étranger"],a:2,e:"Une fois la collecte en place, l'analyse combine humain et IA : l'utilisateur valide, supprime ou commente les articles remontés."},
+ {p:"Sindup",t:"Lequel n'est PAS un format de diffusion cité par Sindup ?",o:["Newsletter","Alertes","Diffusion vers Teams, Slack ou un CRM","Émission de radio"],a:3,e:"Formats cités : newsletters, alertes, bibliothèque consultable, diffusion vers les outils internes."},
+ {p:"Sindup",t:"Qu'est-ce qui accompagne la plateforme Sindup, selon la présentation ?",o:["Rien, c'est un logiciel en libre-service","Un service client inclus et une communauté de clients","Un abonnement presse","Une formation diplômante"],a:1,e:"La plateforme n'est pas vendue seule : service client (chat, mail) et communauté de clients pour partager les bonnes pratiques."},
+ {p:"Sindup",t:"À quoi sert l'accès par SSO mis en avant par Sindup ?",o:["Accélérer la collecte","Renforcer la sécurité avec une connexion unique","Traduire les articles","Publier sur les réseaux sociaux"],a:1,e:"Le SSO (Single Sign-On) s'inscrit dans un environnement de sécurité renforcé."}
+,
+ {p:"Dossier de veille",t:"Quand et comment rendre le dossier de veille métier ?",o:["Le 1er décembre, sur papier","Le lundi 21 décembre, en PDF sur Upedago","Le 20 novembre, par mail","Le 4 novembre, à l'oral"],a:1,e:"PDF sur Upedago, lundi 21 décembre dernier délai, selon la fiche. Le 1er décembre annoncé en séance 1 reste à confirmer."},
+ {p:"Dossier de veille",t:"Avec quel autre cours le dossier est-il construit ?",o:["Radio","Orientation professionnelle","Droit du numérique","Management d'équipe"],a:1,e:"C'est un dossier commun Orientation professionnelle × Veille stratégique (Marion Coville et Gabrielle Lavenir)."},
+ {p:"Dossier de veille",t:"Combien d'offres d'emploi faut-il au minimum dans le corpus ?",o:["3","5","10 offres en CDD ou CDI","20 offres de stage"],a:2,e:"Au minimum 10 offres d'emploi en CDD ou CDI."},
+ {p:"Dossier de veille",t:"Quel article scientifique la fiche exige-t-elle ?",o:["Aucun","Un article de revue scientifique publié après 2024","Deux articles publiés avant 2010","Une thèse"],a:1,e:"Une source de type article dans une revue scientifique, publiée après 2024."},
+ {p:"Dossier de veille",t:"Sur combien de références au minimum l'analyse des données (I.3) doit-elle s'appuyer ?",o:["2","3","5","10"],a:2,e:"Les axes d'analyse et recommandations doivent citer au minimum cinq références identifiées pendant la veille."},
+ {p:"Dossier de veille",t:"Laquelle n'est PAS une sous-partie de la partie II (stratégie de carrière) ?",o:["Mes représentations versus la réalité","Bilan sur mes compétences","Adaptation de mon CV au secteur","Tableau du corpus de veille"],a:3,e:"Le tableau du corpus de veille est l'annexe 3. La partie II : représentations, compétences, stratégie de stage et d'alternance, CV."},
+ {p:"Ressources",t:"Xerfi, Euromonitor et Mintel sont cités comme sources de type…",o:["presse pro communication","études de marché","organisations professionnelles","offres d'emploi"],a:1,e:"Ce sont des études de marché (avec Kantar et Ipsos pour les baromètres)."}
+,
+ {p:"Séance 3",t:"Que sont les digital methods ?",o:["Des logiciels de veille payants","La rencontre entre objets numériques et méthodes des sciences sociales","Une technique de référencement","Un synonyme de big data"],a:1,e:"Elles prennent le numérique comme objet d'étude et comme outil de recherche."},
+ {p:"Séance 3",t:"Pourquoi ne sont-elles pas une simple adaptation technique ?",o:["Parce qu'elles interrogent ce que le numérique fait aux sciences sociales","Parce qu'elles sont réservées aux informaticiens","Parce qu'elles n'utilisent aucun outil","Parce qu'elles remplacent les entretiens"],a:0,e:"Les digital methods questionnent ce que le numérique fait aux sciences sociales elles-mêmes."},
+ {p:"Séance 3",t:"Faire une ethnographie en ligne relève de quelle approche ?",o:["Méthodes natives du web","Méthodes classiques appliquées à de nouveaux objets","Veille légale","Scraping"],a:1,e:"1re approche : traduire les méthodes classiques (entretiens, observation, ethnographie) pour étudier des objets numériques."},
+ {p:"Séance 3",t:"Le Search Engine Scraper de la Digital Methods Initiative illustre…",o:["les méthodes natives du web","la veille e-réputation","les méthodes classiques","l'intelligence économique"],a:0,e:"2e approche : développer des méthodes en détournant des outils numériques."},
+ {p:"Séance 3",t:"Que disent les STS des technologies et des usages ?",o:["Les technologies sont neutres","Les usages ne changent rien aux technologies","Ils se font mutuellement","Seuls les ingénieurs décident des usages"],a:2,e:"Les technologies inscrivent des représentations, mais les usagers gardent une marge de manœuvre."},
+ {p:"Séance 3",t:"Les machinimas sont cités comme exemple de…",o:["censure technologique","marge de manœuvre des usagers face aux technologies","signal faible","veille concurrentielle"],a:1,e:"Les usagers détournent les jeux vidéo pour faire des films : ils ne sont pas prisonniers de la technologie."},
+ {p:"Séance 3",t:"Laquelle n'est PAS une limite de la recherche sur Google citée en cours ?",o:["Un accès à une portion limitée du web","Des biais et mécanismes opaques","Peu de signaux faibles","Elle est payante"],a:3,e:"Limites citées : portion limitée du web, biais opaques, peu de signaux faibles, hégémonie à remettre en cause."},
+ {p:"Séance 3",t:"Quels réflexes le cours recommande-t-il pour la recherche ?",o:["Se fier au premier résultat","Travailler ses mots-clés et croiser ses sources","N'utiliser que ChatGPT","Éviter les sources spécialisées"],a:1,e:"Travailler ses mots-clés, croiser ses sources, récolter des données en personne et via des sources informationnelles."},
+ {p:"Séance 2",t:"Que désigne l'« information grise » ?",o:["Une information fausse","Une information accessible mais difficile à trouver","Une information confidentielle","Une information ancienne"],a:1,e:"Blanche : publique. Grise : accessible mais difficile à obtenir. Noire : confidentielle."},
+ {p:"Séance 2",t:"Quel est le rôle de l'entrevue de veille ?",o:["Recruter un veilleur","Cerner avec les commanditaires leurs objectifs, pratiques, manques et ressources","Présenter les résultats finaux","Choisir un logiciel"],a:1,e:"Elle précède le plan de veille, qui est ensuite validé avec les commanditaires."},
+ {p:"Séance 2",t:"Selon le cours, que définit la problématique ?",o:["Seulement le titre du rapport","La méthode, les sources, le calendrier et la diffusion","Le prix de la veille","Le nombre de pages"],a:1,e:"D'où l'importance d'identifier les besoins avant de chercher."},
+ {p:"Séance 2",t:"Laquelle est une problématique plutôt qu'un thème ?",o:["L'agriculture","Les réseaux sociaux menacent le lien social","Les stratégies de l'élevage bovin face à la crise écologique","La voiture autonome"],a:2,e:"Un thème se resserre en question, sans affirmation toute faite."},
+ {p:"Séance 2",t:"Pourquoi 71 % d'un côté et 44 % de l'autre à la question « avez-vous joué à des jeux vidéo ? »",o:["Une faute de frappe","Des méthodes et des commanditaires différents","Les Français ont arrêté de jouer","Une seule enquête est vraie"],a:1,e:"Questionnaire en ligne pour le syndicat des éditeurs contre enquête en face à face : la méthode fait la réponse."},
+ {p:"Séance 2",t:"Que produit l'étape de traitement ?",o:["Une base de données brute","Une analyse et des visualisations","Un plan de diffusion","Une entrevue de veille"],a:1,e:"On contextualise, met en lien, interprète et propose une analyse."},
+ {p:"Séance 3",t:"Google Alerts relève plutôt d'une logique…",o:["pull","push","manuelle","fermée"],a:1,e:"Push : l'information vient à vous. Pull : vous allez la chercher."},
+ {p:"Séance 3",t:"Que fait l'opérateur psy* ?",o:["Exclut psy","Cherche toutes les terminaisons de psy","Cherche l'expression exacte","Limite au titre"],a:1,e:"C'est une troncature : psychologie, psychique, psychiatrie…"},
+ {p:"Séance 3",t:"Quel opérateur limite une recherche à un site ?",o:["filetype:","site:","allintitle:","author:"],a:1,e:"site:exemple.com. filetype:pdf limite au type de fichier."},
+ {p:"Séance 3",t:"Quel est le web crawler open source cité en cours ?",o:["Scrapy","Zotero","Distill","Inoreader"],a:0,e:"Scrapy, avec un tutoriel en ligne."},
+ {p:"Séance 5",t:"Quand peut-on arrêter de chercher de nouvelles sources ?",o:["Après 10 sources","À saturation, quand elles n'apportent plus rien de nouveau","Jamais","Après une heure"],a:1,e:"Il n'y a pas de chiffre magique : on vise la saturation."},
+ {p:"Séance 5",t:"Un article de presse qui commente un rapport de l'APEC est une source…",o:["primaire","secondaire","fermée","noire"],a:1,e:"Le rapport de l'APEC est la source primaire, à consulter directement."},
+ {p:"Séance 5",t:"Que faire d'une source peu fiable ?",o:["La citer comme les autres","L'exclure, mais rester attentif aux signaux faibles qu'elle porte","La recopier sans la citer","La garder sans vérifier"],a:1,e:"Prudence et méfiance, sans fermer les yeux sur les signaux faibles."},
+ {p:"Séance 5",t:"Une paraphrase…",o:["dispense de citer la source","doit quand même citer la source","est toujours du plagiat","se met entre guillemets"],a:1,e:"Reformuler sans citer, c'est du plagiat."},
+ {p:"Séance 5",t:"Quelle règle de citation le cours retient-il ?",o:["Changer de format selon les parties","Un format constant, référence courte dans le texte et complète en bibliographie","Seulement une bibliographie","Seulement des notes de bas de page"],a:1,e:"Un seul format, tenu sur tout le document."}
+];
+const L="ABCD", box=document.getElementById("qs"), sc=document.getElementById("sc"), dn=document.getElementById("done"), res=document.getElementById("res");
+document.getElementById("tot").textContent=Q.length;
+let score=0, done=0;
+function render(){
+  box.innerHTML=""; score=0; done=0; sc.textContent=0; dn.textContent=0; res.hidden=true;
+  Q.forEach((q,i)=>{
+    const d=document.createElement("div"); d.className="q";
+    d.innerHTML=`<p class="qn">Question ${i+1}<span class="tag">${q.p}</span></p><p class="qt">${q.t}</p><div class="opts"></div>`;
+    const os=d.querySelector(".opts");
+    q.o.forEach((t,j)=>{
+      const b=document.createElement("button"); b.type="button"; b.className="opt";
+      b.innerHTML=`<span class="k">${L[j]}</span><span>${t}</span>`;
+      b.onclick=()=>answer(d,q,j);
+      os.appendChild(b);
+    });
+    box.appendChild(d);
+  });
+}
+function answer(d,q,j){
+  const bs=d.querySelectorAll(".opt"); bs.forEach(b=>b.disabled=true);
+  bs[q.a].classList.add("right");
+  const ok=j===q.a; if(!ok) bs[j].classList.add("wrong"); else score++;
+  done++; sc.textContent=score; dn.textContent=done;
+  const e=document.createElement("p"); e.className="expl";
+  e.innerHTML=(ok?'<b class="ok">Bonne réponse.</b> ':'<b class="ko">Pas tout à fait.</b> ')+q.e;
+  d.appendChild(e);
+  if(done===Q.length){
+    const r=score/Q.length;
+    res.textContent=`${score}/${Q.length} · `+(r>=.85?"Vous connaissez les attendus.":r>=.6?"Bonne base, relisez les évaluations.":"Reprenez la fiche, puis recommencez.");
+    res.hidden=false;
+  }
+}
+document.getElementById("reset").onclick=()=>{render();document.getElementById("quiz").scrollIntoView({behavior:"smooth"})};
+render();
+// jours restants avant chaque rendu
+document.querySelectorAll("[data-due]").forEach(el=>{
+  const t=new Date(); t.setHours(0,0,0,0);
+  const n=Math.round((new Date(el.dataset.due+"T00:00:00")-t)/864e5);
+  el.textContent=n>1?`dans ${n} jours`:n===1?"demain":n===0?"aujourd'hui":"rendu passé";
+});
+// sommaire actif
+const links=[...document.querySelectorAll(".toc a")];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id))}}),{rootMargin:"-30% 0px -60% 0px"});
+document.querySelectorAll("main section").forEach(s=>io.observe(s));
+</script>
+</body></html>
