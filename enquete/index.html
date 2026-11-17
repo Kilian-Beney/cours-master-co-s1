@@ -142,6 +142,9 @@ figure.narrow{max-width:480px;margin-inline:auto}
 .sv .fink{fill:var(--pencil)}
 .sv .th1{fill:#e3a23b}.sv .th2{fill:#4b8fdb}.sv .th3{fill:#46ad74}.sv .th4{fill:#d6605c}.sv .th5{fill:#9a6fd2}
 .sv .hl{fill-opacity:.45}
+.sv .r0{fill:var(--accent)}.sv .r1{fill:var(--accent);fill-opacity:.4}.sv .r2{fill:var(--bad)}
+.sv text.t-on{fill:var(--paper)}
+code{font-family:var(--f-mono);font-size:.85em;background:var(--paper);padding:0 3px}
 
 </style>
 
@@ -153,6 +156,7 @@ figure.narrow{max-width:480px;margin-inline:auto}
   <a href="#seance4"><b>IV</b>Séance 4</a>
   <a href="#seance5"><b>IV bis</b>Analyse des entretiens</a>
   <a href="#seance6"><b>IV ter</b>Séance 6</a>
+  <a href="#seance7"><b>IV quater</b>Séance 7</a>
   <a href="#projet"><b>V</b>Projet G3</a>
   <a href="#dossier"><b>VI</b>Le dossier</a>
   <a href="#outils"><b>VII</b>Outils &amp; biblio</a>
@@ -190,7 +194,7 @@ figure.narrow{max-width:480px;margin-inline:auto}
       <tr><td>15/10</td><td><span class="tag">Relecture</span> Vétel</td><td>Dernière relecture du questionnaire</td></tr>
       <tr><td>16 → 22/10</td><td><span class="tag">Devoir</span></td><td>Finaliser le questionnaire + stratégie de diffusion</td></tr>
       <tr class="key"><td>22/10</td><td><span class="tag">Échéance</span></td><td>Questionnaire en ligne et diffusé ; entretiens et analyse en parallèle</td></tr>
-      <tr><td>17/11</td><td><span class="tag c">Cours 7</span> Vétel</td><td>Analyse et présentation des données quanti (objectif : plus de 100 réponses)</td></tr>
+      <tr><td>17/11</td><td><span class="tag c">Cours 7</span> Vétel</td><td>Analyse des données quanti : export, tri à plat, tri croisé (objectif : plus de 100 réponses)</td></tr>
       <tr><td>30/11</td><td><span class="tag">Relecture</span> Coville</td><td>Suivi de l’avancement des dossiers</td></tr>
       <tr class="key"><td>18/12</td><td><span class="tag r">RENDU</span></td><td>Dossier complet en PDF</td></tr>
     </tbody>
@@ -598,6 +602,120 @@ figure.narrow{max-width:480px;margin-inline:auto}
   <div class="note"><span class="lbl">Pour le marché Notre-Dame</span>Diffuser le questionnaire au-delà de nos contacts et des personnes interviewées ; mentionner dans la méthodologie toute relation avec les répondants (commanditaire, commerçants) ; fixer la date de clôture avant le cours du 17/11 ; ajouter le groupe dans les permissions.</div>
 </section>
 
+<section id="seance7">
+  <h2><span class="num">IV quater</span>Séance 7 · Analyser le questionnaire : tri à plat et tri croisé</h2>
+  <p class="date">17/11/2026 · Bruno Vétel · d’après l’enregistrement du cours et le fichier Excel de l’exercice</p>
+  <div class="note"><span class="lbl">Source</span>Notes reconstituées à partir d’une transcription automatique très bruitée. Les passages marqués <span class="unsure">à vérifier</span> sont incertains.</div>
+
+  <h3>A. Préparer les données : export et nettoyage</h3>
+  <p>Première opération, avant toute analyse : <strong>récupérer les réponses dans un fichier et les nettoyer</strong>, c’est-à-dire les mettre dans le bon format. Les outils de questionnaire en ligne (LimeSurvey, Framaforms…) proposent plusieurs formats d’export.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Format</th><th>Ce que c’est</th><th>Quand le choisir</th></tr></thead>
+    <tbody>
+      <tr><td><strong>XLSX</strong></td><td>Le format d’Excel. Plus lourd, illisible si on l’ouvre dans un bloc-notes</td><td>Si on traite les données dans Excel</td></tr>
+      <tr><td><strong>CSV</strong></td><td>Standard international : du texte brut, une ligne par réponse, les valeurs séparées par un caractère (virgule ou point-virgule). Léger, s’ouvre dans n’importe quel éditeur de texte, et Excel le lit aussi</td><td>Pour traiter les réponses dans un autre logiciel qu’Excel (SPSS par exemple) ou pour transmettre un fichier léger et compatible</td></tr>
+    </tbody>
+  </table></div>
+  <p>Dans les options d’export, on laisse généralement les réglages par défaut. <span class="unsure">à vérifier</span></p>
+  <div class="def"><span class="lbl">La base de données</span>Une <strong>ligne par répondant</strong>, une <strong>colonne par question</strong>. C’est elle qu’on analyse, pas les graphiques du logiciel (voir D).</div>
+
+  <h3>B. Une méthode pour ne pas analyser « au feeling »</h3>
+  <p>Constat de l’enseignant : les groupes récupèrent souvent des <strong>données de bonne qualité</strong> mais en tirent des <strong>analyses survolées</strong>. Les données sont sous-exploitées, alors qu’elles en disent bien plus sur les mondes sociaux enquêtés. Sans méthode, on va vers les questions qui nous intéressent, de façon désorganisée.</p>
+  <p>La méthode : commencer par repérer <strong>les questions où les réponses sont les plus solides</strong> (nombreuses, bien réparties), et formuler de petites analyses à partir d’elles. Elle demande un effort au début, puis devient un réflexe.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Étape</th><th>Ce qu’on fait</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td><strong>Tri à plat</strong> : on décrit les réponses à chaque question, <strong>isolément</strong>, indépendamment des autres. C’est un dénombrement (chiffre descriptif).</td><td>Comment se répartissent les âges des répondants ? Un tiers vient-il moins d’une fois par mois ?</td></tr>
+      <tr><td class="n">2</td><td><strong>Tri croisé</strong> : on <strong>croise les réponses à deux questions</strong> pour voir comment l’une varie selon l’autre. C’est le chiffre explicatif, et <mark>la phase la moins réussie</mark> en général : soit on ne la fait pas, soit on la fait mal.</td><td>La fréquence de visite varie-t-elle selon l’âge ?</td></tr>
+    </tbody>
+  </table></div>
+  <p>C’est ce qui sera demandé aux S1 et S2 pour l’analyse des questionnaires : <strong>des tris à plat puis des tris croisés</strong>. Les questions explicatives à exploiter sont celles qui testent les <strong>hypothèses</strong> liées à la problématique, pas seulement les questions de profil (âge, revenu, matin ou après-midi).</p>
+  <div class="def"><span class="lbl">Le croisement le plus simple</span>Une <strong>variable de profil</strong> (sociodémographique : âge, CSP, milieu social…), qui qualifie la personne et ne dépend pas de sa volonté, croisée avec une <strong>question sur l’activité étudiée</strong>. Pour les Halles : la <em>fréquence de visite</em> croisée avec la <em>motivation</em>, pour repérer quels profils viennent souvent et pourquoi.</div>
+  <p>Des méthodes plus avancées existent (systèmes de regroupement hiérarchisés, évoqués rapidement) <span class="unsure">à vérifier</span>, mais ne sont pas attendues ici.</p>
+
+  <h3>C. L’exemple du cours : milieu social × redoublement</h3>
+  <p>On imagine une enquête où chaque répondant a donné deux réponses : la profession de ses parents (cadre, profession intermédiaire, employé, ouvrier qualifié, ouvrier non qualifié) et le nombre de fois où l’enfant a redoublé. On calcule alors des <strong>pourcentages en ligne</strong> : parmi les seuls enfants de cadres, combien n’ont jamais redoublé, une fois, deux fois et plus ?</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Milieu social (%)</th><th>Aucun</th><th>Un</th><th>Deux et plus</th><th>Total</th></tr></thead>
+    <tbody>
+      <tr><td>Cadre</td><td class="n">51,2</td><td class="n">33,4</td><td class="n">15,4</td><td class="n">100</td></tr>
+      <tr><td>Profession intermédiaire</td><td class="n">38,3</td><td class="n">39,4</td><td class="n">22,3</td><td class="n">100</td></tr>
+      <tr><td>Employé</td><td class="n">28,7</td><td class="n">43,2</td><td class="n">28,1</td><td class="n">100</td></tr>
+      <tr><td>Ouvrier qualifié</td><td class="n">25,4</td><td class="n">42,8</td><td class="n">31,8</td><td class="n">100</td></tr>
+      <tr><td>Ouvrier non qualifié</td><td class="n">22,4</td><td class="n">42,7</td><td class="n">34,9</td><td class="n">100</td></tr>
+    </tbody>
+  </table></div>
+<figure class="fig"><svg class="sv" viewBox="0 0 680 240" role="img" aria-label="Barres empilées à 100 % : part des enfants sans redoublement, avec un redoublement, avec deux et plus, selon le milieu social. Sans redoublement : 51,2 % chez les cadres, 22,4 % chez les ouvriers non qualifiés ; deux et plus : 15,4 % contre 34,9 %.">
+<rect class="r0" x="176" y="8" width="12" height="12"/><text class="t-s" x="194" y="18">Aucun redoublement</text><rect class="r1" x="336" y="8" width="12" height="12"/><text class="t-s" x="354" y="18">Un</text><rect class="r2" x="396" y="8" width="12" height="12"/><text class="t-s" x="414" y="18">Deux et plus</text>
+<text x="166" y="53" text-anchor="end">Cadre</text>
+<rect class="r0" x="176.0" y="36" width="245.8" height="26"/>
+<text class="t-s t-on" x="298.9" y="53" text-anchor="middle">51,2</text>
+<rect class="r1" x="421.8" y="36" width="160.3" height="26"/>
+<text class="t-s " x="501.9" y="53" text-anchor="middle">33,4</text>
+<rect class="r2" x="582.1" y="36" width="73.9" height="26"/>
+<text class="t-s t-on" x="619.0" y="53" text-anchor="middle">15,4</text>
+<text x="166" y="91" text-anchor="end">Prof. intermédiaire</text>
+<rect class="r0" x="176.0" y="74" width="183.8" height="26"/>
+<text class="t-s t-on" x="267.9" y="91" text-anchor="middle">38,3</text>
+<rect class="r1" x="359.8" y="74" width="189.1" height="26"/>
+<text class="t-s " x="454.4" y="91" text-anchor="middle">39,4</text>
+<rect class="r2" x="549.0" y="74" width="107.0" height="26"/>
+<text class="t-s t-on" x="602.5" y="91" text-anchor="middle">22,3</text>
+<text x="166" y="129" text-anchor="end">Employé</text>
+<rect class="r0" x="176.0" y="112" width="137.8" height="26"/>
+<text class="t-s t-on" x="244.9" y="129" text-anchor="middle">28,7</text>
+<rect class="r1" x="313.8" y="112" width="207.4" height="26"/>
+<text class="t-s " x="417.4" y="129" text-anchor="middle">43,2</text>
+<rect class="r2" x="521.1" y="112" width="134.9" height="26"/>
+<text class="t-s t-on" x="588.6" y="129" text-anchor="middle">28,1</text>
+<text x="166" y="167" text-anchor="end">Ouvrier qualifié</text>
+<rect class="r0" x="176.0" y="150" width="121.9" height="26"/>
+<text class="t-s t-on" x="237.0" y="167" text-anchor="middle">25,4</text>
+<rect class="r1" x="297.9" y="150" width="205.4" height="26"/>
+<text class="t-s " x="400.6" y="167" text-anchor="middle">42,8</text>
+<rect class="r2" x="503.4" y="150" width="152.6" height="26"/>
+<text class="t-s t-on" x="579.7" y="167" text-anchor="middle">31,8</text>
+<text x="166" y="205" text-anchor="end">Ouvrier non qualifié</text>
+<rect class="r0" x="176.0" y="188" width="107.5" height="26"/>
+<text class="t-s t-on" x="229.8" y="205" text-anchor="middle">22,4</text>
+<rect class="r1" x="283.5" y="188" width="205.0" height="26"/>
+<text class="t-s " x="386.0" y="205" text-anchor="middle">42,7</text>
+<rect class="r2" x="488.5" y="188" width="167.5" height="26"/>
+<text class="t-s t-on" x="572.2" y="205" text-anchor="middle">34,9</text>
+<text class="t-s t-mu" x="176" y="232">0 %</text><text class="t-s t-mu" x="656" y="232" text-anchor="end">100 %</text>
+</svg><figcaption>Le tableau du cours en barres empilées : chaque barre est une ligne du tableau (100 %). Le bleu recule et le rouge avance à mesure qu’on descend dans la hiérarchie sociale : c’est ce gradient que le tri croisé rend visible.</figcaption></figure>
+  <h4>Lire le tableau</h4>
+  <ol>
+    <li><strong>On lit en ligne</strong> : « Parmi les enfants de cadres, 51,2 % n’ont jamais redoublé. »</li>
+    <li><strong>On compare les lignes</strong>, colonne par colonne : 51,2 % des enfants de cadres n’ont jamais redoublé contre 22,4 % des enfants d’ouvriers non qualifiés, soit <mark>2,3 fois plus</mark>. À l’inverse, 34,9 % des enfants d’ouvriers non qualifiés ont redoublé deux fois ou plus, contre 15,4 % des enfants de cadres.</li>
+    <li><strong>On conclut</strong> : la réussite scolaire, mesurée ici par l’absence de redoublement, varie régulièrement selon le milieu social. Au moins un redoublement : 48,8 % chez les cadres, 77,6 % chez les ouvriers non qualifiés.</li>
+  </ol>
+  <div class="warn"><span class="lbl">Pièges de lecture</span><br>Ne pas additionner les pourcentages de deux lignes : chaque ligne a sa propre base de 100. Un tri croisé montre une <strong>association</strong> (des variations concomitantes, comme chez Durkheim), pas une cause : pour le « pourquoi », il faut d’autres données, dont les entretiens. Et toujours donner les effectifs (n) avec les pourcentages.</div>
+
+  <h3>D. Le piège des graphiques de synthèse</h3>
+  <p>LimeSurvey, Framaforms ou Google Forms tracent directement des graphiques de synthèse des réponses. C’est un piège : <strong>ces graphiques sont des tris à plat</strong>. Ils décrivent les réponses question par question, mais ne croisent jamais deux questions.</p>
+  <p>Pour un tri croisé, il faut <mark>revenir à la base de données</mark>, où l’on a les réponses individuelles : pour chaque répondant, on sait à la fois le milieu social de ses parents et son nombre de redoublements. On construit soi-même le tableau à partir de ces lignes.</p>
+<figure class="fig"><svg class="sv" viewBox="0 0 680 200" role="img" aria-label="Deux chemins : le graphique de synthèse du logiciel ne donne qu’un tri à plat ; la base de données, une ligne par répondant, permet de compter les combinaisons de réponses et donc le tri croisé."><defs><marker id="a9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+<rect class="bxs" x="8" y="20" width="176" height="160"/><text class="t-b" x="96" y="42" text-anchor="middle">Base de données</text>
+<text class="t-s t-mu" x="20" y="64">n°</text><text class="t-s t-mu" x="44" y="64">âge</text><text class="t-s t-mu" x="100" y="64">fréquence</text><text class="t-s" x="20" y="84">1</text><text class="t-s" x="44" y="84">18-25</text><text class="t-s" x="100" y="84">jamais</text><text class="t-s" x="20" y="102">2</text><text class="t-s" x="44" y="102">61 et +</text><text class="t-s" x="100" y="102">chaque sem.</text><text class="t-s" x="20" y="120">3</text><text class="t-s" x="44" y="120">41-60</text><text class="t-s" x="100" y="120">1-3 / mois</text><text class="t-s" x="20" y="138">4</text><text class="t-s" x="44" y="138">18-25</text><text class="t-s" x="100" y="138">&lt; 1 / mois</text><text class="t-s t-mu" x="20" y="160">… 1 ligne / répondant</text>
+<rect class="bxbad" x="250" y="20" width="180" height="62"/><text class="t-b t-bad" x="340" y="44" text-anchor="middle">Graphique du logiciel</text><text class="t-s t-bad" x="340" y="64" text-anchor="middle">= tri à plat seulement</text>
+<rect class="bxa" x="250" y="118" width="180" height="62"/><text class="t-b t-ac" x="340" y="142" text-anchor="middle">Compter les couples</text><text class="t-s" x="340" y="162" text-anchor="middle">âge × fréquence</text>
+<rect class="bx" x="496" y="118" width="176" height="62"/><text class="t-b" x="584" y="142" text-anchor="middle">Tri croisé</text><text class="t-s t-mu" x="584" y="162" text-anchor="middle">à la main ou TCD</text>
+<path class="lnbad dash" d="M184,60 L247,52" marker-end="url(#a9)" style="color:var(--bad)"/>
+<path class="ln" d="M184,140 L247,148" marker-end="url(#a9)"/>
+<line class="ln" x1="430" y1="149" x2="493" y2="149" marker-end="url(#a9)"/>
+</svg><figcaption>Le tri croisé part toujours de la base (une ligne par répondant), jamais du graphique de synthèse du logiciel.</figcaption></figure>
+
+  <h3>E. Le tableau croisé dynamique (TCD)</h3>
+  <p>En cours, on construit le tableau <strong>à la main</strong> pour comprendre comment il est fait. Ensuite, Excel propose un outil, le <strong>tableau croisé dynamique</strong>, qui le fait automatiquement : un peu pénible à prendre en main au départ, puis quelques clics suffisent, en sélectionnant juste les bonnes colonnes de la base. Les logiciels sont disponibles en salle informatique.</p>
+  <div class="cols">
+    <div class="def"><span class="lbl">À la main (formules)</span>Tri à plat : <code>=NB.SI(colonne ; réponse)</code>.<br>Tri croisé : <code>=NB.SI.ENS(colonne âge ; âge ; colonne fréquence ; fréquence)</code> dans chaque case, puis chaque case ÷ total de sa ligne.</div>
+    <div class="def"><span class="lbl">Avec un TCD</span>Cliquer dans la base → Insertion → Tableau croisé dynamique. Mettre une question en <em>Lignes</em>, l’autre en <em>Colonnes</em>, le n° de répondant en <em>Valeurs</em> (nombre). Puis <em>Afficher les valeurs</em> → <em>% du total de la ligne</em>.</div>
+  </div>
+  <div class="note"><span class="lbl">Exercice · fichier Excel</span>Le fichier <em>Tri croise - exercice corrige.xlsx</em> (dossier Techniques d’enquête) reprend le tableau du cours avec sa lecture et un graphique, puis propose un exercice sur une <strong>base fictive de 100 répondants des Halles</strong> (âge, fréquence de visite, motivation) : tri à plat, tri croisé en effectifs, pourcentages en ligne, avec un corrigé en formules. Sur ces données inventées, 50 % des 18-25 ans ne viennent jamais ou presque, contre 8 % des 61 ans et plus.</div>
+  <div class="note"><span class="lbl">Pour le marché Notre-Dame</span>Exporter la base LimeSurvey une fois le questionnaire clos, la nettoyer, faire les tris à plat de chaque question, puis 3 ou 4 tris croisés liés à la problématique : âge × fréquence, âge × motivation, fréquence × motivation, statut (étudiant, actif, retraité) × connaissance des offres. Refaire les graphiques soi-même, avec les effectifs.</div>
+</section>
+
 <section id="projet">
   <h2><span class="num">V</span>Projet d’enquête · Groupe 3</h2>
   <dl class="meta">
@@ -718,6 +836,7 @@ figure.narrow{max-width:480px;margin-inline:auto}
   <dl class="gloss">
     <dt>Analyse thématique</dt><dd>Méthode en 4 étapes : analyse inductive, grille de 5-6 thèmes, codage des citations, analyse du discours par thème</dd>
     <dt>Carnet de terrain</dt><dd>Notes prises pendant l’observation, citées dans l’analyse</dd>
+    <dt>CSV</dt><dd>Format d’export standard : texte brut, une ligne par réponse, valeurs séparées par une virgule ou un point-virgule</dd>
     <dt>Codage</dt><dd>Associer un tag et une couleur à chaque citation qui relève d’un thème de la grille d’analyse</dd>
     <dt>Commanditaire</dt><dd>Organisation qui commande l’enquête et reçoit les recommandations</dd>
     <dt>Échantillonnage</dt><dd>Choix des personnes à interroger, selon les profils qu’on veut comparer</dd>
@@ -729,14 +848,16 @@ figure.narrow{max-width:480px;margin-inline:auto}
     <dt>Inductif</dt><dd>Construire ses hypothèses à partir des données collectées, et non l’inverse</dd>
     <dt>Indicateur</dt><dd>Chiffre construit selon des objectifs et des conventions (préféré à « dénombrement »)</dd>
     <dt>« Petits mondes »</dt><dd>Milieux restreints où une personne reste identifiable même sans son nom</dd>
+    <dt>Pourcentage en ligne</dt><dd>Dans un tri croisé, chaque case divisée par le total de sa ligne : chaque ligne fait 100 %</dd>
     <dt>Portrait (encadré)</dt><dd>Encadré qui restitue la situation d’un enquêté : profil, enjeux, citations</dd>
     <dt>Problématisation</dt><dd>Mise en question du sujet, qui oriente l’enquête et détermine les données</dd>
     <dt>Posture située</dt><dd>Assumer que son enquête porte un point de vue socialement positionné, au lieu de la présenter comme neutre</dd>
     <dt>Pseudonymisation</dt><dd>Remplacement du nom d’un enquêté par un pseudonyme ou un code</dd>
     <dt>Relance</dt><dd>Question de suivi qui fait développer l’enquêté</dd>
+    <dt>Tableau croisé dynamique</dt><dd>Outil d’Excel qui construit un tri croisé en quelques clics à partir de la base de données</dd>
     <dt>Typologie</dt><dd>Catégories qui décrivent différentes manières de vivre une même situation</dd>
-    <dt>Tri à plat</dt><dd>Répartition des réponses à une seule question</dd>
-    <dt>Tri croisé</dt><dd>Croisement des réponses à deux questions</dd>
+    <dt>Tri à plat</dt><dd>Répartition des réponses à une seule question, prise isolément (ce que montrent les graphiques de synthèse des logiciels)</dd>
+    <dt>Tri croisé</dt><dd>Croisement des réponses à deux questions, construit depuis la base de données</dd>
     <dt>Variations concomitantes</dt><dd>Méthode de Durkheim : observer si deux variables évoluent ensemble</dd>
     <dt>Verbatim</dt><dd>Citation mot pour mot d’une personne interrogée</dd>
   </dl>
@@ -789,14 +910,23 @@ const Q=[
  {q:"Pour présenter les résultats du questionnaire, il vaut mieux…",o:["Faire une capture des graphiques de Framaforms","Refaire des visualisations lisibles en choisissant les chiffres à comparer","Tout mettre en annexe","Ne donner que des pourcentages dans le texte"],a:1,e:"Pas de capture d’écran : on choisit les chiffres, on soigne lisibilité et couleurs (tableaux, histogrammes, frises, cartes…)."},
  {q:"À quoi sert l’encadré portrait d’un enquêté ?",o:["À lister tous les enquêtés","À restituer de façon concrète et incarnée la situation d’une personne","À présenter la méthodologie","À remplacer les verbatims"],a:1,e:"Comme l’encadré sur G. dans le rapport DiPLab : profil, enjeux, citations. Il garde la dimension humaine du terrain."},
  {q:"Dans l’analyse thématique des entretiens, que fait-on après avoir listé les thèmes ?",o:["On résume chaque entretien séparément","On reprend tous les entretiens et on extrait chaque passage lié à chaque thème","On transforme les entretiens en questionnaire","On garde seulement l’entretien le plus riche"],a:1,e:"On travaille par thème, à travers tous les entretiens : les extraits rassemblés permettent de comparer les enquêtés."},
- {q:"Combien de réponses au questionnaire vise-t-on pour le 17/11 ?",o:["Plus de 30","Plus de 50","Plus de 100","Plus de 500"],a:2,e:"Objectif : plus de 100 réponses (et plus de 15 entretiens côté quali)."}
+ {q:"Combien de réponses au questionnaire vise-t-on pour le 17/11 ?",o:["Plus de 30","Plus de 50","Plus de 100","Plus de 500"],a:2,e:"Objectif : plus de 100 réponses (et plus de 15 entretiens côté quali)."},
+ {q:"Pourquoi exporter les réponses en CSV plutôt qu’en XLSX ?",o:["Le CSV garde les graphiques","Le CSV est un standard léger, lisible par n’importe quel logiciel","Le CSV est le seul format accepté par Excel","Le CSV anonymise les réponses"],a:1,e:"Le CSV est du texte brut (une ligne par réponse, valeurs séparées) : léger, compatible, utile pour un autre logiciel qu’Excel ou pour transmettre le fichier."},
+ {q:"Quelle est l’étape de l’analyse de questionnaire la moins réussie, selon l’enseignant ?",o:["L’export des données","Le tri à plat","Le croisement des variables (tri croisé)","La mise en page"],a:2,e:"Le tri croisé : soit on ne le fait pas, soit on le fait mal. Résultat : des données de bonne qualité sous-exploitées."},
+ {q:"Les graphiques de synthèse de LimeSurvey ou Framaforms sont…",o:["Des tris croisés automatiques","Des tris à plat","Des tableaux croisés dynamiques","Inutilisables"],a:1,e:"Ils décrivent les réponses question par question. Pour croiser deux questions, il faut revenir à la base de données."},
+ {q:"Dans la base de données exportée, une ligne correspond à…",o:["Une question","Un répondant","Une réponse possible","Un jour de collecte"],a:1,e:"Une ligne par répondant, une colonne par question : c’est ce qui permet de savoir, pour chaque personne, ses réponses à deux questions à la fois."},
+ {q:"Dans le tableau du cours, que veut dire « 51,2 » sur la ligne Cadre, colonne Aucun ?",o:["51,2 % des élèves qui n’ont jamais redoublé sont enfants de cadres","Parmi les enfants de cadres, 51,2 % n’ont jamais redoublé","51,2 % de l’échantillon sont des enfants de cadres","51,2 élèves en moyenne"],a:1,e:"Ce sont des pourcentages en ligne : chaque ligne fait 100 %. On lit « parmi les enfants de cadres… »."},
+ {q:"Qu’est-ce que le tableau milieu social × redoublement montre ?",o:["Que le milieu social cause directement le redoublement","Que la part d’élèves sans redoublement baisse régulièrement des cadres aux ouvriers non qualifiés","Qu’il y a plus de cadres que d’ouvriers","Que les ouvriers redoublent tous"],a:1,e:"De 51,2 % à 22,4 % sans redoublement : un gradient régulier. C’est une association, pas une preuve de cause."},
+ {q:"Quel croisement est le plus simple à réaliser ?",o:["Deux questions ouvertes","Une variable de profil (âge, CSP) avec une question sur l’activité étudiée","Deux questions de satisfaction","Une question avec elle-même"],a:1,e:"La variable de profil qualifie la personne et ne dépend pas de sa volonté. Pour les Halles : âge ou statut × fréquence de visite."},
+ {q:"Quelle formule Excel compte les répondants qui ont à la fois un âge ET une fréquence donnés ?",o:["=SOMME()","=NB.SI()","=NB.SI.ENS()","=MOYENNE()"],a:2,e:"NB.SI.ENS accepte plusieurs couples plage / critère. NB.SI (un seul critère) sert au tri à plat. Le tableau croisé dynamique fait la même chose automatiquement."},
+ {q:"Pour afficher des pourcentages en ligne dans un tableau croisé dynamique, on choisit…",o:["% du total général","% du total de la ligne","% du total de la colonne","Somme des valeurs"],a:1,e:"Afficher les valeurs → % du total de la ligne : chaque ligne (chaque groupe) fait alors 100 %, comme dans le tableau du cours."}
 ];
 const qs=document.getElementById('qs'),sc=document.getElementById('sc'),tot=document.getElementById('tot'),left=document.getElementById('left'),res=document.getElementById('res');
 let score=0,done=0,order=[];
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function upd(){sc.textContent=score;tot.textContent=Q.length;left.textContent=(Q.length-done)+" restante"+(Q.length-done>1?"s":"");
  if(done===Q.length){res.hidden=false;const p=score/Q.length;
-  res.innerHTML="<strong>"+score+" / "+Q.length+"</strong><p style='margin:6px 0 0'>"+(p>=.85?"Très solide, tu peux passer au projet.":p>=.6?"Bonne base. Relis les sections où tu t’es trompé.":"Relis les séances 2, 4 et 6 puis recommence.")+"</p>"}}
+  res.innerHTML="<strong>"+score+" / "+Q.length+"</strong><p style='margin:6px 0 0'>"+(p>=.85?"Très solide, tu peux passer au projet.":p>=.6?"Bonne base. Relis les sections où tu t’es trompé.":"Relis les séances 2, 4, 6 et 7 puis recommence.")+"</p>"}}
 function render(first){score=0;done=0;res.hidden=true;qs.innerHTML="";order=first?Q.map((_,i)=>i):shuffle(Q.map((_,i)=>i));
  order.forEach((qi,n)=>{const d=Q[qi],box=document.createElement('div');box.className='q';
   box.innerHTML='<div class="qn">QUESTION '+String(n+1).padStart(2,'0')+'</div><div class="qt"></div><div class="opts"></div>';
