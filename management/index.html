@@ -12,35 +12,27 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@700;800;900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
 <style>
-/* Layout : une colonne de lecture type « carnet de réunion », sommaire collant en haut, encadrés « post-it » pour les points clés, quiz en fin de page. */
+/* Layout : un tableau blanc d'équipe (feutres, post-it de couleurs, aimants), sommaire collant en haut, encadrés « post-it » pour les points clés, quiz en fin de page. */
 :root{
-  --bg:#f3f5f7;
-  --paper:#ffffff;
-  --ink:#1b2733;
-  --muted:#5a6878;
-  --line:#d8dfe6;
-  --accent:#2f5d8a;
-  --accent-soft:#e3ecf5;
-  --note:#fff1b8;
-  --note-ink:#4a3c00;
-  --good:#1f7a4d;
-  --good-soft:#e1f3e9;
-  --bad:#b03a2e;
-  --bad-soft:#f8e3e0;
-  --f-display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --bg:#f6f6f2; --paper:#ffffff; --ink:#22262e; --muted:#5b6370; --line:#dcdfe4; --dot:#d6d9de;
+  --accent:#1f5fc4; --accent-soft:#e1ebfb;
+  --note:#ffe47a; --note-ink:#4a3c00; --pink:#ffc9d6; --mint:#c4efd4; --sky:#cfe5ff; --tape:rgba(255,255,255,.55);
+  --good:#1f8a52; --good-soft:#dff3e7; --bad:#d23f35; --bad-soft:#fbe3e0;
+  --f-display:"Nunito",ui-rounded,system-ui,sans-serif;
+  --f-hand:"Caveat","Comic Sans MS",cursive;
   --f-body:"Atkinson Hyperlegible",ui-sans-serif,system-ui,sans-serif;
-  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --f-mono:"Nunito",ui-rounded,system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#11171d;--paper:#18212a;--ink:#e4eaf0;--muted:#9aa8b6;--line:#2a3743;
-  --accent:#7fb0e0;--accent-soft:#1e3044;--note:#3b3414;--note-ink:#f3e3a0;
-  --good:#5fcf95;--good-soft:#173326;--bad:#f08a7e;--bad-soft:#3a1f1c;color-scheme:dark}}
+  --bg:#14171c;--paper:#1c2027;--ink:#eef0f3;--muted:#a3abb7;--line:#2e343e;--dot:#262b33;
+  --accent:#7fb0ff;--accent-soft:#1d2f4d;--note:#4d4212;--note-ink:#ffeaa6;--pink:#4a2530;--mint:#1e3d2c;--sky:#1f3350;--tape:rgba(255,255,255,.12);
+  --good:#5fd197;--good-soft:#173326;--bad:#ff8a80;--bad-soft:#3d1f1c;color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#11171d;--paper:#18212a;--ink:#e4eaf0;--muted:#9aa8b6;--line:#2a3743;
-  --accent:#7fb0e0;--accent-soft:#1e3044;--note:#3b3414;--note-ink:#f3e3a0;
-  --good:#5fcf95;--good-soft:#173326;--bad:#f08a7e;--bad-soft:#3a1f1c;color-scheme:dark}
+  --bg:#14171c;--paper:#1c2027;--ink:#eef0f3;--muted:#a3abb7;--line:#2e343e;--dot:#262b33;
+  --accent:#7fb0ff;--accent-soft:#1d2f4d;--note:#4d4212;--note-ink:#ffeaa6;--pink:#4a2530;--mint:#1e3d2c;--sky:#1f3350;--tape:rgba(255,255,255,.12);
+  --good:#5fd197;--good-soft:#173326;--bad:#ff8a80;--bad-soft:#3d1f1c;color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;padding:0 16px}
@@ -147,12 +139,68 @@ html{scroll-behavior:smooth}
 .portrait p{font-size:.95rem}
 .credit{font-size:.78rem;color:var(--muted);display:block;margin-top:6px}
 @media (max-width:480px){.portrait{grid-template-columns:1fr}.portrait img{width:100%;max-width:220px}}
+/* ===== DA « tableau blanc d'équipe » : feutres, post-it de couleurs, aimants ===== */
+body{background-color:var(--bg);background-image:radial-gradient(var(--dot) 1.2px,transparent 1.4px);background-size:22px 22px}
+h1{font-family:var(--f-hand);font-weight:700;font-size:clamp(3.4rem,12vw,5.6rem);letter-spacing:0;line-height:.9;color:var(--accent)}
+h1 .u{background:linear-gradient(transparent 72%,var(--note) 72%,var(--note) 92%,transparent 92%)}
+h2{font-weight:900;letter-spacing:-.015em}
+h2::after{content:"";display:block;width:4.5rem;height:6px;margin-top:8px;border-radius:6px;background:var(--accent);transform:rotate(-1.2deg)}
+section:nth-of-type(3n+2) h2::after{background:var(--bad)}
+section:nth-of-type(3n) h2::after{background:var(--good)}
+h3{font-weight:800}
+.label{font-family:var(--f-display);font-weight:800;letter-spacing:.1em}
+header.hero{border-bottom:0;position:relative;padding-top:8px}
+header.hero .lede{font-size:1.2rem}
+.team{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.team i{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:900 .85rem var(--f-display);font-style:normal;color:#fff;box-shadow:0 3px 0 rgba(0,0,0,.18),inset 0 -3px 0 rgba(0,0,0,.15)}
+.team i:nth-child(1){background:#1f5fc4}.team i:nth-child(2){background:#d23f35}.team i:nth-child(3){background:#1f8a52}.team i:nth-child(4){background:#e2a400}
+.team span{font-family:var(--f-hand);font-size:1.5rem;color:var(--muted);margin-left:4px}
+header.hero::after{content:"";display:block;height:5px;border-radius:5px;background:var(--ink);opacity:.85;transform:rotate(-.4deg)}
+/* Sommaire : des post-it */
+nav.toc{background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(4px);border-bottom:0;padding-block:12px}
+nav.toc ul{gap:10px;padding:4px 2px 6px}
+nav.toc a{font-family:var(--f-display);font-weight:800;font-size:.85rem;border:0;border-radius:2px;background:var(--note);color:var(--note-ink);box-shadow:0 2px 4px rgba(0,0,0,.12);transform:rotate(-1.5deg)}
+nav.toc li:nth-child(2) a{background:var(--pink);color:var(--ink);transform:rotate(1.2deg)}
+nav.toc li:nth-child(3) a{background:var(--mint);color:var(--ink);transform:rotate(-.6deg)}
+nav.toc li:nth-child(4) a{background:var(--sky);color:var(--ink);transform:rotate(1.6deg)}
+nav.toc li:nth-child(5) a{background:var(--pink);color:var(--ink);transform:rotate(-1.2deg)}
+nav.toc li:nth-child(6) a{background:var(--mint);color:var(--ink);transform:rotate(.8deg)}
+nav.toc a.quizlink{background:var(--accent);color:var(--paper)}
+nav.toc a:hover{transform:rotate(0) translateY(-2px);color:inherit}
+/* Post-it avec ruban adhésif */
+.note{position:relative;border-radius:1px;padding:20px 18px 16px;box-shadow:0 6px 12px -6px rgba(0,0,0,.25);transform:rotate(-.6deg);font-size:1.02rem}
+.note::before{content:"";position:absolute;top:-9px;left:50%;width:84px;height:20px;margin-left:-42px;background:var(--tape);border:1px solid rgba(0,0,0,.06);transform:rotate(-3deg)}
+section:nth-of-type(even) .note{background:var(--sky);color:var(--ink);transform:rotate(.5deg)}
+section:nth-of-type(3n) .note{background:var(--pink);color:var(--ink)}
+.note strong{font-family:var(--f-display);font-weight:900}
+/* Citations écrites au feutre */
+.quote{font-family:var(--f-hand);font-weight:700;font-size:2rem;line-height:1.1;border-left:0;padding:0;color:var(--bad)}
+.quote.goal{color:var(--good)}
+.quote.concept{color:var(--accent)}
+.quote small{font-family:var(--f-display);font-weight:800;color:var(--muted)}
+.box,.q,table.prog,.recap,.fig .art,.portrait{border-radius:12px;border-width:2px}
+.box{box-shadow:0 3px 0 var(--line)}
+blockquote.cite{border-radius:12px;border-left:5px solid var(--accent)}
+.errors div{border-radius:10px}
+.errors div::before{font-family:var(--f-hand);font-size:1.6rem;line-height:.8}
+.timeline{border-left:3px dashed var(--accent)}
+.step::before{border-radius:50%;box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.step:nth-child(2)::before{border-color:var(--bad)}.step:nth-child(3)::before{border-color:var(--good)}.step:nth-child(4)::before{border-color:#e2a400}
+.recap{border-color:var(--ink)}
+.recap div:nth-child(1){background:var(--sky)}.recap div:nth-child(2){background:var(--note);color:var(--note-ink)}.recap div:nth-child(3){background:var(--mint)}
+.recap .label{color:inherit}
+table.prog td:first-child{font-family:var(--f-hand);font-size:1.4rem;font-weight:700}
+.opt{border-radius:10px}
+.scorebar{background:var(--accent);color:#fff;border-radius:14px 14px 0 0}
+.scorebar strong{font-family:var(--f-hand);font-size:1.8rem}
+.btn{font-family:var(--f-display);font-weight:800;border-radius:999px}
 </style>
 
 <div class="wrap">
   <header class="hero">
     <span class="label">Master SNC · Semestre 1 · Cours</span>
-    <h1>Management d'équipe</h1>
+    <h1>Management <span class="u">d'équipe</span></h1>
+    <div class="team" aria-hidden="true"><i>A</i><i>B</i><i>C</i><i>D</i><span>une équipe, quatre façons de fonctionner</span></div>
     <p class="lede">Apprendre à travailler en groupe, de la première réunion à la gestion des conflits.</p>
   </header>
 

@@ -11,22 +11,25 @@
 <nav style="font:600 14px/1 system-ui,-apple-system,'Segoe UI',sans-serif;padding:10px 16px;border-bottom:1px solid rgba(127,127,127,.3)"><a href="../" style="color:inherit;text-decoration:none">← Sommaire des cours</a></nav>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Courier+Prime:wght@400;700&display=swap">
 <style>
-/* Layout : une fiche de révision qui imite un brief d'agence — colonne de lecture, "cases" du brief en grille, surligneur pour les notions clés, quiz en fin de page. */
+/* Layout : un dossier de cabinet de conseil (chemise kraft, feuille perforée, tampons, intercalaires) — colonne de lecture, "cases" du brief en grille, surligneur pour les notions clés, quiz en fin de page. */
 :root{
-  --paper:#F4F5F7; --sheet:#FFFFFF; --ink:#17203A; --muted:#5A6378; --line:#DADEE7;
-  --cobalt:#2B4FD8; --cobalt-soft:#E6EBFC; --marker:#FFE65A; --ok:#1D7A4C; --ok-soft:#E2F4EA; --bad:#B4322A; --bad-soft:#FBE6E4;
-  --f-display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --paper:#e7dcc3; --sheet:#fffdf7; --ink:#1f1b16; --muted:#665d4f; --line:#ddd1b6;
+  --cobalt:#0f5b4b; --cobalt-soft:#dcebe3; --marker:#ffdb4d; --ok:#1d7a4c; --ok-soft:#e2f4ea; --bad:#b8321f; --bad-soft:#fae4df;
+  --stamp:#c0331f; --kraft:#c9a96e; --kraft-dark:#a8874c;
+  --f-display:"Archivo", "Arial Narrow", system-ui, sans-serif;
   --f-body:"Literata", Georgia, "Times New Roman", serif;
-  --f-mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  --f-mono:"Courier Prime", "Courier New", ui-monospace, monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --paper:#0F1424; --sheet:#171E33; --ink:#E7EAF3; --muted:#A1A9BE; --line:#2B3450;
-  --cobalt:#8CA3FF; --cobalt-soft:#1F2A50; --marker:#6B5F12; --ok:#6FD3A0; --ok-soft:#163626; --bad:#FF8F86; --bad-soft:#3D1C1A; color-scheme:dark}}
+  --paper:#17140f; --sheet:#221e18; --ink:#efe7d6; --muted:#b3a68f; --line:#3d3529;
+  --cobalt:#6fd0b3; --cobalt-soft:#173a31; --marker:#6e5c10; --ok:#6fd3a0; --ok-soft:#163626; --bad:#ff8f7a; --bad-soft:#3d1f19;
+  --stamp:#ff7a63; --kraft:#5e4a2a; --kraft-dark:#7a6038; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --paper:#0F1424; --sheet:#171E33; --ink:#E7EAF3; --muted:#A1A9BE; --line:#2B3450;
-  --cobalt:#8CA3FF; --cobalt-soft:#1F2A50; --marker:#6B5F12; --ok:#6FD3A0; --ok-soft:#163626; --bad:#FF8F86; --bad-soft:#3D1C1A; color-scheme:dark}
+  --paper:#17140f; --sheet:#221e18; --ink:#efe7d6; --muted:#b3a68f; --line:#3d3529;
+  --cobalt:#6fd0b3; --cobalt-soft:#173a31; --marker:#6e5c10; --ok:#6fd3a0; --ok-soft:#163626; --bad:#ff8f7a; --bad-soft:#3d1f19;
+  --stamp:#ff7a63; --kraft:#5e4a2a; --kraft-dark:#7a6038; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--paper);color:var(--ink);font:400 1.0625rem/1.65 var(--f-body);padding:0 16px}
@@ -134,6 +137,60 @@ figure.fig figcaption b{color:var(--ink);font-family:var(--f-display);font-weigh
 .d .hl{fill:var(--marker)}
 .m-ink{fill:var(--muted)}.m-c{fill:var(--cobalt)}.m-r{fill:var(--bad)}
 
+/* ===== DA « dossier de consultant » : chemise kraft, feuille perforée, tampons, intercalaires ===== */
+body{background:var(--paper);background-image:radial-gradient(color-mix(in srgb,var(--kraft-dark) 22%,transparent) 1px,transparent 1.2px);background-size:7px 7px}
+.wrap{position:relative;max-width:50rem;margin-top:3.2rem;margin-bottom:3rem;background:var(--sheet);padding:2.6rem clamp(1.1rem,5vw,3.4rem) 3rem clamp(2.2rem,7vw,4.6rem);box-shadow:0 1px 0 var(--line),0 14px 30px -18px rgba(60,40,10,.45);border-radius:2px}
+.wrap::before{content:"";position:absolute;left:clamp(.6rem,2vw,1.3rem);top:0;bottom:0;width:16px;background:radial-gradient(circle,var(--paper) 6px,transparent 6.5px) 0 40px/16px 220px repeat-y}
+.wrap::after{content:"DOSSIER S1 · AUDIT & CONSEIL";position:absolute;left:clamp(2.2rem,7vw,4.6rem);top:-2.1rem;height:2.1rem;padding:0 1.2rem;display:flex;align-items:center;background:var(--kraft);color:#2a2014;font:700 .78rem/1 var(--f-mono);letter-spacing:.1em;border-radius:8px 8px 0 0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .wrap::after{color:var(--ink)}}
+:root[data-theme="dark"] .wrap::after{color:var(--ink)}
+h1,h2,h3{font-family:var(--f-display)}
+h1{font-stretch:68%;font-weight:900;text-transform:uppercase;letter-spacing:-.005em;font-size:clamp(2.8rem,10vw,4.6rem);line-height:.95}
+h2{font-stretch:75%;font-weight:800;text-transform:uppercase;letter-spacing:.005em;font-size:1.85rem}
+h3{font-weight:700;font-stretch:90%}
+.label{font-family:var(--f-mono);font-weight:700;font-size:.78rem;letter-spacing:.06em}
+header{position:relative;border-bottom:3px double var(--ink)}
+.stamp{position:absolute;right:0;top:.2rem;transform:rotate(8deg);border:3px solid var(--stamp);color:var(--stamp);font:900 .95rem/1.05 var(--f-display);font-stretch:75%;letter-spacing:.12em;text-transform:uppercase;padding:.45rem .7rem;text-align:center;border-radius:4px;opacity:.85;mix-blend-mode:multiply;pointer-events:none}
+.stamp small{display:block;font:700 .62rem var(--f-mono);letter-spacing:.06em}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .stamp{mix-blend-mode:normal}}
+:root[data-theme="dark"] .stamp{mix-blend-mode:normal}
+@media (min-width:561px){header h1{padding-right:10.5rem}}
+@media (max-width:560px){.stamp{position:static;align-self:flex-start;transform:rotate(-3deg);margin-bottom:.3rem}}
+header > p{font-size:1.1rem;max-width:36rem}
+.meta{border:1.5px solid var(--ink);padding:.8rem 1rem;gap:.6rem 1.2rem;background:var(--paper);background:color-mix(in srgb,var(--paper) 45%,var(--sheet))}
+.meta .label{font-size:.7rem}
+nav{border-left:3px solid var(--cobalt);padding-left:1rem}
+nav::before{content:"Sommaire du dossier";display:block;font:700 .75rem var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.4rem}
+nav a{text-decoration:none;color:var(--ink);border-bottom:1px dotted var(--muted)}
+nav a:hover{color:var(--cobalt)}
+nav li::marker{font-family:var(--f-mono);color:var(--cobalt);font-weight:700}
+/* Intercalaires : le numéro de partie comme onglet */
+.sec-head{position:relative;padding-top:.2rem}
+.sec-head .label{align-self:flex-start;background:var(--cobalt);color:var(--sheet);padding:.32rem .75rem .28rem;border-radius:6px 6px 0 0;letter-spacing:.1em}
+.sec-head h2{border-top:3px solid var(--cobalt);padding-top:.55rem}
+.sec-head h2::after{content:"";display:block;width:3.2rem;height:.5rem;margin-top:.45rem;background:var(--marker);transform:skewX(-14deg)}
+.retenir{border-radius:0;border:1.5px solid var(--cobalt);background:var(--cobalt-soft);position:relative;padding-top:1.3rem}
+.retenir .label{position:absolute;top:-.75rem;left:.9rem;background:var(--cobalt);color:var(--sheet);padding:.15rem .55rem}
+.warn{border-left:0;border:2px dashed var(--stamp);padding:.8rem 1rem;border-radius:3px}
+.warn .label{color:var(--stamp)}
+.warn .label::before{content:"⚠ "}
+.versus > div,.jump .pt,figure.fig,.case{border-radius:2px}
+.versus .agence{border:2px solid var(--cobalt);box-shadow:5px 5px 0 var(--cobalt-soft)}
+.versus blockquote{font-family:var(--f-body);font-style:italic}
+.cases{border:2px solid var(--ink);box-shadow:6px 6px 0 var(--kraft)}
+.case h3 span{display:inline-grid;place-items:center;width:1.6rem;height:1.6rem;border:2px solid var(--cobalt);border-radius:50%;font:700 .85rem var(--f-mono)}
+.steps li::before{font-stretch:70%;font-size:2rem;color:var(--stamp)}
+th{font-family:var(--f-mono);font-weight:700;letter-spacing:.04em;background:color-mix(in srgb,var(--paper) 40%,var(--sheet))}
+table{border:1.5px solid var(--ink)}
+figure.fig{box-shadow:4px 4px 0 var(--line)}
+/* Quiz : grille d'évaluation tamponnée */
+#quiz{border-radius:2px;background:var(--sheet);box-shadow:6px 6px 0 var(--kraft);position:relative}
+#quiz .score{font-family:var(--f-mono);border:2px solid var(--stamp);color:var(--stamp);padding:.15rem .6rem;transform:rotate(-3deg);border-radius:3px}
+.q p.qq{font-family:var(--f-body);font-weight:600}
+.opts button{border-radius:2px;background:var(--sheet);border-style:solid}
+.btn{border-radius:2px;font-family:var(--f-mono);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+footer{font-family:var(--f-mono)}
+
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
@@ -145,7 +202,8 @@ figure.fig figcaption b{color:var(--ink);font-family:var(--f-display);font-weigh
 </defs></svg>
 
 <header>
-  <span class="label">Master SNC · Semestre 1 · Fiche de révision</span>
+  <div class="stamp" aria-hidden="true">Audit<br>confidentiel<small>Réf. S1 · Brief agence</small></div>
+  <span class="label">Master SNC · Semestre 1 · Dossier de révision</span>
   <h1>Conseil et Audit</h1>
   <p>Comment recevoir la demande d'un client, la questionner et la transformer en un brief d'agence qui guide toute la recommandation de communication.</p>
   <div class="meta">
