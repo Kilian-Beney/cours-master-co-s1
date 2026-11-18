@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Orientation professionnelle S1</title>
+</head>
+<body>
+<!-- Lien retour vers le sommaire (ajouté pour le site GitHub Pages) -->
+<nav style="font:600 14px/1 system-ui,-apple-system,'Segoe UI',sans-serif;padding:10px 16px;border-bottom:1px solid rgba(127,127,127,.3)"><a href="../" style="color:inherit;text-decoration:none">← Sommaire des cours</a></nav>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* DA « hall de gare » : le parcours pro comme un voyage. Tableau des départs (lettres ambre sur fond noir), sections = voies numérotées, encadrés = billets compostés, schémas en plan de ligne. */
+:root{
+  --bg:#ecebe6; --paper:#ffffff; --ink:#1b1f24; --muted:#5a616b; --line:#d3d3cc;
+  --accent:#0b5d8f; --accent-soft:#dcebf5;
+  --amber:#b87500; --amber-soft:#fbefd6;
+  --board:#15181c; --board-ink:#ffb31a; --board-line:#2a2f36; --board-muted:#9aa3ad;
+  --ticket:#fff8e8; --ticket-ink:#3d2c00;
+  --good:#1d7f4b; --good-soft:#dcf1e4; --bad:#c5372e; --bad-soft:#f9e1de;
+  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Source Sans 3",ui-sans-serif,system-ui,sans-serif;
+  --f-mono:"Space Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121417;--paper:#1b1f24;--ink:#eceef1;--muted:#a2aab4;--line:#2d333b;
+  --accent:#6fb6e6;--accent-soft:#16293a;--amber:#ffb31a;--amber-soft:#3a2c0e;
+  --board:#0a0c0e;--board-line:#23282e;
+  --ticket:#2a2416;--ticket-ink:#ffe3a3;
+  --good:#5fcf93;--good-soft:#163024;--bad:#ff8a7f;--bad-soft:#3b1d1a;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121417;--paper:#1b1f24;--ink:#eceef1;--muted:#a2aab4;--line:#2d333b;
+  --accent:#6fb6e6;--accent-soft:#16293a;--amber:#ffb31a;--amber-soft:#3a2c0e;
+  --board:#0a0c0e;--board-line:#23282e;
+  --ticket:#2a2416;--ticket-ink:#ffe3a3;
+  --good:#5fcf93;--good-soft:#163024;--bad:#ff8a7f;--bad-soft:#3b1d1a;color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17.5px;line-height:1.6;padding:0 16px}
+.wrap{max-width:740px;margin:0 auto;padding-block:36px 80px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.1;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.6rem,9vw,4.4rem);font-weight:800;text-transform:uppercase;letter-spacing:.01em}
+h2{font-size:2rem;font-weight:700}
+h3{font-size:1.35rem;font-weight:700}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+.label{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+strong{font-weight:700}
+
+/* En-tête + tableau des départs */
+header.hero{display:grid;gap:16px;padding-bottom:26px}
+header.hero .lede{font-size:1.15rem;color:var(--muted);max-width:58ch}
+.board{background:var(--board);border-radius:10px;padding:14px 14px 10px;box-shadow:0 10px 24px -14px rgba(0,0,0,.55);overflow-x:auto}
+.board-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;color:#fff;font-family:var(--f-display);font-weight:700;font-size:1.3rem;letter-spacing:.04em;text-transform:uppercase;padding:0 4px 10px}
+.board-top span{font-family:var(--f-mono);font-size:.75rem;color:var(--board-muted);font-weight:400;letter-spacing:.06em}
+.board table{width:100%;border-collapse:separate;border-spacing:0 5px;min-width:520px}
+.board th{font-family:var(--f-mono);font-size:.66rem;font-weight:400;color:var(--board-muted);text-align:left;text-transform:uppercase;letter-spacing:.08em;padding:0 8px}
+.board td{font-family:var(--f-mono);font-size:.88rem;font-weight:700;color:var(--board-ink);text-transform:uppercase;padding:7px 8px;background:linear-gradient(#1e2328 0 49%,#0f1215 49% 51%,#1a1e23 51%);white-space:nowrap}
+.board td:first-child{border-radius:4px 0 0 4px}
+.board td:last-child{border-radius:0 4px 4px 0;color:#fff}
+.board td.now{color:#7fe0a4}
+
+/* Sommaire : panneaux de voies */
+nav.toc{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 93%,transparent);backdrop-filter:blur(4px);padding-block:10px;border-bottom:2px solid var(--ink)}
+nav.toc ul{list-style:none;margin:0;padding:0 0 2px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+nav.toc a{display:flex;align-items:center;gap:7px;white-space:nowrap;text-decoration:none;font-family:var(--f-display);font-weight:700;font-size:.98rem;color:var(--ink);padding:4px 10px 4px 4px;border:1.5px solid var(--line);border-radius:6px;background:var(--paper)}
+nav.toc a b{display:grid;place-items:center;min-width:24px;height:24px;border-radius:4px;background:var(--accent);color:#fff;font-size:.9rem}
+nav.toc a:hover{border-color:var(--accent)}
+nav.toc a.quizlink{background:var(--board);color:var(--board-ink);border-color:var(--board)}
+nav.toc a.quizlink b{background:var(--board-ink);color:var(--board)}
+
+/* Sections = voies */
+section{display:grid;gap:18px;padding-block:46px 6px;scroll-margin-top:62px}
+.sec-head{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center}
+.voie{display:grid;place-items:center;width:58px;height:58px;border-radius:8px;background:var(--accent);color:#fff;font-family:var(--f-display);font-weight:800;font-size:2.1rem;line-height:1;box-shadow:inset 0 0 0 3px color-mix(in srgb,#fff 35%,transparent)}
+.voie.alt{background:var(--board);color:var(--board-ink)}
+.sec-head .label{display:block;margin-bottom:2px}
+ul.list,ol.list{margin:0;padding-left:1.25em;display:grid;gap:7px}
+ul.list li::marker{color:var(--accent)}
+
+/* Billet composté (encadré à retenir) */
+.ticket{position:relative;background:var(--ticket);color:var(--ticket-ink);border-radius:8px;padding:16px 20px 16px 26px;border-left:4px dashed color-mix(in srgb,var(--ticket-ink) 35%,transparent)}
+.ticket::before,.ticket::after{content:"";position:absolute;left:-12px;width:20px;height:20px;border-radius:50%;background:var(--bg)}
+.ticket::before{top:-10px}.ticket::after{bottom:-10px}
+.ticket .label{color:inherit;opacity:.75;display:block;margin-bottom:4px}
+
+.box{background:var(--paper);border:1.5px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:8px;align-content:start;min-width:0}
+.box.yes{border-color:var(--good)}.box.yes .label{color:var(--good)}
+.box.no{border-color:var(--bad)}.box.no .label{color:var(--bad)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.alert{border-left:5px solid var(--amber);background:var(--amber-soft);padding:12px 16px;border-radius:0 8px 8px 0}
+.mine{border:2px dashed var(--accent);background:var(--accent-soft);border-radius:10px;padding:16px 18px;display:grid;gap:10px}
+.mine .label{color:var(--accent)}
+
+/* Tableaux */
+table.tab{width:100%;border-collapse:collapse;background:var(--paper);border:1.5px solid var(--line);border-radius:8px;overflow:hidden}
+table.tab th,table.tab td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+table.tab th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:400}
+table.tab td:first-child{font-weight:700}
+.tabwrap{overflow-x:auto}
+
+/* Schémas */
+.fig{margin:0;display:grid;gap:8px}
+.fig .art{background:var(--paper);border:1.5px solid var(--line);border-radius:8px;padding:10px;overflow-x:auto}
+.fig svg{display:block;width:100%;height:auto}
+.fig.wide svg{min-width:560px}
+.fig svg text{font-family:var(--f-body)}
+.fig svg .mono{font-family:var(--f-mono)}
+.fig figcaption{font-size:.9rem;color:var(--muted);line-height:1.45}
+.fig figcaption b{color:var(--ink)}
+
+/* Quiz */
+#quiz{gap:18px}
+.q{background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:12px}
+.q h3{font-family:var(--f-body);font-size:1.08rem;font-weight:700;line-height:1.35}
+.opts{display:grid;gap:8px}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;display:block;padding:10px 14px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:1rem;line-height:1.4}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.opt[disabled]{cursor:default}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.expl{font-size:.95rem;padding:10px 12px;border-radius:6px;background:var(--accent-soft)}
+.scorebar{position:sticky;bottom:0;z-index:5;background:var(--board);color:#fff;border-radius:10px 10px 0 0;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.scorebar strong{font-family:var(--f-mono);color:var(--board-ink);font-size:1.25rem;font-variant-numeric:tabular-nums}
+.btn{all:unset;cursor:pointer;font-family:var(--f-display);font-weight:700;font-size:1rem;padding:6px 14px;border-radius:6px;background:var(--board-ink);color:var(--board)}
+.btn:focus-visible{outline:3px solid #fff}
+#final{font-weight:700}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media (max-width:480px){.voie{width:46px;height:46px;font-size:1.7rem}h2{font-size:1.7rem}}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <span class="label">Master SNC · Semestre 1 · Cours</span>
+    <h1>Orientation professionnelle et gestion de carrière</h1>
+    <p class="lede">Préparer la recherche du stage de M1 et de l'alternance de M2 dans un marché de la communication tendu : lire le contexte, choisir sa stratégie, faire valoir son master.</p>
+    <div class="board" role="img" aria-label="Tableau des prochains départs : veille et contacts maintenant, dossier de veille le 21 décembre, candidatures d'alternance en janvier-février, stage de M1 début avril, rendu de la soutenance vidéo vers le 20 juin">
+      <div class="board-top">Prochains départs <span>Promo M1 · 2026-2027</span></div>
+      <table aria-hidden="true">
+        <thead><tr><th>Quand</th><th>Destination</th><th>Info</th></tr></thead>
+        <tbody>
+          <tr><td>Maintenant</td><td>Veille + contacts M2</td><td class="now">À l'heure</td></tr>
+          <tr><td>21/12</td><td>Dossier de veille métier</td><td>Upedago</td></tr>
+          <tr><td>Janv-févr</td><td>Candidatures alternance</td><td>Embarquement</td></tr>
+          <tr><td>Début avril</td><td>Stage de M1</td><td>Voie 3</td></tr>
+          <tr><td>≈ 20 juin</td><td>Soutenance vidéo</td><td>Toute la promo</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Sommaire">
+    <ul>
+      <li><a href="#programme"><b>1</b>Programme</a></li>
+      <li><a href="#contexte"><b>2</b>Contexte</a></li>
+      <li><a href="#stage"><b>3</b>Stage M1</a></li>
+      <li><a href="#alternance"><b>4</b>Alternance M2</a></li>
+      <li><a href="#rqth"><b>5</b>RQTH</a></li>
+      <li><a href="#reseau"><b>6</b>Réseau et calendrier</a></li>
+      <li><a href="#second-master"><b>7</b>Second master</a></li>
+      <li><a href="#atouts"><b>8</b>Atouts du master</a></li>
+      <li><a href="#dossier"><b>★</b>Pour mon dossier</a></li>
+      <li><a href="#quiz" class="quizlink"><b>?</b>Quiz</a></li>
+    </ul>
+  </nav>
+
+  <!-- 1 -->
+  <section id="programme">
+    <div class="sec-head"><span class="voie">1</span><div><span class="label">Le semestre</span><h2>Objectifs et programme</h2></div></div>
+    <p>Un cours d'accompagnement à la professionnalisation pour préparer la recherche de <strong>stage (M1)</strong> et d'<strong>alternance (M2)</strong>, en plusieurs étapes :</p>
+    <div class="tabwrap"><table class="tab">
+      <thead><tr><th>Étape</th><th>Ce qu'on y fait</th></tr></thead>
+      <tbody>
+        <tr><td>Analyse du contexte socio-économique</td><td>Comprendre l'état du marché de l'emploi en communication, les blocages budgétaires et les échéances politiques, pour adapter sa stratégie de recherche.</td></tr>
+        <tr><td>Bilan de compétences</td><td>Faire l'état des lieux de ses acquis (cours, projets, expériences associatives ou personnelles) : une base de données à réutiliser dans chaque candidature.</td></tr>
+        <tr><td>CV et passage des ATS</td><td>Hiérarchiser l'information (au-delà du graphisme) et adapter le CV aux <strong>ATS</strong> (<em>Applicant Tracking Systems</em>), les logiciels de tri automatique des recruteurs.</td></tr>
+        <tr><td>Traduire le vocabulaire universitaire</td><td>Convertir les intitulés de cours (techniques d'enquête, veille informationnelle, communication des organisations…) en mots-clés métiers propres à chaque secteur.</td></tr>
+        <tr><td>Préparer les entretiens</td><td>Décrypter les attentes réelles des recruteurs (à partir d'enquêtes menées auprès d'eux) et maîtriser les codes sociaux de l'entretien.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Exemple : traduire ses cours en mots-clés métiers</h3>
+    <p>C'est l'exercice demandé pour le CV et les ATS : un logiciel de tri cherche les mots de l'offre, pas l'intitulé de ton UE. Quelques pistes pour nos propres cours (proposées ici, pas données en cours) :</p>
+    <div class="tabwrap"><table class="tab">
+      <thead><tr><th>Intitulé du cours</th><th>Mots-clés côté recruteur</th></tr></thead>
+      <tbody>
+        <tr><td>Techniques d'enquête</td><td>études qualitatives et quantitatives, entretiens, questionnaires, analyse de données, tris croisés, Excel</td></tr>
+        <tr><td>Veille stratégique et médiatique</td><td>veille concurrentielle, social listening, revue de presse, benchmark, outils de veille</td></tr>
+        <tr><td>Audit et conseil en communication</td><td>audit de communication, diagnostic, SWOT, recommandation stratégique, plan de communication</td></tr>
+        <tr><td>Radio</td><td>production audio, podcast, écriture pour l'oral, interview, montage</td></tr>
+        <tr><td>Management d'équipe</td><td>gestion de projet, animation de réunions, coordination, travail en mode projet</td></tr>
+        <tr><td>Communication scientifique</td><td>vulgarisation, médiation, rédaction, organisation de table ronde, événementiel</td></tr>
+      </tbody>
+    </table></div>
+    <div class="alert"><strong>À venir :</strong> les séances sur le bilan de compétences, le CV, les ATS et l'entretien seront ajoutées ici quand tu enverras les notes.</div>
+  </section>
+
+  <!-- 2 -->
+  <section id="contexte">
+    <div class="sec-head"><span class="voie">2</span><div><span class="label">Pourquoi c'est dur cette année</span><h2>Un contexte qui freine les recrutements</h2></div></div>
+    <h3>L'incertitude de l'élection présidentielle</h3>
+    <p>Avant une élection, les employeurs <strong>gèlent les embauches</strong> et limitent leurs dépenses en attendant les futures orientations législatives et fiscales. Cette année, c'est amplifié par une <strong>polarisation politique inédite</strong> : les scénarios de second tour opposent des projets de société diamétralement opposés, ce qui rend l'avenir économique et réglementaire imprévisible.</p>
+    <h3>Les secteurs les plus fragilisés</h3>
+    <div class="grid2">
+      <div class="box no">
+        <span class="label">Associatif, culture, ONG</span>
+        <p>Dépendent surtout des <strong>subventions publiques</strong>. Beaucoup ne savent pas si leur modèle tiendra l'an prochain (des festivals locaux, après de fortes coupes, envisagent une édition « en résistance » sans financement public). Certains partis menacent de supprimer des subventions, voire d'interdire des associations jugées trop politiques (comme la Ligue des droits de l'homme).</p>
+      </div>
+      <div class="box no">
+        <span class="label">Public et collectivités</span>
+        <p>Mairies, départements, régions, universités, hôpitaux publics : un <strong>gros vivier d'emplois en com</strong>, mais directement dépendant des décisions du gouvernement, des dotations et des débats sur la remise en cause du statut de fonctionnaire.</p>
+      </div>
+    </div>
+    <h3>Le budget de l'État bloqué</h3>
+    <p>Tant que le budget n'est pas adopté à l'Assemblée nationale (rejets, motions de censure), les institutions publiques fonctionnent à <strong>budget gelé</strong> : le budget précédent est reconduit chaque mois, pour les dépenses courantes uniquement.</p>
+    <figure class="fig wide"><div class="art"><svg viewBox="0 0 640 210" role="img" aria-label="Budget gelé : stage de 2 mois validé vite, stage de 3-4 mois pas avant février-mars">
+      <defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--muted)"/></marker></defs>
+      <rect x="8" y="55" width="180" height="100" rx="10" style="fill:var(--amber-soft);stroke:var(--amber);stroke-width:2"/>
+      <text x="98" y="88" font-size="16" text-anchor="middle" font-weight="700" style="fill:var(--ink)">Budget non voté</text>
+      <text x="98" y="112" font-size="14" text-anchor="middle" style="fill:var(--muted)">= budget gelé,</text>
+      <text x="98" y="131" font-size="14" text-anchor="middle" style="fill:var(--muted)">reconduit chaque mois</text>
+      <path d="M192,90 C215,90 215,50 236,50" style="fill:none;stroke:var(--muted);stroke-width:2" marker-end="url(#ar1)"/>
+      <path d="M192,120 C215,120 215,160 236,160" style="fill:none;stroke:var(--muted);stroke-width:2" marker-end="url(#ar1)"/>
+      <rect x="240" y="22" width="180" height="56" rx="8" style="fill:var(--paper);stroke:var(--good);stroke-width:2"/>
+      <text x="330" y="46" font-size="15" text-anchor="middle" font-weight="700" style="fill:var(--ink)">Stage de 2 mois</text>
+      <text x="330" y="66" font-size="13" text-anchor="middle" style="fill:var(--muted)">pas de gratification</text>
+      <rect x="240" y="132" width="180" height="56" rx="8" style="fill:var(--paper);stroke:var(--bad);stroke-width:2"/>
+      <text x="330" y="156" font-size="15" text-anchor="middle" font-weight="700" style="fill:var(--ink)">Stage de 3 à 4 mois</text>
+      <text x="330" y="176" font-size="13" text-anchor="middle" style="fill:var(--muted)">gratification obligatoire</text>
+      <path d="M424,50 L456,50" style="stroke:var(--good);stroke-width:2.5" marker-end="url(#ar1)"/>
+      <path d="M424,160 L456,160" style="stroke:var(--bad);stroke-width:2.5" marker-end="url(#ar1)"/>
+      <rect x="460" y="22" width="172" height="56" rx="8" style="fill:var(--good-soft)"/>
+      <text x="546" y="46" font-size="15" text-anchor="middle" font-weight="700" style="fill:var(--good)">Validé rapidement</text>
+      <text x="546" y="66" font-size="13" text-anchor="middle" style="fill:var(--muted)">n'impacte pas le budget</text>
+      <rect x="460" y="132" width="172" height="56" rx="8" style="fill:var(--bad-soft)"/>
+      <text x="546" y="156" font-size="15" text-anchor="middle" font-weight="700" style="fill:var(--bad)">Souvent pas avant</text>
+      <text x="546" y="176" font-size="15" text-anchor="middle" font-weight="700" style="fill:var(--bad)">février ou mars</text>
+    </svg></div><figcaption><b>Budget gelé, stages en attente.</b> Dans les administrations et les universités, un stage court non rémunéré passe, mais un stage gratifié de 3-4 mois attend souvent le vote du budget pour être confirmé.</figcaption></figure>
+  </section>
+
+  <!-- 3 -->
+  <section id="stage">
+    <div class="sec-head"><span class="voie">3</span><div><span class="label">Fin de M1</span><h2>Décrocher un bon stage</h2></div></div>
+    <h3>Pas de stage « par défaut »</h3>
+    <p>Prendre un stage non rémunéré ou sans vraies missions juste pour valider son année est un <strong>mauvais calcul</strong> : difficile à valoriser sur le CV, il pénalise la recherche d'alternance en M2. Un stage doit apporter de <strong>nouvelles compétences et de l'autonomie</strong>, pas répéter les cours.</p>
+    <div class="ticket"><span class="label">À retenir</span>Même un stage qui te montre ce que tu <em>ne veux pas</em> faire est formateur, s'il développe des compétences transférables et affine ton projet. Exemple du cours : découvrir que le métier d'attaché·e de presse se résume parfois à diffuser des dossiers écrits par d'autres et à faire des revues de presse.</div>
+    <h3>Court terme et long terme : deux choses différentes</h3>
+    <ul class="list">
+      <li><strong>Diversifier les secteurs.</strong> Le gel du public, de l'associatif et de la culture est <strong>conjoncturel</strong> (lié à l'élection). Si tu vises ces milieux à terme, élargis dès maintenant au <strong>secteur privé</strong> pour le stage de M1. Un stage en entreprise avec de vraies responsabilités sera mieux vu par une grande ONG ou une institution culturelle qu'un petit stage d'exécution (billetterie, accueil) dans la culture.</li>
+      <li><strong>Cultiver son secteur en parallèle.</strong> Si tu vises un domaine précis (ex. l'édition), continue à nourrir ta légitimité par des activités personnelles, associatives ou éditoriales en ligne.</li>
+      <li><strong>Formats hybrides.</strong> Un stage court non rémunéré (2 mois) dans une structure qui te passionne, complété par un second stage rémunéré.</li>
+    </ul>
+    <h3>Partir à l'étranger</h3>
+    <p>Le blocage budgétaire est <strong>franco-français</strong>. Le stage à l'étranger est encouragé et soutenu par des <strong>aides financières dédiées</strong> (service des Relations internationales). Avec l'anglais, pas seulement Royaume-Uni ou États-Unis : beaucoup de pays européens travaillent en anglais, surtout dans le numérique et la tech, comme <strong>l'Irlande</strong> (membre de l'UE) ou <strong>la Lituanie</strong> (écosystème tech très dynamique).</p>
+    <h3>Garder des critères éthiques dans le privé</h3>
+    <p>Travailler en entreprise ne veut pas dire renoncer à ses valeurs : il y a des abus dans l'associatif et des entreprises privées très engagées. On peut filtrer ses candidatures en écartant les groupes contraires à ses convictions (pétrole et pollution comme Total, armement comme Thales, groupes médias impliqués dans la désinformation).</p>
+  </section>
+
+  <!-- 4 -->
+  <section id="alternance">
+    <div class="sec-head"><span class="voie">4</span><div><span class="label">M2</span><h2>L'alternance : un marché plus tendu</h2></div></div>
+    <h3>Les aides à l'embauche ont chuté</h3>
+    <p>L'aide unique à l'embauche d'un alternant valait <strong>6 000 €</strong> pour toutes les structures jusqu'en 2024. Elle a été fortement réduite :</p>
+    <figure class="fig wide"><div class="art"><svg viewBox="0 0 660 200" role="img" aria-label="Aide à l'embauche d'un alternant : 6000 euros jusqu'en 2024, environ 6000 euros avec une RQTH, 2000 euros sous 250 salariés, 750 euros à partir de 250 salariés">
+      <text x="200" y="40" font-size="14" text-anchor="end" style="fill:var(--ink)">Jusqu'en 2024, toutes structures</text>
+      <rect x="210" y="22" width="360" height="28" rx="3" style="fill:var(--line)"/>
+      <text x="578" y="41" font-size="14" class="mono" font-weight="700" style="fill:var(--muted)">6 000 €</text>
+      <text x="200" y="84" font-size="14" text-anchor="end" font-weight="700" style="fill:var(--ink)">Alternant avec RQTH</text>
+      <rect x="210" y="66" width="360" height="28" rx="3" style="fill:var(--good)"/>
+      <text x="578" y="85" font-size="14" class="mono" font-weight="700" style="fill:var(--good)">≈ 6 000 €</text>
+      <text x="200" y="128" font-size="14" text-anchor="end" style="fill:var(--ink)">Moins de 250 salariés</text>
+      <rect x="210" y="110" width="120" height="28" rx="3" style="fill:var(--accent)"/>
+      <text x="338" y="129" font-size="14" class="mono" font-weight="700" style="fill:var(--accent)">2 000 €</text>
+      <text x="200" y="172" font-size="14" text-anchor="end" style="fill:var(--ink)">250 salariés et plus</text>
+      <rect x="210" y="154" width="45" height="28" rx="3" style="fill:var(--bad)"/>
+      <text x="263" y="173" font-size="14" class="mono" font-weight="700" style="fill:var(--bad)">750 €</text>
+      <line x1="210" y1="14" x2="210" y2="190" style="stroke:var(--ink);stroke-width:1.5"/>
+    </svg></div><figcaption><b>Ce que touche l'employeur.</b> Sans RQTH, l'aide est divisée par 3 (PME) ou par 8 (grandes entreprises, qui versent en plus une contribution employeur de 750 €). Avec une RQTH, l'aide reste autour de 6 000 € (voir voie 5).</figcaption></figure>
+    <h3>Plus de candidats, moins d'offres</h3>
+    <p>Depuis 2020, les subventions ont fait exploser les formations en alternance (écoles privées et masters publics). Aujourd'hui les aides baissent, mais le nombre de candidats continue d'augmenter :</p>
+    <ul class="list">
+      <li>En 2026, les offres d'alternance ont reculé d'environ <strong>2 %</strong> alors que les candidatures ont fortement progressé (2025 a marqué le premier recul historique du dispositif).</li>
+      <li>La baisse frappe surtout les <strong>PME de moins de 200 salariés (−19 % de recrutements)</strong> ; les grands groupes maintiennent davantage leurs embauches.</li>
+    </ul>
+    <div class="ticket"><span class="label">Stratégie</span>Ne pas se limiter aux petites structures : viser aussi les grands groupes, qui recrutent toujours des alternants.</div>
+  </section>
+
+  <!-- 5 -->
+  <section id="rqth">
+    <div class="sec-head"><span class="voie">5</span><div><span class="label">Un droit à connaître</span><h2>La RQTH, un levier pour l'alternance</h2></div></div>
+    <p>La <strong>Reconnaissance de la qualité de travailleur handicapé (RQTH)</strong>, délivrée par la <strong>MDPH</strong>, est un <strong>droit de compensation</strong>, pas un privilège. Beaucoup d'étudiants ont des aménagements à l'université sans savoir qu'ils <strong>ne suivent pas en entreprise</strong>, et qu'une RQTH facilite beaucoup le recrutement.</p>
+    <div class="grid2">
+      <div class="box yes">
+        <span class="label">Pour l'employeur</span>
+        <p>Recruter un alternant avec RQTH lui rapporte une aide d'environ <strong>6 000 €</strong> (contre 2 000 € dans une PME et 750 € dans un grand groupe). Un argument concret à mettre en avant en entretien.</p>
+      </div>
+      <div class="box">
+        <span class="label">Procédure accélérée</span>
+        <p>Si tu demandes <strong>uniquement la RQTH</strong> (sans allocation), tu peux solliciter un <strong>traitement prioritaire pour insertion professionnelle</strong> : réponse en moins de 4 mois pour décrocher un contrat.</p>
+      </div>
+    </div>
+    <h3>Les handicaps invisibles sont concernés</h3>
+    <p>La MDPH n'évalue pas une pathologie sur une liste, mais <strong>l'impact réel sur la capacité à travailler</strong>. Sont notamment éligibles :</p>
+    <ul class="list">
+      <li>les troubles « dys » (dyslexie, dyspraxie…) qui affectent l'organisation du travail ;</li>
+      <li>le TDAH (trouble de l'attention avec ou sans hyperactivité) ;</li>
+      <li>les troubles du spectre de l'autisme (TSA) ;</li>
+      <li>les pathologies chroniques invalidantes (ex. endométriose qui nécessite du télétravail ou entraîne des absences, avec un certificat médical qui détaille l'impact professionnel).</li>
+    </ul>
+  </section>
+
+  <!-- 6 -->
+  <section id="reseau">
+    <div class="sec-head"><span class="voie">6</span><div><span class="label">Bonnes pratiques</span><h2>Réseau, mobilité et calendrier</h2></div></div>
+    <h3>Mobiliser son réseau</h3>
+    <ul class="list">
+      <li><strong>Les M2.</strong> Ils sont déjà en poste chez des employeurs historiques du master (Grand Poitiers, CNED, CAF, Enedis, EDF…) ou dans de nouvelles structures (environnement à Bordeaux, social et handicap…). Contacte-les <strong>dès maintenant</strong> : leur poste se libère-t-il, un stage s'ouvre-t-il ? Beaucoup d'alternances se négocient <strong>en direct, avant même la publication d'une offre</strong>.</li>
+      <li><strong>Les intervenants du 2<sup>e</sup> semestre.</strong> <strong>Apolline</strong>, ancienne attachée de presse freelance, aujourd'hui attachée de presse au Département de la Vienne (réseau des collectivités et de ses anciens clients). <strong>Vincent Rolland</strong>, intervenant en community management, en agence de communication à Paris : son agence et ses clients recrutent régulièrement stagiaires et alternants.</li>
+    </ul>
+    <h3>Élargir sa zone géographique</h3>
+    <p>Poitiers est une ville moyenne : le vivier d'alternances en com y est limité.</p>
+    <figure class="fig wide"><div class="art"><svg viewBox="0 0 620 250" role="img" aria-label="Plan de ligne : depuis Poitiers, Niort et La Rochelle en TER, Paris en TGV avec télétravail">
+      <line x1="430" y1="60" x2="430" y2="170" style="stroke:var(--bad);stroke-width:9;stroke-linecap:round"/>
+      <line x1="80" y1="170" x2="430" y2="170" style="stroke:var(--accent);stroke-width:9;stroke-linecap:round"/>
+      <circle cx="430" cy="60" r="13" style="fill:var(--paper);stroke:var(--ink);stroke-width:4"/>
+      <circle cx="430" cy="170" r="17" style="fill:var(--paper);stroke:var(--ink);stroke-width:5"/>
+      <circle cx="255" cy="170" r="11" style="fill:var(--paper);stroke:var(--ink);stroke-width:4"/>
+      <circle cx="80" cy="170" r="11" style="fill:var(--paper);stroke:var(--ink);stroke-width:4"/>
+      <text x="452" y="66" font-size="19" font-weight="700" style="fill:var(--ink)">Paris</text>
+      <text x="452" y="176" font-size="21" font-weight="700" style="fill:var(--ink)">Poitiers</text>
+      <text x="452" y="198" font-size="13" style="fill:var(--muted)">on garde son logement ici</text>
+      <text x="255" y="205" font-size="17" font-weight="700" text-anchor="middle" style="fill:var(--ink)">Niort</text>
+      <text x="80" y="205" font-size="17" font-weight="700" text-anchor="middle" style="fill:var(--ink)">La Rochelle</text>
+      <rect x="150" y="128" width="58" height="22" rx="4" style="fill:var(--accent)"/>
+      <text x="179" y="144" font-size="13" font-weight="700" text-anchor="middle" class="mono" style="fill:#fff">TER</text>
+      <text x="80" y="232" font-size="13" style="fill:var(--muted)">abonnements étudiants de la Région Nouvelle-Aquitaine</text>
+      <rect x="395" y="102" width="58" height="22" rx="4" style="fill:var(--bad)"/>
+      <text x="424" y="118" font-size="13" font-weight="700" text-anchor="middle" class="mono" style="fill:#fff">TGV</text>
+      <text x="385" y="58" font-size="13" text-anchor="end" font-weight="700" style="fill:var(--ink)">TGV Max ≈ 80 €/mois</text>
+      <text x="385" y="76" font-size="13" text-anchor="end" style="fill:var(--muted)">+ 2 jours de télétravail par semaine</text>
+      <text x="385" y="94" font-size="13" text-anchor="end" style="fill:var(--muted)">= 1 à 2 allers-retours par semaine</text>
+    </svg></div><figcaption><b>Travailler plus loin sans déménager.</b> Niort et La Rochelle en TER ; Paris en TGV si le poste permet du télétravail. Autre option pour Paris : une colocation entre étudiants de la promo.</figcaption></figure>
+    <h3>Anticiper le calendrier</h3>
+    <figure class="fig wide"><div class="art"><svg viewBox="0 0 640 230" role="img" aria-label="Calendrier de novembre à juin">
+      <g style="fill:var(--muted)" font-size="12" text-anchor="middle" class="mono">
+        <text x="75" y="142">nov</text><text x="145" y="142">déc</text><text x="215" y="142">janv</text><text x="285" y="142">févr</text><text x="355" y="142">mars</text><text x="425" y="142">avr</text><text x="495" y="142">mai</text><text x="565" y="142">juin</text>
+      </g>
+      <line x1="40" y1="122" x2="605" y2="122" style="stroke:var(--ink);stroke-width:2"/>
+      <g style="stroke:var(--ink);stroke-width:1.5"><line x1="40" y1="118" x2="40" y2="126"/><line x1="110" y1="118" x2="110" y2="126"/><line x1="180" y1="118" x2="180" y2="126"/><line x1="250" y1="118" x2="250" y2="126"/><line x1="320" y1="118" x2="320" y2="126"/><line x1="390" y1="118" x2="390" y2="126"/><line x1="460" y1="118" x2="460" y2="126"/><line x1="530" y1="118" x2="530" y2="126"/><line x1="600" y1="118" x2="600" y2="126"/></g>
+      <line x1="82" y1="12" x2="82" y2="122" style="stroke:var(--good);stroke-width:2;stroke-dasharray:4 4"/>
+      <text x="86" y="14" font-size="11" class="mono" style="fill:var(--good)">aujourd'hui</text>
+      <rect x="82" y="24" width="168" height="22" rx="4" style="fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5"/>
+      <text x="90" y="40" font-size="12.5" font-weight="700" style="fill:var(--accent)">Veille + contacts des M2</text>
+      <rect x="180" y="56" width="140" height="22" rx="4" style="fill:var(--amber)"/>
+      <text x="326" y="72" font-size="12.5" font-weight="700" style="fill:var(--ink)">Candidatures d'alternance (M2)</text>
+      <rect x="250" y="88" width="140" height="22" rx="4" style="fill:var(--bad-soft);stroke:var(--bad);stroke-width:1.5;stroke-dasharray:4 3"/>
+      <text x="396" y="104" font-size="12.5" font-weight="700" style="fill:var(--bad)">Public : stages 3-4 mois confirmés</text>
+      <path d="M157,115 L164,122 L157,129 L150,122 Z" style="fill:var(--ink)"/>
+      <text x="157" y="168" font-size="12.5" font-weight="700" text-anchor="middle" style="fill:var(--ink)">21/12</text>
+      <text x="157" y="184" font-size="12" text-anchor="middle" style="fill:var(--muted)">dossier de veille</text>
+      <path d="M393,113 L402,122 L393,131 L384,122 Z" style="fill:var(--accent)"/>
+      <text x="393" y="168" font-size="12.5" font-weight="700" text-anchor="middle" style="fill:var(--accent)">Début avril</text>
+      <text x="393" y="184" font-size="12" text-anchor="middle" style="fill:var(--muted)">stage de M1</text>
+      <path d="M577,113 L586,122 L577,131 L568,122 Z" style="fill:var(--bad)"/>
+      <text x="600" y="168" font-size="12.5" font-weight="700" text-anchor="end" style="fill:var(--bad)">≈ 20 juin</text>
+      <text x="600" y="184" font-size="12" text-anchor="end" style="fill:var(--muted)">rendu de la vidéo</text>
+      <rect x="390" y="200" width="140" height="18" rx="3" style="fill:var(--line)"/>
+      <text x="460" y="213" font-size="11" text-anchor="middle" style="fill:var(--ink)">présidentielle (avr-mai)</text>
+    </svg></div><figcaption><b>Novembre 2026 → juin 2027.</b> La veille et les prises de contact commencent maintenant ; les candidatures d'alternance partent en janvier-février. Le dossier de veille (21/12) est l'échéance du cours associé ; la présidentielle de 2027 est placée pour le contexte.</figcaption></figure>
+    <ul class="list">
+      <li><strong>Recherche :</strong> veille et contacts avec les M2 <strong>dès maintenant</strong>, candidatures d'alternance activement dès <strong>janvier-février</strong>.</li>
+      <li><strong>Stage de M1 :</strong> début prévu <strong>début avril</strong>, avec de la souplesse si une entreprise veut décaler un peu. Ne jamais refuser une bonne opportunité pour une question de date.</li>
+      <li><strong>Soutenance :</strong> à distance, sous forme de <strong>vidéo</strong>, format libre (du plus formel au plus créatif) tant que le contenu est rigoureux et qu'on ne lit pas ses notes face caméra.</li>
+    </ul>
+    <div class="ticket"><span class="label">Attention</span>La date de rendu de la vidéo est <strong>la même pour toute la promo (autour du 20 juin)</strong>, quelle que soit la date de début du stage. Un stage qui commence tard laisse donc moins de temps.</div>
+  </section>
+
+  <!-- 7 -->
+  <section id="second-master">
+    <div class="sec-head"><span class="voie">7</span><div><span class="label">Après le M2</span><h2>Faire un second master : règles d'or</h2></div></div>
+    <p>Raisons courantes : <strong>sécurité financière</strong> face au manque de CDD/CDI juniors (attention aux entreprises qui abusent des contrats d'alternance pour embaucher à bas coût), <strong>se spécialiser</strong> dans un secteur porteur (ESS, santé…), acquérir une <strong>double compétence</strong> recherchée par les structures polyvalentes (gestion/RH, webdesign, développement, événementiel/logistique), ou <strong>gagner en maturité</strong>.</p>
+    <div class="grid2">
+      <div class="box yes">
+        <span class="label">Viser un tremplin</span>
+        <p>Utiliser son diplôme pour entrer dans une formation <strong>plus sélective</strong> (CELSA, grande école, université reconnue, cursus à l'étranger) ou une <strong>spécialisation complémentaire</strong>.</p>
+      </div>
+      <div class="box no">
+        <span class="label">À éviter absolument</span>
+        <p>Refaire un second master <strong>généraliste en communication au même endroit</strong> : sur un CV, ça donne l'impression de stagner sans plus-value.</p>
+      </div>
+    </div>
+    <p>Ce choix n'a rien de tabou : <strong>en parler à l'équipe pédagogique</strong>, qui peut conseiller et appuyer les candidatures auprès de collègues d'autres universités.</p>
+  </section>
+
+  <!-- 8 -->
+  <section id="atouts">
+    <div class="sec-head"><span class="voie">8</span><div><span class="label">À dire en entretien</span><h2>Les atouts du master à valoriser</h2></div></div>
+    <p>À mettre en avant sur le CV, dans les lettres de motivation et en entretien :</p>
+    <figure class="fig wide"><div class="art"><svg viewBox="0 0 620 120" role="img" aria-label="Professionnalisation en 3 temps : projets commanditaires en M1, stage en fin de M1, alternance en M2">
+      <line x1="90" y1="45" x2="530" y2="45" style="stroke:var(--accent);stroke-width:9;stroke-linecap:round"/>
+      <circle cx="90" cy="45" r="15" style="fill:var(--paper);stroke:var(--ink);stroke-width:4"/>
+      <circle cx="310" cy="45" r="15" style="fill:var(--paper);stroke:var(--ink);stroke-width:4"/>
+      <circle cx="530" cy="45" r="15" style="fill:var(--paper);stroke:var(--ink);stroke-width:4"/>
+      <text x="90" y="88" font-size="16" font-weight="700" text-anchor="middle" style="fill:var(--ink)">Projets commanditaires</text>
+      <text x="90" y="108" font-size="13" text-anchor="middle" class="mono" style="fill:var(--muted)">M1</text>
+      <text x="310" y="88" font-size="16" font-weight="700" text-anchor="middle" style="fill:var(--ink)">Stage</text>
+      <text x="310" y="108" font-size="13" text-anchor="middle" class="mono" style="fill:var(--muted)">fin de M1</text>
+      <text x="530" y="88" font-size="16" font-weight="700" text-anchor="middle" style="fill:var(--ink)">Alternance</text>
+      <text x="530" y="108" font-size="13" text-anchor="middle" class="mono" style="fill:var(--muted)">M2</text>
+    </svg></div><figcaption><b>Une professionnalisation en 3 temps.</b> Des projets pour de vrais commanditaires en M1 (comme les Halles du marché Notre-Dame), puis le stage, puis l'alternance.</figcaption></figure>
+    <div class="grid2">
+      <div class="box">
+        <span class="label">Le label « IAE »</span>
+        <p>Reconnu par les recruteurs au même titre que les grandes écoles et les écoles de commerce : la triade privilégiée par les grands groupes.</p>
+      </div>
+      <div class="box">
+        <span class="label">Une exclusivité nationale</span>
+        <p>Le <strong>seul master en France au sein d'un IAE</strong> porté par des chercheurs en <strong>Sciences de l'information et de la communication (SIC)</strong> et <strong>100 % dédié à la communication</strong>. Les autres formations d'IAE avec « communication » dans le nom sont du marketing ou de la gestion avec une option. Les recruteurs l'ignorent : à dire.</p>
+      </div>
+      <div class="box">
+        <span class="label">Une maquette mise à jour chaque année</span>
+        <p>Là où des programmes universitaires restent figés 5 à 7 ans, la maquette est revue <strong>chaque année</strong> par une équipe resserrée, pour intégrer tout de suite les évolutions du métier (comme l'IA).</p>
+      </div>
+      <div class="box">
+        <span class="label">Les missions avant les intitulés</span>
+        <p>En com, « chargé de communication » ou « chef de projet » recouvrent des réalités très variables. Toujours lire le <strong>contenu réel des missions</strong> et les compétences attendues.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- dossier -->
+  <section id="dossier">
+    <div class="sec-head"><span class="voie alt">★</span><div><span class="label">Lien avec Veille × Orientation pro</span><h2>Pour mon dossier de veille métier</h2></div></div>
+    <div class="mine">
+      <span class="label">Ce que ce cours apporte au dossier (rendu le 21/12 sur Upedago)</span>
+      <ul class="list">
+        <li><strong>Partie I, marché du travail :</strong> le gel électoral et budgétaire touche le public, l'associatif et la culture. La com dans le sport automobile est surtout privée (circuits, organisateurs, écuries, sponsors), donc moins exposée, mais beaucoup de structures sont des PME, celles où les alternances reculent le plus (−19 %).</li>
+        <li><strong>Calendrier :</strong> stage de M1 début avril, candidatures d'alternance en janvier-février, contacts des M2 dès maintenant. À mettre dans la stratégie de recherche (partie II).</li>
+        <li><strong>CV adapté et ATS :</strong> reprendre les mots-clés des offres analysées (voie 1) plutôt que les intitulés de cours, et lire les missions plutôt que les titres de poste.</li>
+        <li><strong>Arguments :</strong> label IAE, seul master 100 % com en IAE porté par des chercheurs en SIC, maquette mise à jour chaque année, professionnalisation en 3 temps.</li>
+        <li><strong>Élargir :</strong> grands groupes en plus des petites structures, mobilité (TER, Paris avec télétravail, étranger avec aides des Relations internationales).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- quiz -->
+  <section id="quiz">
+    <div class="sec-head"><span class="voie alt">?</span><div><span class="label">Révision</span><h2>Quiz</h2></div></div>
+    <p style="color:var(--muted)">Clique sur une réponse pour voir la correction.</p>
+    <div id="questions"></div>
+    <div class="scorebar" aria-live="polite">
+      <span>Score : <strong id="score">0</strong> <span id="final"></span></span>
+      <button class="btn" id="reset" type="button">Recommencer</button>
+    </div>
+  </section>
+</div>
+
+<script>
+const Q=[
+ {q:"Que sont les ATS ?",o:["Des aides de l'État pour l'alternance","Des logiciels de tri automatique des candidatures utilisés par les recruteurs","Des tests de personnalité passés en entretien","Des attestations de stage"],a:1,e:"ATS = Applicant Tracking Systems : les logiciels qui trient automatiquement les CV. Il faut adapter son CV (mots-clés, hiérarchie de l'information) pour passer ce filtre."},
+ {q:"Pourquoi « traduire le vocabulaire universitaire » ?",o:["Pour postuler à l'étranger","Parce que les intitulés de cours ne correspondent pas aux mots-clés métiers que cherchent les recruteurs","Pour raccourcir son CV","Parce que les ATS ne lisent pas le français"],a:1,e:"Les intitulés académiques (techniques d'enquête, veille informationnelle…) doivent être convertis en mots-clés métiers propres à chaque secteur."},
+ {q:"Pourquoi les employeurs gèlent-ils souvent les embauches avant une présidentielle ?",o:["Parce que la loi l'impose","Ils attendent de connaître les futures orientations législatives et fiscales","Parce que les salariés partent en campagne","Parce que les universités ferment"],a:1,e:"En période pré-électorale, les employeurs limitent leurs dépenses en attendant les futures orientations. Cette année, la polarisation politique rend l'avenir encore plus imprévisible."},
+ {q:"Pourquoi le secteur associatif, culturel et les ONG sont-ils particulièrement fragilisés ?",o:["Ils dépendent surtout des subventions publiques","Ils ne recrutent jamais de communicants","Ils paient mieux que le privé","Ils n'ont pas le droit de prendre des stagiaires"],a:0,e:"Ces structures dépendent majoritairement des subventions publiques, et certains partis menacent de les supprimer, voire d'interdire certaines associations."},
+ {q:"Que se passe-t-il quand le budget de l'État n'est pas voté ?",o:["Les institutions publiques ferment","Le budget précédent est reconduit chaque mois, pour les dépenses courantes uniquement","Les stages sont interdits","Les salaires des fonctionnaires sont suspendus"],a:1,e:"Les institutions fonctionnent à budget gelé : reconduction mensuelle du budget précédent, pour les dépenses courantes."},
+ {q:"Dans une administration à budget gelé, quel stage peut être validé rapidement ?",o:["Un stage de 6 mois","Un stage de 3 à 4 mois gratifié","Un stage de 2 mois non rémunéré","Aucun stage"],a:2,e:"Un stage de 2 mois n'est pas gratifié, il n'impacte pas le budget. Un stage de 3-4 mois, avec gratification obligatoire, n'est souvent pas confirmé avant février ou mars."},
+ {q:"Pourquoi accepter un stage « par défaut » (sans vraies missions) est-il un mauvais calcul ?",o:["Parce qu'il est interdit par l'université","Parce qu'il sera difficile à valoriser et pénalisera la recherche d'alternance en M2","Parce qu'il dure trop longtemps","Parce qu'il est toujours rémunéré"],a:1,e:"Un stage doit apporter de nouvelles compétences et de l'autonomie. Sinon il est difficile à valoriser sur le CV et pénalise la recherche d'alternance."},
+ {q:"Un stage qui te montre que tu ne veux PAS faire un métier est-il utile ?",o:["Non, c'est du temps perdu","Oui, s'il développe des compétences transférables et affine ton projet","Seulement s'il est rémunéré","Seulement à l'étranger"],a:1,e:"C'est formateur s'il permet de développer des compétences transférables et d'affiner le projet professionnel (exemple de l'attaché·e de presse)."},
+ {q:"Tu vises la culture à long terme. Que conseille le cours pour le stage de M1 ?",o:["Prendre n'importe quel stage dans la culture, même à l'accueil","Élargir au secteur privé, pour un stage avec de vraies responsabilités","Attendre la fin de l'élection","Ne pas faire de stage"],a:1,e:"Le gel est conjoncturel. Un stage en entreprise avec de vraies responsabilités sera mieux valorisé par une institution culturelle qu'un petit stage d'exécution (billetterie, accueil)."},
+ {q:"Qu'est-ce qu'un « format hybride » de stage selon le cours ?",o:["Un stage à moitié en télétravail","Un stage court non rémunéré de 2 mois dans une structure qui passionne, complété par un second stage rémunéré","Un stage et un CDD en même temps","Un stage partagé entre deux étudiants"],a:1,e:"On peut combiner un stage court non rémunéré (2 mois) dans une structure qu'on aime avec un second stage rémunéré."},
+ {q:"Pourquoi le stage à l'étranger est-il une bonne piste cette année ?",o:["Parce que le blocage budgétaire est franco-français, et qu'il existe des aides financières dédiées","Parce qu'il est obligatoire en M1","Parce que les stages à l'étranger durent 2 mois","Parce que l'anglais n'est pas demandé"],a:0,e:"Le blocage est franco-français, et les Relations internationales proposent des aides financières dédiées."},
+ {q:"Quels pays européens le cours cite-t-il comme travaillant en anglais dans le numérique ?",o:["Espagne et Italie","Irlande et Lituanie","Allemagne et Autriche","Portugal et Grèce"],a:1,e:"L'Irlande (membre de l'UE) et la Lituanie (écosystème tech très dynamique)."},
+ {q:"Jusqu'en 2024, combien valait l'aide à l'embauche d'un alternant ?",o:["750 €","2 000 €","6 000 € pour toutes les structures","10 000 €"],a:2,e:"6 000 € pour toutes les structures. Aujourd'hui : 2 000 € sous 250 salariés, 750 € à partir de 250 salariés."},
+ {q:"Combien touche aujourd'hui une entreprise de 250 salariés ou plus pour un alternant (sans RQTH) ?",o:["750 €, et elle verse en plus une contribution employeur de 750 €","2 000 €","6 000 €","Rien du tout"],a:0,e:"750 €, auxquels s'ajoute une contribution employeur de 750 €. Les entreprises de moins de 250 salariés touchent 2 000 €."},
+ {q:"Quelles structures ont le plus réduit leurs recrutements d'alternants ?",o:["Les grands groupes","Les PME de moins de 200 salariés (−19 %)","Les universités","Les agences parisiennes"],a:1,e:"La baisse frappe surtout les PME de moins de 200 salariés (−19 %). Les grands groupes maintiennent davantage leurs embauches : ne pas se limiter aux petites structures."},
+ {q:"Qui délivre la RQTH ?",o:["L'université","La MDPH","Pôle emploi / France Travail","L'employeur"],a:1,e:"La Reconnaissance de la qualité de travailleur handicapé est délivrée par la MDPH. C'est un droit de compensation, pas un privilège."},
+ {q:"Les aménagements obtenus à l'université suivent-ils l'étudiant en entreprise ?",o:["Oui, automatiquement","Non, ils ne sont pas transférables : d'où l'intérêt de la RQTH","Oui, si le tuteur est d'accord","Seulement en alternance"],a:1,e:"Beaucoup d'étudiants l'ignorent : les aménagements universitaires ne sont pas transférables en entreprise. La RQTH, elle, facilite grandement le recrutement."},
+ {q:"Combien rapporte à l'employeur le recrutement d'un alternant bénéficiaire de la RQTH ?",o:["750 €","2 000 €","Environ 6 000 €","Rien"],a:2,e:"Environ 6 000 €, contre 750 € dans un grand groupe et 2 000 € dans une PME : un argument concret à mettre en avant en entretien."},
+ {q:"Sur quoi la MDPH se base-t-elle pour accorder la RQTH ?",o:["Une liste fermée de pathologies","L'impact réel sur la capacité à travailler","Le niveau d'études","L'avis de l'employeur"],a:1,e:"Pas de liste de pathologies : la MDPH évalue l'impact réel sur la capacité à travailler. Troubles dys, TDAH, TSA ou pathologies chroniques invalidantes peuvent être concernés."},
+ {q:"Que permet de demander la RQTH seule, sans allocation ?",o:["Un traitement prioritaire pour insertion professionnelle, avec réponse en moins de 4 mois","Une dispense de stage","Une bourse d'études","Un CDI garanti"],a:0,e:"En demandant uniquement la RQTH, on peut solliciter un traitement prioritaire pour insertion professionnelle : réponse en moins de 4 mois."},
+ {q:"Pourquoi contacter les M2 dès maintenant ?",o:["Pour qu'ils fassent ton dossier","Parce que beaucoup d'alternances se négocient en direct, avant même la publication d'une offre","Parce qu'ils notent les M1","Pour récupérer leurs cours"],a:1,e:"Les M2 sont en poste chez des employeurs du master (Grand Poitiers, CNED, CAF, Enedis, EDF…) : leur poste peut se libérer, et beaucoup d'alternances se négocient en direct."},
+ {q:"Quelle solution le cours propose-t-il pour travailler à Paris en gardant son loyer à Poitiers ?",o:["Un poste avec 2 jours de télétravail par semaine et un abonnement TGV Max (~80 €/mois)","Un stage 100 % en présentiel","Faire du covoiturage tous les jours","Demander une chambre à l'entreprise"],a:0,e:"Avec 2 jours de télétravail et TGV Max (~80 €/mois), 1 à 2 allers-retours par semaine sont possibles. Autre piste : une colocation entre étudiants de la promo."},
+ {q:"Quand faut-il lancer activement ses candidatures d'alternance ?",o:["En juin","Dès janvier-février","Après le stage","En septembre"],a:1,e:"Veille et contacts dès maintenant, candidatures actives dès janvier-février."},
+ {q:"Quand le stage de M1 commence-t-il ?",o:["En janvier","Début avril, avec de la souplesse si l'entreprise veut décaler un peu","En juillet","Quand on veut, sans limite"],a:1,e:"Début avril, avec souplesse : ne jamais refuser une bonne opportunité pour une question de date."},
+ {q:"Comment se passe la soutenance du stage ?",o:["À l'oral devant un jury, en juillet","Une vidéo à distance, au format libre, rendue vers le 20 juin par toute la promo","Un rapport écrit uniquement","Une présentation chez l'employeur"],a:1,e:"Une vidéo à distance, format libre (sans lire ses notes face caméra). La date de rendu (vers le 20 juin) est la même pour tous, quel que soit le début du stage."},
+ {q:"Quel second master le cours déconseille-t-il absolument ?",o:["Un master au CELSA","Une spécialisation en ESS ou en santé","Un second master généraliste en communication au même endroit","Un master à l'étranger"],a:2,e:"Refaire un master généraliste en com au même endroit donne l'impression de stagner. Il vaut mieux viser un tremplin (formation plus sélective) ou une double compétence."},
+ {q:"Qu'est-ce qui rend ce master unique en France selon le cours ?",o:["C'est le seul master de com en alternance","C'est le seul master en IAE porté par des chercheurs en SIC et 100 % dédié à la communication","C'est le seul master à Poitiers","C'est le seul master sans stage"],a:1,e:"Les autres formations d'IAE avec « communication » sont du marketing ou de la gestion avec une option. Les recruteurs l'ignorent : c'est un argument à utiliser."},
+ {q:"Pourquoi faut-il regarder les missions plutôt que l'intitulé du poste ?",o:["Parce que les intitulés en com (chargé de com, chef de projet) recouvrent des réalités très variables","Parce que les ATS ne lisent que les missions","Parce que les intitulés sont toujours en anglais","Parce que le salaire dépend des missions"],a:0,e:"Un même titre peut cacher des postes très différents : il faut analyser le contenu réel des missions et les compétences attendues."}
+];
+const box=document.getElementById('questions'),scoreEl=document.getElementById('score'),finalEl=document.getElementById('final');
+let answered=0,score=0;
+function render(){
+  box.innerHTML='';answered=0;score=0;update();
+  Q.forEach((it,i)=>{
+    const d=document.createElement('div');d.className='q';
+    d.innerHTML=`<span class="label">Question ${i+1} / ${Q.length}</span><h3></h3><div class="opts"></div><p class="expl" hidden></p>`;
+    d.querySelector('h3').textContent=it.q;
+    const opts=d.querySelector('.opts'),ex=d.querySelector('.expl');
+    it.o.forEach((t,j)=>{
+      const b=document.createElement('button');b.type='button';b.className='opt';b.textContent=t;
+      b.addEventListener('click',()=>{
+        opts.querySelectorAll('.opt').forEach((x,k)=>{x.disabled=true;if(k===it.a)x.classList.add('right')});
+        const ok=j===it.a;if(!ok)b.classList.add('wrong');
+        ex.textContent=(ok?'Bonne réponse. ':'Raté. ')+it.e;ex.hidden=false;
+        answered++;if(ok)score++;update();
+      });
+      opts.appendChild(b);
+    });
+    box.appendChild(d);
+  });
+}
+function update(){
+  scoreEl.textContent=`${score} / ${Q.length}`;
+  if(answered<Q.length){finalEl.textContent='';return}
+  const r=score/Q.length;
+  finalEl.textContent=r===1?'· Parfait !':r>=.75?'· Très bien':r>=.5?'· Pas mal, relis les points ratés':'· À revoir';
+}
+document.getElementById('reset').addEventListener('click',()=>{render();document.getElementById('quiz').scrollIntoView()});
+render();
+</script>
+
+</body>
+</html>

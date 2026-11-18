@@ -14,6 +14,7 @@ Site de mes cours du semestre 1, en ligne sur **https://kilian-beney.github.io/c
 | `management/` | Management d'équipe |
 | `radio/` | Radio |
 | `veille/` | Veille stratégique et médiatique |
+| `orientation/` | Orientation professionnelle et gestion de carrière |
 
 Chaque cours est un fichier `index.html` dans son dossier. Les images sont dans le sous-dossier `img/`.
 
